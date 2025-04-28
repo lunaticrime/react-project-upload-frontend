@@ -8,7 +8,7 @@ function App() {
 
   return (
     
-    <div className="text-9xl font-bold underline text-slate-600 flex justify-center text-center">
+    <div className="text-9xl font-bold underline flex justify-center text-center bg-cyan-600">
       Hello!  
     </div>
   )

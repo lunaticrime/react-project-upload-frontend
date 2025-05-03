@@ -1,12 +1,21 @@
 @import "tailwindcss";
 
-/* Tailwind CSS base styles */
-:root {
+
+
+:root[data-theme="light"] {
     --color-purple-dark: #51508b;
     --color-purple-dark-reflect: rgba(81, 80, 139, 0.7);
     --color-purple-light: #8197e5;
     --color-purple-pale: #d5d4ff;
     --color-background: #f2f5ff;
+}
+
+:root[data-theme="dark"] {
+  --color-purple-dark: #7367f0;
+  --color-purple-dark-reflect: rgb(115, 103, 240, 0.7);
+  --color-purple-light: #d5d4ff; 
+  --color-purple-pale: #ffffff;
+  --color-background: #1a1a2e;
 }
 
 /* font-face declarations for custom fonts */

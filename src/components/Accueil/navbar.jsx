@@ -3,12 +3,17 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
 import { navLinks } from "../../../mockData/data"; // Import navLinks
 
-export default function Example() {
+export default function Example({ theme }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Accueil");
 
   const openMenu = () => setMobileMenuOpen(true);
   const closeMenu = () => setMobileMenuOpen(false);
+
+  const logoSrc =
+    theme === "dark"
+      ? "/src/assets/logoDark.png" // Replace with the dark mode logo URL
+      : "/src/assets/logoLight.png"; // Light mode logo URL
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[var(--color-background)] font-goudy shadow-md">
@@ -19,11 +24,7 @@ export default function Example() {
         <div className="flex lg:flex-1 items-center">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
-              alt=""
-              src="https://ensa.uit.ac.ma/wp-content/uploads/2024/12/cropped-logobleuhori-600x145.png"
-              className="h-15 w-auto"
-            />
+            <img alt="Logo" src={logoSrc} className="h-15 w-auto" />
           </a>
         </div>
 

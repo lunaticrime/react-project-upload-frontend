@@ -1,1 +1,50 @@
 @import "tailwindcss";
+
+/* Tailwind CSS base styles */
+:root {
+    --color-purple-dark: #51508b;
+    --color-purple-light: #8197e5;
+    --color-purple-pale: #d5d4ff;
+    --color-background: #f2f5ff;
+}
+
+/* font-face declarations for custom fonts */
+
+@font-face {
+    font-family: 'Goudy';
+    src: url('/path-to-fonts/Goudy.woff2') format('woff2'),
+         url('/path-to-fonts/Goudy.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/path-to-fonts/Poppins.woff2') format('woff2'),
+         url('/path-to-fonts/Poppins.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/path-to-fonts/Inter.woff2') format('woff2'),
+         url('/path-to-fonts/Inter.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Utility classes for font families */
+.font-goudy {
+    font-family: 'Goudy', serif;
+}
+
+.font-poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+
+   

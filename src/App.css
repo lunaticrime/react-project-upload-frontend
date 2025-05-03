@@ -1,0 +1,8 @@
+/* mettre le background de mon appli a --color-background */
+html, body {
+    background-color: var(--color-background);
+}
+
+body {
+    padding-top: 4rem; /* Adjust based on the navbar height */
+}

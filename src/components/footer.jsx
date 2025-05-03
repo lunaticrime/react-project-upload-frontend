@@ -4,7 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-1 flex flex-col items-center justify-center rounded-t-4xl text-blue-50">
+    <footer className="bg-blue-1 dark:bg-blue-1-dark flex flex-col items-center justify-center rounded-t-4xl text-blue-50">
       <div className="flex flex-col md:flex-row justify-center items-center md:items-stretch py-10 w-full max-w-7xl px-8 ">
         <div className="flex-1 pr-0 md:px-10 flex flex-col justify-center items-center md:justify-start w-full border-r-0 border-b-1 md:border-r-1 md:border-b-0 border-blue-50 py-4">
           <a href="/" className="block mb-4">

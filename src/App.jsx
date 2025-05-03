@@ -1,19 +1,19 @@
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/navbar";
-import TestNavbar from "./components/test-navbar";
-import Footer from "./components/footer";
+import Home from "./pages/home";
+import Login from "./pages/login";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
-      {/* <Navbar /> */}
-      <TestNavbar />
-      <div className="h-screen"></div>
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
+import { navLinks } from "../../../mockData/data"; // Import navLinks
 
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,16 +39,16 @@ export default function Example() {
         </div>
 
         <div className="hidden lg:flex lg:gap-x-10 lg:mx-auto">
-          {["Accueil", "Fonctionnalités", "À propos", "Contact"].map((link) => (
+          {navLinks.map(({ id, name, link }) => (
             <a
-              key={link}
-              href="#"
-              onClick={() => setActiveLink(link)}
+              key={id}
+              href={link}
+              onClick={() => setActiveLink(name)}
               className={`relative text-base font-semibold text-[var(--color-purple-dark)] transition-all duration-300 ${
-                activeLink === link ? "after:scale-x-100" : "after:scale-x-0"
+                activeLink === name ? "after:scale-x-100" : "after:scale-x-0"
               } after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-[var(--color-purple-dark)] after:origin-left after:transition-transform after:duration-300`}
             >
-              {link}
+              {name}
             </a>
           ))}
         </div>
@@ -87,18 +88,16 @@ export default function Example() {
           </div>
 
           <div className="space-y-6">
-            {["Accueil", "Fonctionnalités", "À propos", "Contact"].map(
-              (link) => (
-                <a
-                  key={link}
-                  href="#"
-                  onClick={closeMenu}
-                  className="block text-lg font-medium text-[var(--color-purple-dark)] hover:text-[var(--color-purple-dark)] hover:underline text-center transition-colors duration-200"
-                >
-                  {link}
-                </a>
-              )
-            )}
+            {navLinks.map(({ id, name, link }) => (
+              <a
+                key={id}
+                href={link}
+                onClick={closeMenu}
+                className="block text-lg font-medium text-[var(--color-purple-dark)] hover:text-[var(--color-purple-dark)] hover:underline text-center transition-colors duration-200"
+              >
+                {name}
+              </a>
+            ))}
 
             <button className="mt-6 w-full group flex items-center justify-center gap-3 rounded-full bg-[var(--color-purple-dark)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-md hover:bg-[var(--color-background)] hover:text-[var(--color-purple-dark)] hover:border hover:border-[var(--color-purple-dark)] transition-all duration-200 font-poppins cursor-pointer">
               <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-background)] bg-[var(--color-purple-dark)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-purple-dark)] cursor-pointer">

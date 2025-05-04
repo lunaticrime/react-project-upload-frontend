@@ -6,28 +6,20 @@ import { IoCloseOutline } from "react-icons/io5";
 import ResponsiveMenu from "./responsiveMenu";
 import { IconUserCircle } from "@tabler/icons-react";
 
-const TestNavbar = () => {
+const TestNavbar = ({ isDarkMode }) => {
   const [open, setOpen] = useState(false);
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-    setIsDarkMode(darkModeMediaQuery.matches);
-
-    const handleChange = (e) => setIsDarkMode(e.matches);
-    darkModeMediaQuery.addEventListener("change", handleChange);
-
-    return () => darkModeMediaQuery.removeEventListener("change", handleChange);
-  }, []);
   {
     /* temporary solution bidman zedt dark/light toggle*/
   }
 
   return (
     <>
-      <nav className="bg-blue-50 dark:bg-blue-1-dark sticky top-0 z-50 shadow-md">
+      <nav
+        className={`bg-blue-50 dark:bg-blue-1-dark sticky top-0 z-50 shadow-md ${
+          isDarkMode ? "dark" : ""
+        }`}
+      >
         {" "}
         {/* khas nzid dark:bg-chiColor /// done✅ */}
         <div className="px-4 sm:px-8 lg:px-1 xl:px-16 w-screen flex justify-between items-center py-6 m-auto max-w-screen">
@@ -74,7 +66,7 @@ const TestNavbar = () => {
               <FaInstagram />
             </button>
             <button
-              className="text-blue-1 font-semiblond rounded-md px-4 py-2 duration-200 hidden lg:flex gap-2 border-2 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
+              className="text-blue-1 font-semibold rounded-md px-4 py-2 duration-200 hidden lg:flex gap-2 border-2 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
               onClick={() => (window.location.href = "/login")}
             >
               <IconUserCircle stroke={2} className="self-center" />

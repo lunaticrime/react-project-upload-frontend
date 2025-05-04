@@ -1,10 +1,15 @@
-import React from "react";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { FaMoon } from "react-icons/fa";
+import { FaSun } from "react-icons/fa";
 
-const Footer = () => {
+const Footer = ({ isDarkMode, setIsDarkMode }) => {
   return (
-    <footer className="bg-blue-1 dark:bg-blue-1-dark flex flex-col items-center justify-center rounded-t-4xl text-blue-50">
+    <footer
+      className={`bg-blue-1 dark:bg-blue-1-dark flex flex-col items-center justify-center rounded-t-4xl text-blue-50 ${
+        isDarkMode ? "dark" : ""
+      }`}
+    >
       <div className="flex flex-col md:flex-row justify-center items-center md:items-stretch py-10 w-full max-w-7xl px-8 ">
         <div className="flex-1 pr-0 md:px-10 flex flex-col justify-center items-center md:justify-start w-full border-r-0 border-b-1 md:border-r-1 md:border-b-0 border-blue-50 py-4">
           <a href="/" className="block mb-4">
@@ -37,6 +42,32 @@ const Footer = () => {
             <a href="#" aria-label="LinkedIn">
               <FaLinkedin />
             </a>
+          </div>
+          <div className="my-5">
+            <div className="">
+              <div className="">
+                <label
+                  htmlFor="checkbox"
+                  className="checkbox-label bg-blue-2 w-12 h-6 rounded-[50px] relative p-1 cursor-pointer flex justify-between items-center checkbox"
+                >
+                  <input
+                    type="checkbox"
+                    className="peer opacity-0 absolute"
+                    id="checkbox"
+                    onClick={() => {
+                      setIsDarkMode((prev) => !prev);
+                    }}
+                  ></input>
+                  <i className="fas fa-moon">
+                    <FaMoon />
+                  </i>
+                  <i className="fas fa-sun">
+                    <FaSun />
+                  </i>
+                  <span className="ball peer-checked:translate-x-[22px]"></span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

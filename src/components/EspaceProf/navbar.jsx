@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
-import { navLinks } from "../../../mockData/dataAccueil";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  UserIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline";
+import { navLinks } from "../../../mockData/dataEspaceProf";
 
-export default function Example({ theme }) {
+export default function Example({ userName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Accueil");
 
@@ -67,11 +72,13 @@ export default function Example({ theme }) {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="group flex items-center gap-3 rounded-xl bg-[var(--color-purple-dark)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-sm hover:bg-[var(--color-background)] hover:text-[var(--color-purple-dark)] hover:border hover:border-[var(--color-purple-dark)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-purple-dark)] cursor-pointer font-poppins">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-background)] bg-[var(--color-purple-dark)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-purple-dark)]">
-              <UserIcon className="h-5 w-5 text-[var(--color-background)] group-hover:text-[var(--color-purple-dark)]" />
+          <button className="group flex items-center gap-3 rounded-xl bg-[var(--color-background)] px-6 py-3 text-base font-semibold text-[var(--color-purple-dark)] shadow-sm border border-[var(--color-purple-dark)] hover:bg-[var(--color-purple-dark)] hover:text-[var(--color-background)] hover:border-[var(--color-background)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-purple-dark)] cursor-pointer font-poppins relative">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-purple-dark)] bg-[var(--color-background)] group-hover:bg-[var(--color-purple-dark)] group-hover:border-[var(--color-background)]">
+              <UserIcon className="h-5 w-5 text-[var(--color-purple-dark)] group-hover:hidden" />
+              <ArrowRightOnRectangleIcon className="h-5 w-5 text-[var(--color-background)] hidden group-hover:block" />
             </span>
-            Se connecter
+            <span className="group-hover:hidden">{userName} Exemple</span>
+            <span className="hidden group-hover:block">Déconnecter</span>
           </button>
         </div>
       </nav>
@@ -100,6 +107,13 @@ export default function Example({ theme }) {
             </button>
           </div>
 
+          {/* User Name at the Top */}
+          <div className="text-center mb-15">
+            <span className="text-sm sm:text-lg font-bold text-[var(--color-purple-dark)] bg-[var(--color-background)] px-3 sm:px-4 py-2 rounded-lg shadow-md border border-[var(--color-purple-dark)] inline-block">
+              Connecté en tant que Exemple {userName}
+            </span>
+          </div>
+
           <div className="space-y-6">
             {navLinks.map(({ id, name, link }) => (
               <a
@@ -115,11 +129,12 @@ export default function Example({ theme }) {
               </a>
             ))}
 
-            <button className="mt-6 w-full group flex items-center justify-center gap-3 rounded-full bg-[var(--color-purple-dark)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-md hover:bg-[var(--color-background)] hover:text-[var(--color-purple-dark)] hover:border hover:border-[var(--color-purple-dark)] transition-all duration-200 font-poppins cursor-pointer">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-background)] bg-[var(--color-purple-dark)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-purple-dark)] cursor-pointer">
-                <UserIcon className="h-5 w-5 text-[var(--color-background)] group-hover:text-[var(--color-purple-dark)]" />
+            {/* Déconnecter Button at the Bottom */}
+            <button className="mt-6 w-full group flex items-center justify-center gap-3 rounded-full bg-[var(--color-background)] px-6 py-3 text-base font-semibold text-[var(--color-purple-dark)] shadow-md border border-[var(--color-purple-dark)] hover:bg-[var(--color-purple-dark)] hover:text-[var(--color-background)] hover:border-[var(--color-background)] transition-all duration-200 font-poppins cursor-pointer">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-purple-dark)] bg-[var(--color-background)] group-hover:bg-[var(--color-purple-dark)] group-hover:border-[var(--color-background)] cursor-pointer">
+                <ArrowRightOnRectangleIcon className="h-5 w-5 text-[var(--color-purple-dark)] group-hover:text-[var(--color-background)]" />
               </span>
-              Se connecter
+              Déconnecter
             </button>
           </div>
         </DialogPanel>

@@ -1,5 +1,5 @@
 import React from "react";
-import { features } from "../../../mockData/data";
+import { features } from "../../../mockData/dataAccueil";
 
 const Fonctionnalites = () => {
   return (

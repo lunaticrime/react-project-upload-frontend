@@ -1,5 +1,5 @@
 import React from "react";
-import { utilisateurs } from "../../../mockData/data";
+import { utilisateurs } from "../../../mockData/dataAccueil"; 
 
 const Utilisateurs = () => {
   return (

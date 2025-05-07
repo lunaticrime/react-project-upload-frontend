@@ -3,7 +3,6 @@ import Navbar from "../components/EspaceProf/navbar";
 import Title from "../components/EspaceProf/Title";
 import Filter from "../components/EspaceProf/Filtre";
 import DashBord from "../components/EspaceProf/DashBord";
-import Footer from "../components/Accueil/footer";
 import { tableData } from "../../mockData/dataEspaceProf";
 
 function EspaceProf() {
@@ -13,7 +12,7 @@ function EspaceProf() {
   const [selectedYear, setSelectedYear] = useState("default");
   const [selectedModule, setSelectedModule] = useState("default");
   const [selectedStatus, setSelectedStatus] = useState("default");
-  const [searchQuery, setSearchQuery] = useState(""); // Add state for search query
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Filtered data
   const filteredData = tableData.filter((item) => {
@@ -37,8 +36,8 @@ function EspaceProf() {
         setSelectedModule={setSelectedModule}
         selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
-        searchQuery={searchQuery} // Pass search query state
-        setSearchQuery={setSearchQuery} // Pass search query setter
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery}
       />
       <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
       {/* <Footer /> */}

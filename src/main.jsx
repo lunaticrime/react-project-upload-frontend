@@ -1,10 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import EspaceProf from "./pages/EspaceProf";
+import InfoProjet from "./pages/InfoProjet";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-   <EspaceProf /> 
+   <InfoProjet /> 
   </StrictMode>
 );

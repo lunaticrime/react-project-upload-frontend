@@ -1,7 +1,6 @@
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
-import { FaMoon } from "react-icons/fa";
-import { FaSun } from "react-icons/fa";
+import SliderToggle from "./SliderToggle";
 
 const Footer = ({ isDarkMode, setIsDarkMode }) => {
   return (
@@ -14,7 +13,7 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
         <div className="flex-1 pr-0 md:px-10 flex flex-col justify-center items-center md:justify-start w-full border-r-0 border-b-1 md:border-r-1 md:border-b-0 border-blue-50 py-4">
           <a href="/" className="block mb-4">
             <img
-              src="https://ensa.uit.ac.ma/wp-content/uploads/2025/03/LOGO-ENSA.png"
+              src="../assets/lightLogo.png"
               alt="ENSAK"
               className="h-12 w-auto"
             />
@@ -43,30 +42,14 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
               <FaLinkedin />
             </a>
           </div>
-          <div className="my-5">
+          <div className="mt-10 z-10">
+            {" "}
+            {/* DABA MABAYNCH TOGGLE F FOOTER , WALAKIN ILA DERT Z 10 TIWLI Fo9 RESPONSIVE MENU */}
             <div className="">
-              <div className="">
-                <label
-                  htmlFor="checkbox"
-                  className="checkbox-label bg-blue-2 w-12 h-6 rounded-[50px] relative p-1 cursor-pointer flex justify-between items-center checkbox"
-                >
-                  <input
-                    type="checkbox"
-                    className="peer opacity-0 absolute"
-                    id="checkbox"
-                    onClick={() => {
-                      setIsDarkMode((prev) => !prev);
-                    }}
-                  ></input>
-                  <i className="fas fa-moon">
-                    <FaMoon />
-                  </i>
-                  <i className="fas fa-sun">
-                    <FaSun />
-                  </i>
-                  <span className="ball peer-checked:translate-x-[22px]"></span>
-                </label>
-              </div>
+              <SliderToggle
+                isDarkMode={isDarkMode}
+                setIsDarkMode={setIsDarkMode}
+              />
             </div>
           </div>
         </div>

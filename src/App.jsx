@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import Profile from "./pages/profile";
+import CommandMenu from "./components/commandMenu";
+import { CommandMenuProvider } from "./components/CommandMenuContext";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -21,15 +24,25 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-          }
+      <CommandMenuProvider>
+        <CommandMenu /*{isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}}*/
         />
-        <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
-      </Routes>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+            }
+          />
+          <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+            }
+          />
+        </Routes>
+      </CommandMenuProvider>
     </BrowserRouter>
   );
 }

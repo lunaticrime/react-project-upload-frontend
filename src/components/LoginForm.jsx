@@ -1,8 +1,11 @@
 import SocialIcons from "./SocialIcons";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ isDarkMode }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -65,8 +68,8 @@ const LoginForm = ({ isDarkMode }) => {
         <img
           src={
             isDarkMode
-              ? "https://ensa.uit.ac.ma/wp-content/uploads/2025/03/LOGO-ENSA.png"
-              : "https://ensa.uit.ac.ma/wp-content/uploads/2024/12/cropped-logobleuhori-600x145.png"
+              ? "../assets/lightLogo.png"
+              : "../assets/darkLogo.png"
           }
           alt="ENSAK"
           className="mb-8 self-center w-1/2 h-auto hidden lg:block"

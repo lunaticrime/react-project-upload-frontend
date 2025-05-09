@@ -34,12 +34,36 @@ const SignupForm = ({ isDarkMode }) => {
           <h1 className="text-4xl font-bold">Create Account</h1>
           <SocialIcons />
           <span>or</span>
-          <input type="text" placeholder="Name" className="inpt" />
-          <input type="email" placeholder="Email" className="inpt" />
-          <input type="password" placeholder="Password" className="inpt" />
+          <input
+            type="text"
+            placeholder="Name"
+            className="inpt"
+            value={registerData.name}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, name: e.target.value })
+            }
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="inpt"
+            value={registerData.email}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, email: e.target.value })
+            }
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="inpt"
+            value={registerData.password}
+            onChange={(e) =>
+              setRegisterData({ ...registerData, password: e.target.value })
+            }
+          />
           <button
             type="submit"
-            className="text-blue-1 font-semiblond rounded-md mt-4 px-8 py-2 duration-200 lg:flex gap-2 border-2 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
+            className="text-blue-1 font-semibold rounded-md mt-4 px-8 py-2 duration-200 lg:flex gap-2 border-2 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
           >
             Sign up
           </button>

@@ -5,18 +5,23 @@ import { IconMenu } from "@tabler/icons-react";
 import { IoCloseOutline } from "react-icons/io5";
 import ResponsiveMenu from "./responsiveMenu";
 import { IconUserCircle } from "@tabler/icons-react";
+import Toggle from "./ui/SliderToggle2";
+import { useCommandMenu } from "./CommandMenuContext";
+import lightLogo from "../assets/lightLogo.png";
+import darkLogo from "../assets/darkLogo.png";
 
-const TestNavbar = ({ isDarkMode }) => {
+const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
   const [open, setOpen] = useState(false);
+  const { openCommandMenu } = useCommandMenu();
 
   {
     /* temporary solution bidman zedt dark/light toggle*/
   }
 
   return (
-    <>
+    <header className="sticky top-0">
       <nav
-        className={`bg-blue-50 dark:bg-blue-1-dark sticky top-0 z-50 shadow-md ${
+        className={`bg-blue-50 dark:bg-blue-1-dark z-50 shadow-md ${
           isDarkMode ? "dark" : ""
         }`}
       >
@@ -27,11 +32,7 @@ const TestNavbar = ({ isDarkMode }) => {
           <a href="/" className="flex">
             <img
               alt="École nationale des sciences appliquées Kenitra"
-              src={
-                isDarkMode
-                  ? "https://ensa.uit.ac.ma/wp-content/uploads/2025/03/LOGO-ENSA.png"
-                  : "https://ensa.uit.ac.ma/wp-content/uploads/2024/12/cropped-logobleuhori-600x145.png"
-              }
+              src={isDarkMode ? { lightLogo } : { darkLogo }}
               className="lg:w-[500px] lg:h-auto h-15 w-auto"
             />
             {/* 9leb les liens dyal tsawer , tania hia dyal dark mode/// done✅ */}
@@ -56,7 +57,10 @@ const TestNavbar = ({ isDarkMode }) => {
           </div>
           {/* icons */}
           <div className="flex items-center gap-2">
-            <button className="text-xl rounded-full p-2 duration-200 text-blue-1 hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark cursor-pointer">
+            <button
+              onClick={openCommandMenu}
+              className="text-xl rounded-full p-2 duration-200 text-blue-1 hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark cursor-pointer"
+            >
               <FaSearch />
             </button>
             <button className="text-2xl rounded-full p-2 duration-200 hidden sm:block text-blue-1 hover:bg-blue-1 hover:text-blue-50 cursor-pointer dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark">
@@ -87,15 +91,22 @@ const TestNavbar = ({ isDarkMode }) => {
                 <IconMenu stroke={2} className="text-4xl dark:text-white" />
               )}
             </div>
+            <div className="hidden lg:block">
+              <Toggle setIsDarkMode={setIsDarkMode} />
+            </div>
           </div>
         </div>
       </nav>
 
       {/* mobile menu */}
       <div>
-        <ResponsiveMenu open={open} />
+        <ResponsiveMenu
+          open={open}
+          setIsDarkMode={setIsDarkMode}
+          isDarkMode={isDarkMode}
+        />
       </div>
-    </>
+    </header>
   );
 };
 

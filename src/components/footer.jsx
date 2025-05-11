@@ -1,7 +1,9 @@
+// import { lazyLoad } from "../lazyLoad";
 import { FaInstagram } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import SliderToggle from "./SliderToggle";
-
+import lightLogo from "../assets/lightLogo.png";
+// const SliderToggle = lazyLoad("./SliderToggle");
 const Footer = ({ isDarkMode, setIsDarkMode }) => {
   return (
     <footer
@@ -13,7 +15,7 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
         <div className="flex-1 pr-0 md:px-10 flex flex-col justify-center items-center md:justify-start w-full border-r-0 border-b-1 md:border-r-1 md:border-b-0 border-blue-50 py-4">
           <a href="/" className="block mb-4">
             <img
-              src="../assets/lightLogo.png"
+              src={lightLogo}
               alt="ENSAK"
               className="h-12 w-auto"
             />

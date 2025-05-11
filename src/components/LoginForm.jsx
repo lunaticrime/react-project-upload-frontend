@@ -1,6 +1,8 @@
 import SocialIcons from "./SocialIcons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import lightLogo from "../assets/lightLogo.png";
+import darkLogo from "../assets/darkLogo.png";
 
 const LoginForm = ({ isDarkMode }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -68,8 +70,8 @@ const LoginForm = ({ isDarkMode }) => {
         <img
           src={
             isDarkMode
-              ? "../assets/lightLogo.png"
-              : "../assets/darkLogo.png"
+              ? lightLogo
+              : darkLogo
           }
           alt="ENSAK"
           className="mb-8 self-center w-1/2 h-auto hidden lg:block"

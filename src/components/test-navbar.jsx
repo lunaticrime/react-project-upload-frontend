@@ -32,7 +32,7 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
           <a href="/" className="flex">
             <img
               alt="École nationale des sciences appliquées Kenitra"
-              src={isDarkMode ? { lightLogo } : { darkLogo }}
+              src={isDarkMode ? lightLogo : darkLogo}
               className="lg:w-[500px] lg:h-auto h-15 w-auto"
             />
             {/* 9leb les liens dyal tsawer , tania hia dyal dark mode/// done✅ */}

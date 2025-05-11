@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import LoginForm from "../components/LoginForm";
 import SignupForm from "../components/SignupForm";
 import TogglePanel from "../components/TogglePanel";
+// import { lazyLoad } from "../lazyLoad";
+// const LoginForm = lazyLoad("../components/LoginForm");
+// const SignupForm = lazyLoad("../components/SignupForm");
+// const TogglePanel = lazyLoad("../components/TogglePanel");
 
 const Login = ({ isDarkMode }) => {
   const [isActive, setIsActive] = useState(false);

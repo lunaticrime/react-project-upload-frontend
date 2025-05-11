@@ -1,7 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
+// import { lazyLoad } from "../lazyLoad";
 import Feed from "../components/Feed";
 import TestNavbar from "../components/test-navbar";
 import Footer from "../components/footer";
+// const Feed = lazyLoad("../components/Feed");
+// const TestNavbar = lazyLoad("../components/test-navbar");
+// const Footer = lazyLoad("../components/footer");
 
 const Home = ({ isDarkMode, setIsDarkMode }) => {
   return (

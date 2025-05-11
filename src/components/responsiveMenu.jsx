@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaLinkedin } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { IconUserCircle } from "@tabler/icons-react";
-import Toggle from "./ui/SliderToggle2";
+// import Toggle from "./ui/SliderToggle2";
 import SliderToggle from "./SliderToggle";
 import { createPortal } from "react-dom";
 

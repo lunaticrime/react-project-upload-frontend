@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+// import { lazyLoad } from "../lazyLoad";
 import {
   FaSearch,
   FaPlus,
@@ -9,8 +10,11 @@ import {
   FaQuoteLeft,
 } from "react-icons/fa";
 import ProfileTabs from "./updatedProfileTabs";
+// const ProfileTabs = lazyLoad("./updatedProfileTabs");
 import DraggableTabs from "./DraggableTabs";
+// const DraggableTabs = lazyLoad("./DraggableTabs");
 import SliderToggle from "./SliderToggle";
+// const SliderToggle = lazyLoad("./SliderToggle");
 import {
   Card,
   CardHeader,
@@ -108,7 +112,7 @@ const mockProjects = [
 ];
 
 const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
-  const [activeTab, setActiveTab] = useState("Projects");
+  const [activeTab, setActiveTab] = useState("Overview");
   const [selectedProject, setSelectedProject] = useState(null);
   const { openCommandMenu } = useCommandMenu();
 

@@ -16,15 +16,15 @@ export default function Forum() {
     <div className="px-4 sm:px-8 md:px-12 lg:px-20 py-8 bg-[var(--color-background)] rounded-lg shadow-lg">
       {/* Zone de remarque */}
       <div className="mb-6">
-        <label 
-          htmlFor="remarque" 
-          className="block text-left text-base sm:text-lg md:text-xl font-medium font-poppins text-[var(--color-purple-dark)] mb-2"
+        <label
+          htmlFor="remarque"
+          className="block text-left text-base sm:text-lg md:text-xl font-medium font-poppins text-[var(--color-blue-1)] mb-2"
         >
           📝 <strong>Zone de remarque</strong>
         </label>
         <textarea
           id="remarque"
-          className="w-full p-3 border border-[var(--color-purple-pale)] rounded-md bg-white font-poppins text-[var(--color-purple-dark)] text-sm sm:text-base focus:ring-2 focus:ring-[var(--color-purple-light)] transition-all"
+          className="w-full p-3 border border-[var(--color-blue-6)] rounded-md bg-white font-poppins text-[var(--color-blue-1)] text-sm sm:text-base focus:ring-2 focus:ring-[var(--color-blue-3)] transition-all"
           value={remarque}
           onChange={handleRemarqueChange}
           placeholder="Entrez votre remarque ici..."
@@ -45,11 +45,11 @@ export default function Forum() {
             <path d="M12 .587l3.668 7.431 8.332 1.209-6.001 5.848 1.416 8.265L12 18.897l-7.415 3.943 1.416-8.265-6.001-5.848 8.332-1.209z" />
           </svg>
 
-          <span className="text-base sm:text-lg md:text-xl font-medium font-poppins text-[var(--color-purple-dark)]">
+          <span className="text-base sm:text-lg md:text-xl font-medium font-poppins text-[var(--color-blue-1)]">
             <strong>Note :</strong>
           </span>
 
-          <span className="px-3 py-1 rounded-md bg-[var(--color-purple-light)] text-white text-sm sm:text-base font-semibold">
+          <span className="px-3 py-1 rounded-md bg-[var(--color-blue-3)] text-white text-sm sm:text-base font-semibold">
             {note}/5
           </span>
         </div>

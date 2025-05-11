@@ -1,31 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon, UserIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { FaUserCircle, FaSignInAlt } from "react-icons/fa"; // Import React user icons
 import { navLinks } from "../../../mockData/dataAccueil";
 
 export default function Example({ theme }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Accueil");
+  const [activeLink, setActiveLink] = useState("#");
 
   const openMenu = () => setMobileMenuOpen(true);
   const closeMenu = () => setMobileMenuOpen(false);
 
-  const logoSrc = "/src/assets/logoLight.png";
-
   const handleSmoothScroll = (event, link) => {
     event.preventDefault();
-    if (link === "#") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    const targetElement = document.querySelector(link);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
+    if (link === "#accueil") {
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page
+      setActiveLink(link);
+      closeMenu();
+    } else {
+      const targetElement = document.querySelector(link);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth" });
+        setActiveLink(link);
+        closeMenu();
+      }
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("div[id]");
+      let currentSection = "#";
+
+      if (window.scrollY === 0) {
+        currentSection = "#accueil"; // Activate "Accueil" at the top of the page
+      } else {
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            currentSection = `#${section.id}`;
+          }
+        });
+
+        // Special case for "Contact" section at the bottom
+        const footer = document.querySelector("#footer");
+        if (footer) {
+          const footerRect = footer.getBoundingClientRect();
+          if (
+            footerRect.top <= window.innerHeight &&
+            footerRect.bottom >= window.innerHeight
+          ) {
+            currentSection = "#footer";
+          }
+        }
+      }
+
+      setActiveLink(currentSection);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[var(--color-background)] font-goudy shadow-md">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[var(--color-background)] font-goudy shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg">
       <nav
         aria-label="Global"
         className="mx-auto flex flex-wrap max-w-7xl items-center justify-between p-3 lg:px-8"
@@ -33,7 +71,11 @@ export default function Example({ theme }) {
         <div className="flex lg:flex-1 items-center">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img alt="Logo" src={logoSrc} className="h-15 w-auto" />
+            <img
+              alt="Logo"
+              src="/src/assets/logoLight.png"
+              className="h-15 w-auto"
+            />
           </a>
         </div>
 
@@ -41,7 +83,7 @@ export default function Example({ theme }) {
           <button
             type="button"
             onClick={openMenu}
-            className="rounded-full p-2.5 text-gray-700 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)] transition-all"
+            className="rounded-full p-2.5 text-gray-700 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)] transition-all"
           >
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -53,13 +95,10 @@ export default function Example({ theme }) {
             <a
               key={id}
               href={link}
-              onClick={(event) => {
-                setActiveLink(name);
-                handleSmoothScroll(event, link);
-              }}
-              className={`relative text-base font-semibold text-[var(--color-purple-dark)] transition-all duration-300 ${
-                activeLink === name ? "after:scale-x-100" : "after:scale-x-0"
-              } after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-[var(--color-purple-dark)] after:origin-left after:transition-transform after:duration-300`}
+              onClick={(event) => handleSmoothScroll(event, link)}
+              className={`relative text-base font-semibold text-[var(--color-blue-1)] transition-all duration-300 ${
+                activeLink === link ? "after:scale-x-100" : "after:scale-x-0"
+              } after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-[var(--color-blue-1)] after:origin-left after:transition-transform after:duration-300`}
             >
               {name}
             </a>
@@ -67,10 +106,8 @@ export default function Example({ theme }) {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="group flex items-center gap-3 rounded-xl bg-[var(--color-purple-dark)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-sm hover:bg-[var(--color-background)] hover:text-[var(--color-purple-dark)] hover:border hover:border-[var(--color-purple-dark)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-purple-dark)] cursor-pointer font-poppins">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-background)] bg-[var(--color-purple-dark)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-purple-dark)]">
-              <UserIcon className="h-5 w-5 text-[var(--color-background)] group-hover:text-[var(--color-purple-dark)]" />
-            </span>
+          <button className="group flex items-center gap-3 rounded-full bg-[var(--color-blue-3)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-lg hover:bg-[var(--color-blue-4)] hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer font-poppins">
+              <FaUserCircle className="h-7 w-7" /> {/* Updated to user icon */}
             Se connecter
           </button>
         </div>
@@ -88,13 +125,13 @@ export default function Example({ theme }) {
         />
         <DialogPanel className="fixed top-20 left-1/2 w-[90%] -translate-x-1/2 rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-gray-200">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-[var(--color-purple-dark)]">
+            <h2 className="text-xl font-bold text-[var(--color-blue-1)]">
               Menu
             </h2>
             <button
               type="button"
               onClick={closeMenu}
-              className="rounded-full p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)]"
+              className="rounded-full p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)]"
             >
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -105,22 +142,12 @@ export default function Example({ theme }) {
               <a
                 key={id}
                 href={link}
-                onClick={(event) => {
-                  closeMenu();
-                  handleSmoothScroll(event, link);
-                }}
-                className="block text-lg font-medium text-[var(--color-purple-dark)] hover:text-[var(--color-purple-dark)] hover:underline text-center transition-colors duration-200"
+                onClick={(event) => handleSmoothScroll(event, link)}
+                className="block text-lg font-medium text-[var(--color-blue-1)] hover:text-[var(--color-blue-1)] hover:underline text-center transition-colors duration-200"
               >
                 {name}
               </a>
             ))}
-
-            <button className="mt-6 w-full group flex items-center justify-center gap-3 rounded-full bg-[var(--color-purple-dark)] px-6 py-3 text-base font-semibold text-[var(--color-background)] shadow-md hover:bg-[var(--color-background)] hover:text-[var(--color-purple-dark)] hover:border hover:border-[var(--color-purple-dark)] transition-all duration-200 font-poppins cursor-pointer">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--color-background)] bg-[var(--color-purple-dark)] group-hover:bg-[var(--color-background)] group-hover:border-[var(--color-purple-dark)] cursor-pointer">
-                <UserIcon className="h-5 w-5 text-[var(--color-background)] group-hover:text-[var(--color-purple-dark)]" />
-              </span>
-              Se connecter
-            </button>
           </div>
         </DialogPanel>
       </Dialog>

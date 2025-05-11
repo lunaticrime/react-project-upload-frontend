@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { filterData } from "../../../mockData/dataEspaceProf";
 import Pagination from "./pagination";
 import { FaInfoCircle } from "react-icons/fa";
 
 const DashBord = ({ data, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate(); // Initialize navigate
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const currentData = data.slice(
@@ -22,7 +24,7 @@ const DashBord = ({ data, itemsPerPage }) => {
   };
 
   return (
-    <div className="p-5 h-screen bg-blue-50">
+    <div className="p-5 h-screen">
       <div className="overflow-auto rounded-lg shadow hidden md:block">
         <table className="w-full">
           <thead className="bg-blue-100 border-b-2 border-blue-300">
@@ -52,12 +54,12 @@ const DashBord = ({ data, itemsPerPage }) => {
                 className={row.id % 2 === 0 ? "bg-blue-50" : "bg-white"}
               >
                 <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
-                  <a
-                    href={row.detailsLink}
+                  <button
+                    onClick={() => navigate(`/info-projet/${row.id}`)} // Pass only the ID
                     className="text-blue-600 hover:underline flex items-center"
                   >
                     <FaInfoCircle className="mr-1 text-xl" />
-                  </a>
+                  </button>
                 </td>
                 <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
                   {row.projectName}
@@ -114,12 +116,12 @@ const DashBord = ({ data, itemsPerPage }) => {
                   </span>
                 </div>
               </div>
-              <a
-                href={row.detailsLink}
+              <button
+                onClick={() => navigate(`/info-projet/${row.id}`)} // Pass only the ID
                 className="text-blue-600 hover:underline flex items-center"
               >
                 <FaInfoCircle className="text-xl" />
-              </a>
+              </button>
             </div>
             <div className="text-sm text-blue-900">{row.projectName}</div>
             <div className="text-sm text-blue-900 font-medium">

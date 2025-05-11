@@ -12,9 +12,16 @@ const Filter = ({
   selectedStatus,
   setSelectedStatus,
   searchQuery,
-  setSearchQuery, // Add props for search query
+  setSearchQuery,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
+
+  const resetFilters = () => {
+    setSelectedYear("default");
+    setSelectedModule("default");
+    setSelectedStatus("default");
+    setSearchQuery("");
+  };
 
   return (
     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 mb-6 sm:ml-12">
@@ -26,14 +33,14 @@ const Filter = ({
             placeholder="Rechercher Etudiant"
             value={searchQuery} // Bind search query state
             onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
-            className="border-2 border-[var(--color-purple-light)] rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)] font-goudy font-bold text-[var(--color-purple-dark-reflect)] sm:text-base"
+            className="border-2 border-[var(--color-blue-3)] rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-[var(--color-blue-2)] sm:text-base"
           />
-          <span className="absolute inset-y-0 right-3 flex items-center text-[var(--color-purple-light)] pr-2">
+          <span className="absolute inset-y-0 right-3 flex items-center text-[var(--color-blue-3)] pr-2">
             <FaSearch className="h-5 w-5" />
           </span>
         </div>
         <button
-          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-[var(--color-purple-light)] text-[var(--color-background)]"
+          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-[var(--color-blue-3)] text-[var(--color-background)]"
           onClick={() => setShowFilters(!showFilters)}
         >
           <FaFilter className="h-5 w-5" />
@@ -44,7 +51,7 @@ const Filter = ({
       {showFilters && (
         <div className="w-full bg-[var(--color-background)] p-4 rounded-lg shadow-lg sm:hidden">
           <div className="mb-4">
-            <h3 className="font-bold text-[var(--color-purple-dark)] text-lg">
+            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
               Année :
             </h3>
             <ul>
@@ -56,8 +63,8 @@ const Filter = ({
                     key={year.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedYear === year.value
-                        ? "text-[var(--color-purple-light)] font-extrabold text-lg opacity-100 ml-2"
-                        : "text-[var(--color-purple-dark)] opacity-50"
+                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-2"
+                        : "text-[var(--color-blue-1)] opacity-50"
                     }`}
                     onClick={() => setSelectedYear(year.value)}
                   >
@@ -69,7 +76,7 @@ const Filter = ({
           </div>
           <hr className="border-t border-gray-300 w-4/5 mx-auto mb-4" />
           <div className="mb-4">
-            <h3 className="font-bold text-[var(--color-purple-dark)] text-lg">
+            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
               Module :
             </h3>
             <ul>
@@ -81,8 +88,8 @@ const Filter = ({
                     key={module.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedModule === module.value
-                        ? "text-[var(--color-purple-light)] font-extrabold text-lg opacity-100 ml-4"
-                        : "text-[var(--color-purple-dark)] opacity-50"
+                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-4"
+                        : "text-[var(--color-blue-1)] opacity-50"
                     }`}
                     onClick={() => setSelectedModule(module.value)}
                   >
@@ -94,7 +101,7 @@ const Filter = ({
           </div>
           <hr className="border-t border-gray-300 w-4/5 mx-auto mb-4" />
           <div>
-            <h3 className="font-bold text-[var(--color-purple-dark)] text-lg">
+            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
               Statut :
             </h3>
             <ul>
@@ -106,8 +113,8 @@ const Filter = ({
                     key={status.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedStatus === status.value
-                        ? "text-[var(--color-purple-light)] font-extrabold text-lg opacity-100 ml-4"
-                        : "text-[var(--color-purple-dark)] opacity-50"
+                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-4"
+                        : "text-[var(--color-blue-1)] opacity-50"
                     }`}
                     onClick={() => setSelectedStatus(status.value)}
                   >
@@ -129,7 +136,13 @@ const Filter = ({
         {/* Filter by Year */}
         <Listbox value={selectedYear} onChange={setSelectedYear}>
           <div className="relative w-full sm:w-48 mx-2">
-            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-[var(--color-purple-light)] py-2 pl-3 pr-10 text-left text-[var(--color-background)] font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)]">
+            <Listbox.Button
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+                selectedYear !== "default"
+                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
+                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+              }`}
+            >
               <span className="block truncate">
                 {
                   filterData.years.find((year) => year.value === selectedYear)
@@ -138,7 +151,11 @@ const Filter = ({
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
-                  className="h-5 w-5 text-[var(--color-background)]"
+                  className={`h-5 w-5 ${
+                    selectedYear !== "default"
+                      ? "text-[var(--color-background)]"
+                      : "text-[var(--color-blue-1)]"
+                  }`}
                   aria-hidden="true"
                 />
               </span>
@@ -154,8 +171,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-purple-light)] text-white"
-                        : "text-[var(--color-purple-dark)]"
+                        ? "bg-[var(--color-blue-3)] text-white"
+                        : "text-[var(--color-blue-1)]"
                     }`
                   }
                 >
@@ -169,7 +186,13 @@ const Filter = ({
         {/* Filter by Module */}
         <Listbox value={selectedModule} onChange={setSelectedModule}>
           <div className="relative w-full sm:w-48 mx-2">
-            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-[var(--color-purple-light)] py-2 pl-3 pr-10 text-left text-[var(--color-background)] font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)]">
+            <Listbox.Button
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+                selectedModule !== "default"
+                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
+                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+              }`}
+            >
               <span className="block truncate">
                 {
                   filterData.modules.find(
@@ -179,7 +202,11 @@ const Filter = ({
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
-                  className="h-5 w-5 text-[var(--color-background)]"
+                  className={`h-5 w-5 ${
+                    selectedModule !== "default"
+                      ? "text-[var(--color-background)]"
+                      : "text-[var(--color-blue-1)]"
+                  }`}
                   aria-hidden="true"
                 />
               </span>
@@ -195,8 +222,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-purple-light)] text-white"
-                        : "text-[var(--color-purple-dark)]"
+                        ? "bg-[var(--color-blue-3)] text-white"
+                        : "text-[var(--color-blue-1)]"
                     }`
                   }
                 >
@@ -210,7 +237,13 @@ const Filter = ({
         {/* Filter by Status */}
         <Listbox value={selectedStatus} onChange={setSelectedStatus}>
           <div className="relative w-full sm:w-48 mx-2">
-            <Listbox.Button className="relative w-full cursor-default rounded-lg bg-[var(--color-purple-light)] py-2 pl-3 pr-10 text-left text-[var(--color-background)] font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[var(--color-purple-dark)]">
+            <Listbox.Button
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+                selectedStatus !== "default"
+                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
+                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+              }`}
+            >
               <span className="block truncate">
                 {
                   filterData.status.find(
@@ -220,7 +253,11 @@ const Filter = ({
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
-                  className="h-5 w-5 text-[var(--color-background)]"
+                  className={`h-5 w-5 ${
+                    selectedStatus !== "default"
+                      ? "text-[var(--color-background)]"
+                      : "text-[var(--color-blue-1)]"
+                  }`}
                   aria-hidden="true"
                 />
               </span>
@@ -236,8 +273,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-purple-light)] text-white"
-                        : "text-[var(--color-purple-dark)]"
+                        ? "bg-[var(--color-blue-3)] text-white"
+                        : "text-[var(--color-blue-1)]"
                     }`
                   }
                 >
@@ -248,6 +285,14 @@ const Filter = ({
           </div>
         </Listbox>
       </div>
+
+      {/* Reset Button */}
+      <button
+        onClick={resetFilters}
+        className="mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
+      >
+        Réinitialiser
+      </button>
     </div>
   );
 };

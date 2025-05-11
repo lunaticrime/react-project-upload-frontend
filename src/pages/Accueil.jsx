@@ -11,12 +11,24 @@ function Accueil() {
   return (
     <>
       <Navbar />
-      <AccueilContent />
-      <Apropos />
-      <Fonctionnalites />
-      <User />
-      <Ready />
-      <Footer />
+      <div id="accueil">
+        <AccueilContent />
+      </div>
+      <div id="apropos">
+        <Apropos />
+      </div>
+      <div id="fonctionnalites">
+        <Fonctionnalites />
+      </div>
+      <div id="utilisateurs">
+        <User />
+      </div>
+      <div id="ready">
+        <Ready />
+      </div>
+      <div id="footer">
+        <Footer />
+      </div>
     </>
   );
 }

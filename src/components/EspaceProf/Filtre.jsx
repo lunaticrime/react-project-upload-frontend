@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaSearch, FaFilter } from "react-icons/fa"; // Import entonnoir icon
+import { FaSearch, FaFilter, FaRedo } from "react-icons/fa"; // Import entonnoir and reset icons
 import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { filterData } from "../../../mockData/dataEspaceProf"; // Import filter data
@@ -44,6 +44,12 @@ const Filter = ({
           onClick={() => setShowFilters(!showFilters)}
         >
           <FaFilter className="h-5 w-5" />
+        </button>
+        <button
+          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-[var(--color-blue-3)] text-[var(--color-background)]"
+          onClick={resetFilters}
+        >
+          <FaRedo className="h-5 w-5" />
         </button>
       </div>
 
@@ -289,7 +295,7 @@ const Filter = ({
       {/* Reset Button */}
       <button
         onClick={resetFilters}
-        className="mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
+        className="hidden sm:block mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
       >
         Réinitialiser
       </button>

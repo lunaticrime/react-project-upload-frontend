@@ -5,14 +5,22 @@ import "./index.css"; // Ensure the updated index.css with blue palette is used
 import InfoProjet from "./pages/InfoProjet";
 import EspaceProf from "./pages/EspaceProf"; // Import EspaceProf
 import Accueil from "./pages/Accueil";
+import EspaceAdmin from "./pages/EspaceAdmin";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    {/*
     <Router>
       <Routes>
         <Route path="/" element={<EspaceProf />} />
         <Route path="/info-projet/:id" element={<InfoProjet />} />
         <Route path="/accueil" element={<Accueil />} />
+      </Routes>
+    </Router>
+    */}
+    <Router>
+      <Routes>
+        <Route path="/" element={<EspaceAdmin />} />
       </Routes>
     </Router>
   </StrictMode>

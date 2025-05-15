@@ -4,6 +4,7 @@ import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { filterData } from "../../../mockData/dataEspaceProf"; // Import filter data
 
+
 const Filter = ({
   selectedYear,
   setSelectedYear,
@@ -295,8 +296,9 @@ const Filter = ({
       {/* Reset Button */}
       <button
         onClick={resetFilters}
-        className="hidden sm:block mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
+        className="hidden sm:flex items-center gap-2 mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
       >
+        <FaRedo className="h-4 w-4" />
         Réinitialiser
       </button>
     </div>

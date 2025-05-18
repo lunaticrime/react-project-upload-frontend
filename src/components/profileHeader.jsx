@@ -33,6 +33,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { TabsDemo } from "./profileEdit";
 
 // Mock data for projects
 const mockProjects = [
@@ -148,14 +149,24 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
           <div className="search/addProject flex gap-2 justify-center items-center my-10">
             <button
               onClick={openCommandMenu}
-              className=" text-blue-1 font-semibold rounded-md px-[11px] py-[11px] duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
+              className="text-blue-1 font-semibold rounded-md px-[11px] py-[11px] duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark"
             >
               <FaSearch className="text-lg" />
             </button>
-            <button className="items-center justify-center bg-blue-50 text-blue-1 font-semibold rounded-md px-4 py-2 duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark">
-              <FaRegFileArchive className="text-lg" />
-              Reports
-            </button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="items-center justify-center bg-blue-50 text-blue-1 font-semibold rounded-md px-4 py-2 duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark">
+                  <FaRegFileArchive className="text-lg" />
+                  Edit
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-fit dark:bg-blue-1-dark flex flex-col gap-4 items-center">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl">Edit Profile</DialogTitle>
+                </DialogHeader>
+                <TabsDemo />
+              </DialogContent>
+            </Dialog>
             <button
               onClick={() => setIsOpen(true)}
               className="items-center justify-center bg-blue-1 text-blue-50 font-semibold rounded-md px-4 py-2 duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-50 hover:text-blue-1 dark:text-blue-1-dark dark:bg-blue-50 dark:hover:bg-blue-1-dark dark:hover:text-blue-50"

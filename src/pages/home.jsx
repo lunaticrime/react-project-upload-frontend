@@ -1,11 +1,11 @@
-// import { useState } from "react";
-// import { lazyLoad } from "../lazyLoad";
-import Feed from "../components/Feed";
+// import Feed from "../components/Feed";
 import TestNavbar from "../components/test-navbar";
 import Footer from "../components/footer";
-// const Feed = lazyLoad("../components/Feed");
-// const TestNavbar = lazyLoad("../components/test-navbar");
-// const Footer = lazyLoad("../components/footer");
+import AccueilContent from "../components/Accueil/accueil";
+import Apropos from "../components/Accueil/apropos";
+import Fonctionnalites from "../components/Accueil/fonctionnalites";
+import User from "../components/Accueil/utilisateurs";
+import Ready from "../components/Accueil/ready";
 
 const Home = ({ isDarkMode, setIsDarkMode }) => {
   return (
@@ -14,7 +14,12 @@ const Home = ({ isDarkMode, setIsDarkMode }) => {
     >
       <TestNavbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <div className="home-container">
-        <Feed />
+        {/* <Feed /> */}
+        <AccueilContent isDarkMode={isDarkMode} />
+        <Apropos isDarkMode={isDarkMode} />
+        <Fonctionnalites isDarkMode={isDarkMode} />
+        <User isDarkMode={isDarkMode} />
+        <Ready isDarkMode={isDarkMode} />
       </div>
       <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
     </main>

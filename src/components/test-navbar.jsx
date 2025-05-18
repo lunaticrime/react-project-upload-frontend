@@ -3,12 +3,14 @@ import { NavbarMenu } from "../mockData/data";
 import { FaSearch, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { IconMenu } from "@tabler/icons-react";
 import { IoCloseOutline } from "react-icons/io5";
-import ResponsiveMenu from "./responsiveMenu";
+// import ResponsiveMenu from "./responsiveMenu";
 import { IconUserCircle } from "@tabler/icons-react";
 import Toggle from "./ui/SliderToggle2";
 import { useCommandMenu } from "./CommandMenuContext";
 import lightLogo from "../assets/lightLogo.png";
 import darkLogo from "../assets/darkLogo.png";
+
+const ResponsiveMenu = React.lazy(() => import("./responsiveMenu"));
 
 const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
   const [open, setOpen] = useState(false);
@@ -19,7 +21,7 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
   }
 
   return (
-    <header className="sticky top-0">
+    <header className="sticky top-0 z-100">
       <nav
         className={`bg-blue-50 dark:bg-blue-1-dark z-50 shadow-md ${
           isDarkMode ? "dark" : ""

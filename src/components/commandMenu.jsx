@@ -41,8 +41,17 @@ const CommandMenu = (
           <CommandItem value="/profile" onSelect={handleSelect}>
             profile
           </CommandItem>
+          <CommandItem value="/feed" onSelect={handleSelect}>
+            Feed
+          </CommandItem>
           <CommandItem value="/login" onSelect={handleSelect}>
             login
+          </CommandItem>
+          <CommandItem value="/admin" onSelect={handleSelect}>
+            Admin
+          </CommandItem>
+          <CommandItem value="/prof" onSelect={handleSelect}>
+            Prof
           </CommandItem>
         </CommandGroup>
       </CommandList>

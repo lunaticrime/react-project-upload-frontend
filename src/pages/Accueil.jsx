@@ -7,6 +7,11 @@ import User from "../components/Accueil/utilisateurs";
 import Ready from "../components/Accueil/ready";
 import Footer from "../components/Accueil/footer";
 
+// Page d'accueil publique
+// Pour le backend Laravel :
+// - Les données statiques (features, utilisateurs) peuvent être récupérées via une API si besoin
+// - Les liens de navigation peuvent être adaptés pour router vers des pages Laravel si SSR
+
 function Accueil() {
   return (
     <>

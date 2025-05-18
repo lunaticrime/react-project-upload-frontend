@@ -1,3 +1,21 @@
+// Fichier de données mock pour l'espace Professeur
+// Pour le backend Laravel :
+// - Remplacer ces données statiques par des appels API Laravel
+// - Les endpoints typiques :
+//   - GET /api/projects (liste des projets, avec filtres en query string)
+//     => Penser à retourner les données paginées (meta, links pour la pagination côté frontend)
+//     => Ajouter des scopes Eloquent pour chaque filtre (année, module, statut, recherche)
+//   - GET /api/projects/{id} (détail d'un projet)
+//     => Inclure les relations nécessaires (étudiant, fichiers, commentaires, notes)
+//   - GET /api/modules, /api/years, /api/status (pour les filtres dynamiques)
+//     => Générer dynamiquement les valeurs de filtre depuis la base (distinct sur les colonnes concernées)
+// - Pour la gestion des fichiers :
+//   - Stocker les fichiers dans storage/app/public et retourner Storage::url($path) dans l'API
+//   - Pour le téléchargement, sécuriser l'accès avec des policies (seul l'encadrant ou l'étudiant peut télécharger)
+// - Pour la sécurité :
+//   - Protéger toutes les routes API avec sanctum/passport et middleware auth:api
+//   - Utiliser des policies pour restreindre les actions selon le rôle utilisateur
+
 export const navLinks = [
     { id: 1, name: "", link: "#" },
     { id: 2, name: "", link: "#" },
@@ -14,7 +32,7 @@ export const filterData = {
     ],
     modules: [
         { id: 0, value: "default", label: "Filtrer par module" }, // Default value
-        { id: 1, value: "Module 1", label: "Module 1" }, // Ensure values match tableData
+        { id: 1, value: "Module 1", label: "Module 1" }, // Les valeurs doivent correspondre à celles du backend
         { id: 2, value: "Module 2", label: "Module 2" },
         { id: 3, value: "Module 3", label: "Module 3" },
         { id: 4, value: "Module 4", label: "Module 4" },
@@ -28,6 +46,8 @@ export const filterData = {
 };
 
 export const tableData = [
+    // Ces données doivent être remplacées par la réponse de l'API Laravel
+    // Les champs doivent correspondre à ceux du backend (id, projectName, student, year, module, status, etc.)
     { id: 1, projectName: "Project A", student: "Étudiant 1", year: "2023", module: "Module 1", status: "approved", detailsLink: "/details/1", description: "Description arbitraire pour Project A." },
     { id: 2, projectName: "Project B", student: "Étudiant 2", year: "2022", module: "Module 2", status: "pending", detailsLink: "/details/2", description: "Description arbitraire pour Project B." },
     { id: 3, projectName: "Project C", student: "Étudiant 3", year: "2021", module: "Module 3", status: "rejected", detailsLink: "/details/3", description: "Description arbitraire pour Project C." },

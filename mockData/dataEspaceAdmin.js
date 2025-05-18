@@ -1,3 +1,22 @@
+// Fichier de données mock pour l'espace Admin/Responsable
+// Pour le backend Laravel :
+// - Remplacer ces données statiques par des appels API Laravel
+// - Les endpoints typiques :
+//   - GET /api/users (liste des utilisateurs, avec filtres en query string)
+//     => Penser à retourner les données paginées (meta, links pour la pagination côté frontend)
+//     => Ajouter des scopes Eloquent pour chaque filtre (rôle, recherche)
+//   - GET /api/stats (statistiques pour les charts et cards)
+//     => Retourner les agrégats nécessaires (nombre projets, utilisateurs par rôle, etc.)
+//   - GET /api/projects/export (pour l'exportation PDF/Excel)
+//     => Utiliser Laravel Excel (maatwebsite/excel) pour générer un export filtré selon les paramètres reçus
+//     => Retourner un lien de téléchargement sécurisé
+// - Pour la gestion des utilisateurs :
+//   - Créer, modifier, supprimer via POST/PUT/DELETE sur /api/users
+//   - Protéger les routes avec des policies (seuls les admins peuvent modifier/supprimer)
+// - Pour la sécurité :
+//   - Protéger toutes les routes API avec sanctum/passport et middleware auth:api
+//   - Utiliser spatie/laravel-permission pour la gestion fine des rôles et permissions
+
 export const navLinks = [
     { id: 1, name: "Tableau de bord", link: "#dashboard" },
     { id: 2, name: "Gestion des utilisateurs", link: "#gestion-utilisateurs" },
@@ -7,7 +26,7 @@ export const navLinks = [
 export const projectStats = {
     statusDistribution: [40, 30, 30], // Validé, En Attente, Refusé
     years: ["2020", "2021", "2022", "2023"],
-    projectsPerYear: [10, 15, 20, 25], // Number of projects per year
+    projectsPerYear: [10, 15, 20, 25], // Nombre de projets par année
 };
 
 export const adminCardsData = [
@@ -18,6 +37,8 @@ export const adminCardsData = [
 ];
 
 export const usersData = [
+    // Ces données doivent être remplacées par la réponse de l'API Laravel
+    // Les champs doivent correspondre à ceux du backend (id, name, email, role, lastLogin, etc.)
     { id: 1, name: "John Doe", email: "john@example.com", role: "Admin", lastLogin: "2023-10-01" },
     { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Etudiant", lastLogin: "2023-10-02" },
     { id: 3, name: "Alice Johnson", email: "alice@example.com", role: "Etudiant", lastLogin: "2023-09-30" },

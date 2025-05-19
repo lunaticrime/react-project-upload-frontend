@@ -48,6 +48,7 @@ export const filterData = {
 export const tableData = [
     // Ces données doivent être remplacées par la réponse de l'API Laravel
     // Les champs doivent correspondre à ceux du backend (id, projectName, student, year, module, status, etc.)
+    
     { id: 1, projectName: "Project A", student: "Étudiant 1", year: "2023", module: "Module 1", status: "approved", detailsLink: "/details/1", description: "Description arbitraire pour Project A." },
     { id: 2, projectName: "Project B", student: "Étudiant 2", year: "2022", module: "Module 2", status: "pending", detailsLink: "/details/2", description: "Description arbitraire pour Project B." },
     { id: 3, projectName: "Project C", student: "Étudiant 3", year: "2021", module: "Module 3", status: "rejected", detailsLink: "/details/3", description: "Description arbitraire pour Project C." },

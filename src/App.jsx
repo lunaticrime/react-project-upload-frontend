@@ -29,6 +29,9 @@ import lightLogo from "./assets/lightLogo.png";
 // const Profile = lazy(() =>
 //   import("./pages/profile");
 // );
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/profile-sidebar";
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem("isDarkMode");

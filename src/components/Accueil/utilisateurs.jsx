@@ -63,7 +63,7 @@ const Utilisateurs = ({ isDarkMode }) => {
       {/* Title Section */}
       <div className="text-center w-full">
         <Reveal width="100%" isDarkMode={isDarkMode}>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl w-full font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
             Une plateforme pensée pour tous
           </h1>
           <hr className="w-4/5 mx-auto mb-10 border-t-2 border-[var(--color-blue-1)] dark:border-blue-50" />

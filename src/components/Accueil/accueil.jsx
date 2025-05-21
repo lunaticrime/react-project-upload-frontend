@@ -5,12 +5,12 @@ import accueilImg from "../../assets/Accueil1.svg";
 import RotatingWord from "../utils/RotatingWord";
 export default function Accueil({ isDarkMode }) {
   return (
-    <div className="h-[calc(100vh-108px)] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10">
+    <div className="h-[calc(100vh-108px)] flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10">
       {/* Left Section */}
-      <div className="lg:w-1/2 text-center lg:text-left">
+      <div className="w-full lg:w-1/2 text-center lg:text-left my-auto flex-col items-center justify-center">
         <Reveal isDarkMode={isDarkMode}>
           <div className="py-5">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide overflow-visible">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide overflow-visible">
               Student Project Management Platform{" "}
               <span className="relative">
                 ENSAK{" "}
@@ -37,13 +37,13 @@ export default function Accueil({ isDarkMode }) {
             </h1>
           </div>
         </Reveal>
-        <Reveal isDarkMode={isDarkMode}>
+        <Reveal isDarkMode={isDarkMode} width="100%">
           <p className="text-sm sm:text-base lg:text-[22px] font-inter text-[var(--color-blue-1)] dark:text-slate-400 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
             Manage your academic projects in one place and
             <RotatingWord />
           </p>
         </Reveal>
-        <Reveal isDarkMode={isDarkMode}>
+        <Reveal isDarkMode={isDarkMode} width="100%">
           <div className="py-5">
             <button className="reverse-default-btn">Access your space</button>
           </div>
@@ -51,7 +51,7 @@ export default function Accueil({ isDarkMode }) {
       </div>
 
       {/* Right Section */}
-      <div className="lg:w-1/2 mt-6 sm:mt-8 lg:mt-0 flex justify-center">
+      <div className="lg:w-1/2 mt-6 sm:mt-8 lg:mt-0 lg:flex justify-center w-full ">
         {/* <img
           src="/src/assets/Accueil1.svg"
           alt="Illustration"

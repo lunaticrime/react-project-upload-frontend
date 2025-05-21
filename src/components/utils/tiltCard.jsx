@@ -9,7 +9,7 @@ import {
 const ROTATION_RANGE = 32.5;
 const HALF_ROTATION_RANGE = 32.5 / 2;
 
-const TiltCard = ({img}) => {
+const TiltCard = ({ img }) => {
   const ref = useRef(null);
 
   const x = useMotionValue(0);
@@ -52,7 +52,7 @@ const TiltCard = ({img}) => {
         transformStyle: "preserve-3d",
         transform,
       }}
-      className="relative h-[600px] w-full rounded-xl bg-gradient-to-br from-blue-1 to-blue-2 dark:to-blue-2 dark:from-blue-2-dark"
+      className="relative h-72 lg:h-[600px] w-full rounded-xl bg-gradient-to-br from-blue-1 to-blue-2 dark:to-blue-2 dark:from-blue-2-dark"
     >
       <div
         style={{
@@ -61,9 +61,9 @@ const TiltCard = ({img}) => {
         }}
         className="absolute inset-4 grid place-content-center rounded-xl bg-blue-50 dark:bg-blue-1-dark shadow-lg"
       >
-        <img 
-          src={img} 
-          alt="img" 
+        <img
+          src={img}
+          alt="img"
           className="w-[600px] h-full object-cover"
           style={{
             transform: "translateZ(75px)",

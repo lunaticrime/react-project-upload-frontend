@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 // import { lazyLoad } from "../lazyLoad";
 import {
   FaSearch,
@@ -137,7 +138,9 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
   return (
     <div className={`relative z-10 ${isOpen ? "pointer-events-none" : ""}`}>
       <div className="h-[55vh] lg:h-[50vh] bg-blue-50 dark:bg-blue-1-dark text-blue-50">
-        <div className="bg-linear-90 from-blue-1 to-blue-200 h-1/4 lg:h-1/2"></div>
+        <div className="bg-linear-90 from-blue-1 to-blue-200 h-1/4 lg:h-1/2 flex items-start justify-start">
+          <SidebarTrigger />
+        </div>
         <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-start mx-20 h-fit -translate-y-[20%] lg:-translate-y-0">
           <div className="flex flex-col lg:flex-row ">
             <div className="picture w-50 h-50 lg:w-3xs lg:h-[256px] rounded-full bg-slate-500 border-8 border-slate-50 dark:border-blue-1-dark lg:-translate-y-1/2 bg-[url(./assets/login_registration.svg)] bg-cover"></div>

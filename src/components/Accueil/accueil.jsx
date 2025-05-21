@@ -5,19 +5,22 @@ import accueilImg from "../../assets/Accueil1.svg";
 import RotatingWord from "../utils/RotatingWord";
 export default function Accueil({ isDarkMode }) {
   return (
-    <div className="h-[calc(100vh-108px)] flex flex-col lg:flex-row items-center justify-between px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10">
+    <div
+      id="accueil"
+      className="scroll-mt-28 min-h-[60vh] flex flex-col lg:flex-row items-center justify-center px-4 sm:px-8 py-8 sm:py-12 bg-[var(--color-background)] gap-8"
+    >
       {/* Left Section */}
-      <div className="lg:w-1/2 text-center lg:text-left">
+      <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start justify-center text-center lg:text-left">
         <Reveal isDarkMode={isDarkMode}>
-          <div className="py-5">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide overflow-visible">
-              Student Project Management Platform{" "}
+          <div className="py-3 sm:py-5">
+            <h1 className="text-xl sm:text-2xl md:text-4xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-3 sm:mb-4 leading-snug md:leading-normal xl:leading-20 tracking-wide">
+              Plateforme de gestion des projets étudiants{" "}
               <span className="relative">
                 ENSAK{" "}
                 <svg
                   viewBox="0 0 286 73"
                   fill="none"
-                  className="absolute -left-2 -right-2 -top-2 bottom-0 translate-y-2"
+                  className="absolute -left-2 -right-2 -top-2 bottom-0 translate-y-2 hidden xl:block"
                 >
                   <motion.path
                     initial={{ pathLength: 0 }}
@@ -38,26 +41,27 @@ export default function Accueil({ isDarkMode }) {
           </div>
         </Reveal>
         <Reveal isDarkMode={isDarkMode}>
-          <p className="text-sm sm:text-base lg:text-[22px] font-inter text-[var(--color-blue-1)] dark:text-slate-400 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
-            Manage your academic projects in one place and
+          <p className="text-xs sm:text-base md:text-lg xl:text-2xl font-inter text-[var(--color-blue-1)] dark:text-slate-400 mb-4 sm:mb-6 md:mb-8 tracking-wide leading-snug md:leading-normal">
+            Gérez vos projets académiques en un seul endroit et
             <RotatingWord />
           </p>
         </Reveal>
         <Reveal isDarkMode={isDarkMode}>
-          <div className="py-5">
-            <button className="reverse-default-btn">Access your space</button>
+          <div className="py-3 sm:py-5 flex justify-center lg:justify-start">
+            <button className="reverse-default-btn text-xs sm:text-base md:text-lg xl:text-xl px-4 sm:px-6 py-2 sm:py-3 rounded-full">
+              Accédez à votre espace
+            </button>
           </div>
         </Reveal>
       </div>
 
-      {/* Right Section */}
-      <div className="lg:w-1/2 mt-6 sm:mt-8 lg:mt-0 flex justify-center">
-        {/* <img
-          src="/src/assets/Accueil1.svg"
-          alt="Illustration"
-          className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl h-auto rounded-lg shadow-lg transition-transform duration-300 ease-in-out"
-        /> */}
-        <TiltCard img={accueilImg} />
+      {/* Right Section (image) */}
+      <div className="w-full lg:w-1/2 mt-4 sm:mt-8 lg:mt-0 flex justify-center items-center">
+        <div className="w-full flex justify-center items-center">
+          <div className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl h-auto rounded-lg shadow-lg transition-transform duration-300 ease-in-out hidden xl:block">
+            <TiltCard img={accueilImg} />
+          </div>
+        </div>
       </div>
     </div>
   );

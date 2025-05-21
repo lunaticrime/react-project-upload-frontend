@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavbarMenu } from "../mockData/data";
+// import { NavbarMenu } from "../mockData/data";
+import { navLinks } from "../mockData/dataAccueil"; // Utiliser navLinks depuis dataAccueil.js
 import { FaSearch, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { IconMenu } from "@tabler/icons-react";
 import { IoCloseOutline } from "react-icons/io5";
@@ -15,6 +16,26 @@ const ResponsiveMenu = React.lazy(() => import("./responsiveMenu"));
 const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
   const [open, setOpen] = useState(false);
   const { openCommandMenu } = useCommandMenu();
+
+  // Fonction de scroll fluide vers l'ancre
+  const handleNavClick = (e, link) => {
+    if (link.startsWith("#")) {
+      e.preventDefault();
+      if (link === "#footer") {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      } else if (link === "#accueil") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const el = document.getElementById(link.replace("#", ""));
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   {
     /* temporary solution bidman zedt dark/light toggle*/
@@ -42,14 +63,15 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
           {/* menu */}
           <div className="w-screen hidden lg:block">
             <ul className="flex justify-center items-center gap-8 lg:gap-4 xl:gap-8 text-blue-1 dark:text-blue-50 font-bold capitalize">
-              {NavbarMenu.map((item) => {
+              {navLinks.map((item) => {
                 return (
                   <li key={item.id}>
                     <a
-                      href={item.url}
+                      href={item.link}
+                      onClick={(e) => handleNavClick(e, item.link)}
                       className="inline-block py-1 px-3 hover:text-blue-2 dark:hover:text-blue-200 font-semibold relative group"
                     >
-                      {item.title}
+                      {item.name}
                       <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-1  dark:bg-blue-50 transition-all duration-300 group-hover:w-full"></span>
                     </a>
                   </li>
@@ -59,6 +81,7 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
           </div>
           {/* icons */}
           <div className="flex items-center gap-2">
+          {/* Remove the FaSearch Bouton ❌ */} 
             <button
               onClick={openCommandMenu}
               className="text-xl rounded-full p-2 duration-200 text-blue-1 hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark cursor-pointer"

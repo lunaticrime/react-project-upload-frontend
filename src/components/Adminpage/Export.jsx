@@ -6,29 +6,29 @@ import { FaRedo, FaTimes } from "react-icons/fa"; // Import reset and close icon
 // import { filterData } from "../../../mockData/dataEspaceAdmin";
 const filterData = {
   role: [
-    { id: 0, value: "default", label: "Filtrer par Role" },
+    { id: 0, value: "default", label: "Filter by Role" },
     { id: 1, value: "Admin", label: "Admin" },
-    { id: 2, value: "Etudiant", label: "Etudiant" },
-    { id: 3, value: "Prof", label: "Prof" },
+    { id: 2, value: "Student", label: "Student" },
+    { id: 3, value: "Teacher", label: "Teacher" },
   ],
   years: [
-    { id: 0, value: "default", label: "Filtrer par Année" },
+    { id: 0, value: "default", label: "Filter by Year" },
     { id: 1, value: "2020", label: "2020" },
     { id: 2, value: "2021", label: "2021" },
     { id: 3, value: "2022", label: "2022" },
     { id: 4, value: "2023", label: "2023" },
   ],
   status: [
-    { id: 0, value: "default", label: "Filtrer par Statut" },
-    { id: 1, value: "approved", label: "🟢 Validé" },
-    { id: 2, value: "pending", label: "🟡 En Attente" },
-    { id: 3, value: "rejected", label: "🔴 Refusé" },
+    { id: 0, value: "default", label: "Filter by Status" },
+    { id: 1, value: "approved", label: "🟢 Approved" },
+    { id: 2, value: "pending", label: "🟡 Pending" },
+    { id: 3, value: "rejected", label: "🔴 Rejected" },
   ],
   types: [
-    { id: 0, value: "default", label: "Filtrer par Type" },
-    { id: 1, value: "rapport", label: "Rapport" },
-    { id: 2, value: "présentation", label: "Présentation" },
-    { id: 3, value: "autre", label: "Autre" },
+    { id: 0, value: "default", label: "Filter by Type" },
+    { id: 1, value: "report", label: "Report" },
+    { id: 2, value: "presentation", label: "Presentation" },
+    { id: 3, value: "other", label: "Other" },
   ],
 };
 
@@ -64,10 +64,10 @@ const Export = ({ isOpen, onClose }) => {
 
         {/* Title Section */}
         <h2 className="text-2xl font-bold text-center mb-6 text-[var(--color-blue-1)]">
-          Exportation de données
+          Data Export
         </h2>
         <p className="text-sm text-center text-[var(--color-blue-2)] mb-6">
-          Téléchargez les données essentielles pour le reporting ou l'archivage.
+          Download essential data for reporting or archiving.
         </p>
 
         {/* Filters Section */}
@@ -227,7 +227,7 @@ const Export = ({ isOpen, onClose }) => {
           <button
             onClick={handleReset}
             className="flex items-center justify-center p-3 rounded-full bg-[var(--color-blue-3)] text-[var(--color-background)] shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
-            title="Réinitialiser"
+            title="Reset"
           >
             <FaRedo className="h-5 w-5" />
           </button>
@@ -236,10 +236,10 @@ const Export = ({ isOpen, onClose }) => {
         {/* Buttons Section */}
         <div className="flex gap-4">
           <button className="w-full px-6 py-3 bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:opacity-90 hover:translate-y-[-3px] hover:shadow-lg transition-all duration-200 cursor-pointer font-poppins">
-            Exporter en PDF
+            Export as PDF
           </button>
           <button className="w-full px-6 py-3 bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:opacity-90 hover:translate-y-[-3px] hover:shadow-lg transition-all duration-200 cursor-pointer font-poppins">
-            Exporter en Excel
+            Export as Excel
           </button>
         </div>
       </div>

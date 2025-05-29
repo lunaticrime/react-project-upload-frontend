@@ -1,6 +1,6 @@
 export default function DashBord() {
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-6 sm:gap-12 lg:gap-20 xl:gap-40">
+    <div className=" flex flex-col lg:flex-row items-center justify-center px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-6 sm:gap-12 lg:gap-20 xl:gap-40">
       {/* Left Section - Title */}
       <div className="w-full lg:w-1/2 text-center lg:text-left">
         <h1 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">

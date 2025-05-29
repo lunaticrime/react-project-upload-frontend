@@ -28,14 +28,14 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
           {/* <X /> */}X
         </button>
         <h2 className="text-xl font-bold text-center mb-6 text-[var(--color-blue-1)]">
-          Supprimer Utilisateur
+          Delete User
         </h2>
         <p className="text-sm text-[var(--color-blue-2)] mb-6 text-center">
-          Êtes-vous sûr de vouloir supprimer l'utilisateur suivant ?
+          Are you sure you want to delete the following user?
         </p>
         <div className="mb-6 border-t border-b border-[var(--color-blue-3)] py-4">
           <p className="text-sm font-medium text-[var(--color-blue-3)] flex justify-between">
-            <span className="font-bold">Nom:</span>
+            <span className="font-bold">Name:</span>
             <span>{user?.name}</span>
           </p>
           <p className="text-sm font-medium text-[var(--color-blue-3)] flex justify-between mt-2">
@@ -53,14 +53,14 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
             onClick={onClose}
             className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
           >
-            Annuler
+            Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
             className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600"
           >
-            Supprimer
+            Delete
           </button>
         </div>
       </div>

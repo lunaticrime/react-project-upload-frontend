@@ -9,7 +9,7 @@ import Bienvenue from "../components/Adminpage/Bienvenue";
 import Export from "../components/Adminpage/Export";
 import Navbar from "../components/test-navbar";
 
-export default function EspaceAdmin() {
+export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
   const itemsPerPage = 10;
 
   // Filter states
@@ -28,13 +28,13 @@ export default function EspaceAdmin() {
 
   return (
     <>
-      <Navbar />
-      <Bienvenue />
-      <div id="dashboard">
+      {/* <Navbar /> */}
+      <Bienvenue isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <div id="dashboard" className={`${isDarkMode ? "dark" : ""}`}>
         <Charts />
         <Cards />
       </div>
-      <div id="gestion-utilisateurs">
+      <div id="gestion-utilisateurs" className={`${isDarkMode ? "dark" : ""}`}>
         <Filtre
           selectedRole={selectedRole}
           setSelectedRole={setSelectedRole}
@@ -43,9 +43,11 @@ export default function EspaceAdmin() {
         />
         <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
       </div>
-      <div id="exportation">
+      <div id="exportation" className={`${isDarkMode ? "dark" : ""}`}>
         <Export />
+
       </div>
     </>
   );
 }
+

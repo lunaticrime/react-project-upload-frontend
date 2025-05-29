@@ -27,7 +27,7 @@ function EspaceProf() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Title />
       <Filter
         selectedYear={selectedYear}

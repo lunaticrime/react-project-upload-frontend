@@ -1,27 +1,38 @@
 import React from "react";
 // import { adminCardsData } from "../../../mockData/dataEspaceAdmin";
 const adminCardsData = [
-  { id: 1, title: "Total des projets soumis", count: 120 },
-  { id: 2, title: "Nombre d'étudiants actifs", count: 300 },
-  { id: 3, title: "Nombre d'enseignants actifs", count: 50 },
-  { id: 4, title: "Projets soumis cette année", count: 25 },
+  { id: 1, title: "Total Submitted Projects", count: 120 },
+  { id: 2, title: "Number of Active Students", count: 300 },
+  { id: 3, title: "Number of Active Teachers", count: 50 },
+  { id: 4, title: "Projects Submitted This Year", count: 25 },
 ];
+
 const Cards = () => {
+  const getBorderColor = (id) => {
+    switch (id) {
+      case 1:
+        return "border-blue-500";
+      case 2:
+        return "border-green-500";
+      case 3:
+        return "border-purple-500";
+      case 4:
+        return "border-orange-500";
+      default:
+        return "border-blue-500";
+    }
+  };
+
   return (
-    <div className="mb-20 flex flex-wrap justify-center gap-20 w-full p-4">
+    <div className="mb-20 flex flex-wrap justify-center gap-10 w-full p-4">
       {adminCardsData.map(({ id, title, count }) => (
         <div
           key={id}
-          className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out w-full max-w-xs"
-          style={{
-            background:
-              "linear-gradient(to bottom, var(--color-blue-4), var(--color-blue-1))",
-            boxShadow: `0px 4px 10px var(--color-blue-2)`,
-          }}
+          className={`flex flex-col bg-white border-t-6 ${getBorderColor(id)} items-center p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out w-full max-w-xs cursor-pointer`}
         >
           <h2
             className={`${
-              title === "Nombre d'enseignants impliqués" ? "text-lg" : "text-xl"
+              title === "Number of Active Teachers" ? "text-lg" : "text-xl"
             } font-bold font-poppins text-center text-[var(--color-background)] mb-2`}
           >
             {title}

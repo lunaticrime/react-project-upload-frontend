@@ -80,7 +80,8 @@ function App() {
                 />
               }
             />
-            <Route path="/admin" element={<EspaceAdmin />} />
+            <Route path="/admin" element={<EspaceAdmin isDarkMode={isDarkMode}
+                  setIsDarkMode={setIsDarkMode}/>} />
             <Route path="/prof" element={<EspaceProf />} />
             <Route path="/info-projet/:id" element={<InfoProjet />} />
             <Route

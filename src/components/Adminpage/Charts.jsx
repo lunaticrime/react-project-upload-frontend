@@ -12,7 +12,7 @@ import {
 import { motion } from "framer-motion"; // Import framer-motion
 // import { projectStats } from "../../../mockData/dataEspaceAdmin";
 const projectStats = {
-  statusDistribution: [40, 30, 30], // Validé, En Attente, Refusé
+  statusDistribution: [40, 30, 30], // Approved, Pending, Rejected
   years: ["2020", "2021", "2022", "2023"],
   projectsPerYear: [10, 15, 20, 25], // Number of projects per year
 };
@@ -33,7 +33,7 @@ const chartAnimation = {
 
 export default function DashBord() {
   const pieData = {
-    labels: ["Validé", "En Attente", "Refusé"],
+    labels: ["Approved", "Pending", "Rejected"],
     datasets: [
       {
         data: projectStats.statusDistribution,
@@ -47,7 +47,7 @@ export default function DashBord() {
     labels: projectStats.years,
     datasets: [
       {
-        label: "Nombre de projets",
+        label: "Number of Projects",
         data: projectStats.projectsPerYear,
         backgroundColor: projectStats.projectsPerYear.map(
           (_, index) => (index % 2 === 0 ? "#1976c9" : "#4d99ff") // Alternating palette colors
@@ -76,7 +76,7 @@ export default function DashBord() {
       {/* Updated Title Section */}
       <div className="text-center w-full">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
-          Tableau de bord – Responsable
+          Dashboard – Program Director
         </h1>
         <hr className="w-4/5 mx-auto mb-10 border-t-2 border-[var(--color-blue-1)]" />
       </div>
@@ -92,10 +92,10 @@ export default function DashBord() {
         >
           <Pie data={pieData} className="flex-grow" />
           <h2 className="text-xl font-bold font-poppins text-[var(--color-blue-1)] text-center mt-4">
-            Répartition des Projets
+            Project Distribution
           </h2>
           <p className="text-sm font-inter text-[var(--color-blue-2)] text-center mt-2">
-            Découvrez la proportion des projets validés, en attente et refusés.
+            Discover the proportion of approved, pending, and rejected projects.
           </p>
         </motion.div>
         {/* Bar Chart */}
@@ -108,10 +108,10 @@ export default function DashBord() {
         >
           <Bar data={barData} options={barOptions} className="flex-grow" />
           <h2 className="text-xl font-bold font-poppins text-[var(--color-blue-1)] text-center mt-4">
-            Projets par Année
+            Projects by Year
           </h2>
           <p className="text-sm font-inter text-[var(--color-blue-2)] text-center mt-2">
-            Analysez l'évolution annuelle du nombre de projets réalisés.
+            Analyze the annual evolution of completed projects.
           </p>
         </motion.div>
       </div>

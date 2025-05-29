@@ -2,34 +2,7 @@ import React, { useState, useRef } from "react";
 import { FaSearch, FaFilter, FaRedo, FaUserPlus } from "react-icons/fa"; // Import icons
 import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
-// import { filterData } from "../../../mockData/dataEspaceAdmin";
-const filterData = {
-  role: [
-    { id: 0, value: "default", label: "Filtrer par Role" },
-    { id: 1, value: "Admin", label: "Admin" },
-    { id: 2, value: "Etudiant", label: "Etudiant" },
-    { id: 3, value: "Prof", label: "Prof" },
-  ],
-  years: [
-    { id: 0, value: "default", label: "Filtrer par Année" },
-    { id: 1, value: "2020", label: "2020" },
-    { id: 2, value: "2021", label: "2021" },
-    { id: 3, value: "2022", label: "2022" },
-    { id: 4, value: "2023", label: "2023" },
-  ],
-  status: [
-    { id: 0, value: "default", label: "Filtrer par Statut" },
-    { id: 1, value: "approved", label: "🟢 Validé" },
-    { id: 2, value: "pending", label: "🟡 En Attente" },
-    { id: 3, value: "rejected", label: "🔴 Refusé" },
-  ],
-  types: [
-    { id: 0, value: "default", label: "Filtrer par Type" },
-    { id: 1, value: "rapport", label: "Rapport" },
-    { id: 2, value: "présentation", label: "Présentation" },
-    { id: 3, value: "autre", label: "Autre" },
-  ],
-};
+import { filterData } from "../../mockData/dataEspaceAdmin";
 import Title from "./Title";
 import AddUser from "./addUser"; // Import AddUser component
 
@@ -62,7 +35,7 @@ const Filter = ({
           <div className="relative rounded-lg p-2 flex-grow sm:flex-grow-0">
             <input
               type="text"
-              placeholder="Rechercher Nom"
+              placeholder="Search Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="border-2 border-[var(--color-blue-3)] rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-[var(--color-blue-2)] sm:text-base"
@@ -72,22 +45,22 @@ const Filter = ({
             </span>
           </div>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-[var(--color-blue-3)] text-[var(--color-background)]"
-            onClick={() => setShowFilters(!showFilters)}
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1bg-blue-1e-50"
+ l e-50     onClick={() => setShowFilters(!showFilters)}
           >
-            <FaFilter className="h-5 w-5" />
+            <FaFilter className="h-5 w-5 " />
           </button>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-[var(--color-blue-3)] text-[var(--color-background)]"
-            onClick={handleReset}
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-bl1e-50"
+b  e-50     onClick={handleReset}
           >
-            <FaRedo className="h-5 w-5" />
+            <FaRedo className="h-5 w-5 " />
           </button>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-[var(--color-blue-3)] text-[var(--color-background)]"
-            onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-bl1e-50"
+b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
           >
-            <FaUserPlus className="h-5 w-5" />
+            <FaUserPlus className="h-5 w-5 " />
           </button>
         </div>
 
@@ -96,7 +69,7 @@ const Filter = ({
           <div className="w-full bg-[var(--color-background)] p-4 rounded-lg shadow-lg sm:hidden">
             <div className="mb-4">
               <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
-                Rôle :
+                Role:
               </h3>
               <ul>
                 {filterData.role.slice(1).map((role) => (
@@ -135,7 +108,7 @@ const Filter = ({
               >
                 <span className="block truncate">
                   {filterData.role.find((role) => role.value === selectedRole)
-                    ?.label || "Filtrer par Role"}
+                    ?.label || "Filter by Role"}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                   <ChevronUpDownIcon
@@ -148,7 +121,7 @@ const Filter = ({
                   />
                 </span>
               </Listbox.Button>
-              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[var(--color-background)] py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
                 {filterData.role.map((role) => (
                   <Listbox.Option
                     key={role.id}
@@ -159,7 +132,7 @@ const Filter = ({
                         disabled
                           ? "text-gray-400 cursor-not-allowed"
                           : active
-                          ? "bg-[var(--color-blue-3)] text-white"
+                          ? "bg-blue-1 text-white"
                           : "text-[var(--color-blue-1)]"
                       }`
                     }
@@ -175,29 +148,29 @@ const Filter = ({
         {/* Reset Button */}
         <button
           onClick={handleReset}
-          className="hidden sm:flex items-center gap-2 mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
+          className="hidden sm:flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 flex gap-2 border-2 cursor-pointer whitespace-nowrap bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark shadow-md transition-all duration-300 ease-in-out"
         >
           <FaRedo className="h-4 w-4" />
-          Réinitialiser
+          Reset
         </button>
 
-        {/* Ajouter Utilisateur Button */}
+        {/* Add User Button */}
         <button
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
-          className="hidden sm:flex items-center justify-center gap-2 mt-4 sm:mt-0 ml-auto mr-12 p-2 rounded-full bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out overflow-hidden"
+          className="hidden cursor-pointer sm:flex items-center justify-center mt-4 sm:mt-0 ml-auto mr-12 p-2 rounded-full font-semibold shadow-md bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark transition-all duration-300 ease-in-out overflow-hidden"
           style={{ width: hovered ? "auto" : "40px", height: "40px" }}
         >
           <div className="flex items-center justify-center w-8 h-8">
-            <FaUserPlus className="text-xl" /> {/* User add icon */}
+            <FaUserPlus className={`text-xl ${hovered?"text-blue-1":"text-blue-50"}`} /> {/* User add icon */}
           </div>
           <div
             style={{ width: hovered ? ref.current?.offsetWidth || 0 : 0 }}
             className="overflow-x-hidden transition-all duration-300 ease-out"
           >
             <span ref={ref} className="px-2 whitespace-nowrap">
-              Ajouter Utilisateur
+              Add User
             </span>
           </div>
         </button>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { X } from "react-feather";
 
 const AddUser = ({ onClose }) => {
-  const [role, setRole] = useState("Etudiant"); // Default role
+  const [role, setRole] = useState("Student"); // Default role
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent page reload
@@ -36,16 +36,16 @@ const AddUser = ({ onClose }) => {
           {/* <X /> */} X
         </button>
         <h2 className="text-2xl font-bold text-center mb-6 text-[var(--color-blue-1)]">
-          Ajouter Utilisateur
+          Add User
         </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label className="block text-sm font-medium text-[var(--color-blue-2)] mb-2">
-              Nom
+              Name
             </label>
             <input
               type="text"
-              placeholder="Entrez le nom"
+              placeholder="Enter name"
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)]"
             />
           </div>
@@ -55,7 +55,7 @@ const AddUser = ({ onClose }) => {
             </label>
             <input
               type="email"
-              placeholder="Entrez l'email"
+              placeholder="Enter email"
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)]"
             />
           </div>
@@ -69,8 +69,8 @@ const AddUser = ({ onClose }) => {
                 onChange={(e) => setRole(e.target.value)}
                 className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-[var(--color-background)] text-[var(--color-blue-2)] appearance-none"
               >
-                <option value="Etudiant">Etudiant</option>
-                <option value="Prof">Prof</option>
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
                 <option value="Admin">Admin</option>
               </select>
               <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -97,13 +97,13 @@ const AddUser = ({ onClose }) => {
               onClick={onClose}
               className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
             >
-              Annuler
+              Cancel
             </button>
             <button
               type="submit"
               className="px-6 py-3 bg-[var(--color-blue-3)] text-[var(--color-background)] rounded-lg hover:bg-[var(--color-blue-4)]"
             >
-              Ajouter
+              Add
             </button>
           </div>
         </form>

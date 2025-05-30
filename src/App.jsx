@@ -12,7 +12,7 @@ const Home = lazy(() => import("./pages/home"));
 const Login = lazy(() => import("./pages/login"));
 const Profile = lazy(() => import("./pages/profile"));
 const CommandMenu = lazy(() => import("./components/commandMenu"));
-const FeedPage = lazy(() => import("./pages/feedPage"));
+const FeedPage = lazy(() => import("./pages/FeedPage"));
 const InfoProjet = lazy(() => import("./pages/infoProjet"));
 import BarLoader from "./components/utils/loader";
 import lightLogo from "./assets/lightLogo.png";

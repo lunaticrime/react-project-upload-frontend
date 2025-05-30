@@ -60,39 +60,39 @@ const DashBord = ({ data, itemsPerPage }) => {
       <div className="overflow-auto rounded-lg shadow hidden md:block">
         {data.length > 0 ? (
           <table className="w-full">
-            <thead className="bg-blue-100 border-b-2 border-blue-300">
+            <thead className="bg-blue-100 dark:bg-blue-1 border-b-2 border-blue-300">
               <tr>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800">
+                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
                   Nom
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800">
+                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
                   Email
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800">
+                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
                   Role
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800">
+                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
                   Dernière Connexion
                 </th>
-                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 w-32"></th>
+                <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50 w-32"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-blue-200">
+            <tbody className="divide-y divide-blue-1">
               {currentData.map((row) => (
                 <tr
                   key={row.id}
-                  className={row.id % 2 === 0 ? "bg-blue-50" : "bg-white"}
+                  className={row.id % 2 === 0 ? "bg-blue-50 dark:bg-blue-2" : "bg-white dark:bg-blue-3-dark"}
                 >
-                  <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
                     {row.name}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
                     {row.email}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
                     {row.role}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
                     {row.lastLogin}
                   </td>
                   <td className="p-3 text-sm text-blue-900 whitespace-nowrap flex gap-4">
@@ -112,7 +112,7 @@ const DashBord = ({ data, itemsPerPage }) => {
             </tbody>
           </table>
         ) : (
-          <p className="text-center text-blue-800 font-semibold">
+          <p className="text-center text-blue-800 dark:text-blue-50 font-semibold">
             Aucun résultat trouvé.
           </p>
         )}

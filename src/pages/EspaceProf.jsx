@@ -5,6 +5,7 @@ import Filter from "../components/EspaceProf/Filtre";
 import DashBord from "../components/EspaceProf/DashBord";
 import { tableData } from "../mockData/dataEspaceProf";
 
+
 function EspaceProf() {
   const itemsPerPage = 10;
 

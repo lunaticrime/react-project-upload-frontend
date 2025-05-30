@@ -72,13 +72,13 @@ export default function DashBord() {
   };
 
   return (
-    <div className="mb-20 flex flex-col items-center justify-center px-6 py-12">
+    <div className="mb-20 flex flex-col items-center justify-center px-6 py-12 dark:bg-blue-2-dark">
       {/* Updated Title Section */}
       <div className="text-center w-full">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-blue-1 dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
           Dashboard – Program Director
         </h1>
-        <hr className="w-4/5 mx-auto mb-10 border-t-2 border-[var(--color-blue-1)]" />
+        <hr className="w-4/5 mx-auto mb-10 border-t-2 text-blue-1 dark:text-blue-50" />
       </div>
       {/* Charts Section */}
       <div className="mt-10 flex flex-wrap justify-center gap-20 w-full">
@@ -91,10 +91,10 @@ export default function DashBord() {
           variants={chartAnimation}
         >
           <Pie data={pieData} className="flex-grow" />
-          <h2 className="text-xl font-bold font-poppins text-[var(--color-blue-1)] text-center mt-4">
+          <h2 className="text-xl font-bold font-poppins text-blue-1 dark:text-blue-50 text-center mt-4">
             Project Distribution
           </h2>
-          <p className="text-sm font-inter text-[var(--color-blue-2)] text-center mt-2">
+          <p className="text-sm font-inter text-blue-2 dark:text-blue-100 text-center mt-2">
             Discover the proportion of approved, pending, and rejected projects.
           </p>
         </motion.div>
@@ -107,10 +107,10 @@ export default function DashBord() {
           variants={chartAnimation}
         >
           <Bar data={barData} options={barOptions} className="flex-grow" />
-          <h2 className="text-xl font-bold font-poppins text-[var(--color-blue-1)] text-center mt-4">
+          <h2 className="text-xl font-bold font-poppins text-blue-1 dark:text-blue-50 text-center mt-4">
             Projects by Year
           </h2>
-          <p className="text-sm font-inter text-[var(--color-blue-2)] text-center mt-2">
+          <p className="text-sm font-inter text-blue-2 dark:text-blue-100 text-center mt-2">
             Analyze the annual evolution of completed projects.
           </p>
         </motion.div>

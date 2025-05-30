@@ -14,7 +14,7 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          bg-[var(--color-background)] rounded-2xl shadow-lg p-8 transition-all relative w-[500px] max-w-full
+          bg-blue-50 dark:bg-blue-1 rounded-2xl shadow-lg p-8 transition-all relative w-[500px] max-w-full
           scale-100 opacity-100 translate-y-0
         `}
         style={{
@@ -23,26 +23,26 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full text-[var(--color-blue-3)] hover:bg-[var(--color-blue-6)] hover:text-[var(--color-blue-1)]"
+          className="absolute top-4 right-4 px-6 py-4 rounded-full text-blue-1 dark:text-blue-50 hover:bg-[var(--color-blue-6)] hover:text-[var(--color-blue-1)] cursor-pointer"
         >
           {/* <X /> */}X
         </button>
-        <h2 className="text-xl font-bold text-center mb-6 text-[var(--color-blue-1)]">
+        <h2 className="text-xl font-bold text-center mb-6 text-blue-1 dark:text-blue-50">
           Delete User
         </h2>
-        <p className="text-sm text-[var(--color-blue-2)] mb-6 text-center">
+        <p className="text-sm mb-6 text-center text-blue-2 dark:text-blue-100">
           Are you sure you want to delete the following user?
         </p>
-        <div className="mb-6 border-t border-b border-[var(--color-blue-3)] py-4">
-          <p className="text-sm font-medium text-[var(--color-blue-3)] flex justify-between">
+        <div className="mb-6 border-t border-b border-[var(--color-blue-3)]  py-4">
+          <p className="text-sm font-medium text-blue-2 dark:text-blue-100 flex justify-between">
             <span className="font-bold">Name:</span>
             <span>{user?.name}</span>
           </p>
-          <p className="text-sm font-medium text-[var(--color-blue-3)] flex justify-between mt-2">
+          <p className="text-sm font-medium text-blue-2 dark:text-blue-100 flex justify-between mt-2">
             <span className="font-bold">Email:</span>
             <span>{user?.email}</span>
           </p>
-          <p className="text-sm font-medium text-[var(--color-blue-3)] flex justify-between mt-2">
+          <p className="text-sm font-medium text-blue-2 dark:text-blue-100 flex justify-between mt-2">
             <span className="font-bold">Role:</span>
             <span>{user?.role}</span>
           </p>
@@ -51,14 +51,14 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+            className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
           >
             Delete
           </button>

@@ -11,7 +11,7 @@ const Cards = () => {
   const getBorderColor = (id) => {
     switch (id) {
       case 1:
-        return "border-blue-500";
+        return "border-red-500";
       case 2:
         return "border-green-500";
       case 3:
@@ -28,16 +28,16 @@ const Cards = () => {
       {adminCardsData.map(({ id, title, count }) => (
         <div
           key={id}
-          className={`flex flex-col bg-white border-t-6 ${getBorderColor(id)} items-center p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out w-full max-w-xs cursor-pointer`}
+          className={`flex flex-col bg-white dark:bg-blue-3 border-t-6 ${getBorderColor(id)} items-center p-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out w-full max-w-xs cursor-pointer`}
         >
           <h2
             className={`${
               title === "Number of Active Teachers" ? "text-lg" : "text-xl"
-            } font-bold font-poppins text-center text-[var(--color-background)] mb-2`}
+            } font-bold font-poppins text-center text-[var(--color-background)] dark:text-blue-50 mb-2`}
           >
             {title}
           </h2>
-          <p className="text-3xl font-bold font-poppins text-center text-[var(--color-background)]">
+          <p className="text-3xl font-bold font-poppins text-center text-[var(--color-background)] dark:text-blue-50">
             {count}
           </p>
         </div>

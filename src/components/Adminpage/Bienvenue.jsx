@@ -1,19 +1,19 @@
 import TiltCard from "../utils/tiltCard";
 import adminImg from "/src/assets/Admin.svg";
 import BackToTop from "../utils/BackToTop";
-import SliderToggle from "../SliderToggle";
+// import SliderToggle from "../SliderToggle";
 
 export default function Bienvenue({ isDarkMode, setIsDarkMode }) {
   return (
-    <>
-      <SliderToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />  
-      <div className="flex flex-col lg:flex-row items-center lg:justify-between justify-center px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10 h-screen dark:bg-blue-1-dark">
+    <div className={`${isDarkMode ? "dark" : ""} `}>
+      {/* <SliderToggle isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />   */}
+      <div className="flex flex-col lg:flex-row items-center lg:justify-between justify-center px-6 lg:px-16 py-12 bg-blue-50 gap-10 h-screen dark:bg-blue-2-dark">
         {/* Left Section */}
-        <div className="lg:w-1/2 text-center lg:text-left flex flex-col justify-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] mb-10 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
+        <div className="lg:w-1/2 text-center lg:text-left flex flex-col justify- ">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-10 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
             Welcome to your Admin Space - Program Director
           </h1>
-          <p className="text-sm sm:text-base lg:text-lg font-inter text-[var(--color-blue-1)] mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
+          <p className="text-sm sm:text-base lg:text-lg font-inter text-[var(--color-blue-1)] dark:text-blue-50 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
             Access a comprehensive overview of projects, manage users, and easily export data useful for educational supervision.
           </p>
           <button 
@@ -46,6 +46,6 @@ export default function Bienvenue({ isDarkMode, setIsDarkMode }) {
         </div>
       </div>
       <BackToTop />
-    </>
+    </div>
   );
 }

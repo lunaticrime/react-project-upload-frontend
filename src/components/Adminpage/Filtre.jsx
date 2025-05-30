@@ -38,9 +38,9 @@ const Filter = ({
               placeholder="Search Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-2 border-[var(--color-blue-3)] rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-[var(--color-blue-2)] sm:text-base"
+              className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
             />
-            <span className="absolute inset-y-0 right-3 flex items-center text-[var(--color-blue-3)] pr-2">
+            <span className="absolute inset-y-0 right-3 flex items-center text-blue-1 dark:text-blue-50 pr-2">
               <FaSearch className="h-5 w-5" />
             </span>
           </div>
@@ -100,22 +100,22 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
           <Listbox value={selectedRole} onChange={setSelectedRole}>
             <div className="relative w-full sm:w-48 mx-2">
               <Listbox.Button
-                className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+                className={`relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                   selectedRole !== "default"
                     ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
                     : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
                 }`}
               >
-                <span className="block truncate">
+                <span className="block truncate dark:text-blue-50">
                   {filterData.role.find((role) => role.value === selectedRole)
                     ?.label || "Filter by Role"}
                 </span>
-                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 ">
                   <ChevronUpDownIcon
                     className={`h-5 w-5 ${
                       selectedRole !== "default"
-                        ? "text-[var(--color-background)]"
-                        : "text-[var(--color-blue-1)]"
+                        ? "text-blue-50"
+                        : "text-blue-1 dark:text-blue-50"
                     }`}
                     aria-hidden="true"
                   />
@@ -159,11 +159,11 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
-          className="hidden cursor-pointer sm:flex items-center justify-center mt-4 sm:mt-0 ml-auto mr-12 p-2 rounded-full font-semibold shadow-md bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark transition-all duration-300 ease-in-out overflow-hidden"
+          className="hidden cursor-pointer sm:flex items-center justify-center mt-4 sm:mt-0 ml-auto mr-12 p-2 rounded-full font-semibold shadow-md bg-blue-1  border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-1 dark:bg-blue-50 dark:hover:bg-blue-50 dark:hover:text-blue-1-dark transition-all duration-300 ease-in-out overflow-hidden"
           style={{ width: hovered ? "auto" : "40px", height: "40px" }}
         >
           <div className="flex items-center justify-center w-8 h-8">
-            <FaUserPlus className={`text-xl ${hovered?"text-blue-1":"text-blue-50"}`} /> {/* User add icon */}
+            <FaUserPlus className={`text-xl ${hovered?"text-blue-1":"text-blue-50 dark:text-blue-1"}`} /> {/* User add icon */}
           </div>
           <div
             style={{ width: hovered ? ref.current?.offsetWidth || 0 : 0 }}

@@ -1,4 +1,6 @@
 import TiltCard from "../utils/tiltCard";
+import { motion } from "motion/react";
+
 import adminImg from "/src/assets/Admin.svg";
 import BackToTop from "../utils/BackToTop";
 import { Reveal } from "../utils/Reveal";
@@ -13,7 +15,29 @@ export default function Bienvenue({ isDarkMode, setIsDarkMode }) {
         <div className="lg:w-1/2 text-center lg:text-left flex flex-col justify- ">
           <Reveal isDarkMode={isDarkMode}>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-10 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
-              Welcome to your Admin Space - Program Director
+              Welcome to your Admin Space -{" "}
+              <span className="relative">
+                Program Director{" "}
+                <svg
+                  viewBox="0 0 286 73"
+                  fill="none"
+                  className="absolute -left-0 -right-0 -top-1 bottom-0 -translate-y-8"
+                >
+                  <motion.path
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    transition={{
+                      delay: 0.5,
+                      duration: 1.25,
+                      ease: "easeInOut",
+                    }}
+                    d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1"
+                    stroke={isDarkMode ? "#1976c9" : "#75b1ff"}
+                    strokeWidth="4"
+                    className="z-10"
+                  />
+                </svg>
+              </span>
             </h1>
           </Reveal>
           <Reveal isDarkMode={isDarkMode} width="100%">

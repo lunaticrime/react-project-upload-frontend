@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import loginRegistrationImg from "../assets/login_registration.svg";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 
 // Mock data for posts
 const mockPosts = [
@@ -114,7 +113,6 @@ const Feed = () => {
 
   return (
     <>
-      <SidebarTrigger />
       <div className="w-full flex justify-center bg-blue-50 dark:bg-blue-2-dark py-8 min-h-screen">
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8">
           {/* Feed Center */}

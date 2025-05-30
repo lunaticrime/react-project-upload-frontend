@@ -14,15 +14,11 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
       <div className="flex flex-col md:flex-row justify-center items-center md:items-stretch py-10 w-full max-w-7xl px-8 ">
         <div className="flex-1 pr-0 md:px-10 flex flex-col justify-center items-center md:justify-start w-full border-r-0 border-b-1 md:border-r-1 md:border-b-0 border-blue-50 py-4">
           <a href="/" className="block mb-4">
-            <img
-              src={lightLogo}
-              alt="ENSAK"
-              className="h-12 w-auto"
-            />
+            <img src={lightLogo} alt="ENSAK" className="h-12 w-auto" />
           </a>
           <p className="text-sm font-extralight md:text-justify text-center">
-            À l'ENSA, nous formons des ingénieurs d'excellence, prêts à innover
-            et à relever les défis de demain.
+            At ENSAK, we train excellent engineers, ready to innovate and take
+            on the challenges of tomorrow.
           </p>
         </div>
 
@@ -50,7 +46,7 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
             <div className="">
               <SliderToggle
                 isDarkMode={isDarkMode}
-                setIsDarkMode={setIsDarkMode}
+                setIsDarkMode={(value) => setIsDarkMode(value)} // Ensure proper state update
               />
             </div>
           </div>
@@ -58,6 +54,19 @@ const Footer = ({ isDarkMode, setIsDarkMode }) => {
       </div>
 
       <div className="text-center px-4 pb-8">
+        <p className="text-sm font-extralight">
+          Animated using illustrations from{" "}
+          <a
+            href="https://storyset.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            Storyset
+          </a>
+          .
+        </p>
+        <div className="h-2"></div> {/* Add small space */}
         <p className="text-sm font-extralight">
           École Nationale des Sciences Appliquées © 2025 Université Ibn Tofail.
           All Rights Reserved

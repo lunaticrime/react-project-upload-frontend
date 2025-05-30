@@ -41,33 +41,29 @@ const getIconById = (id) => {
 const features = [
   {
     id: 1,
-    title: "Soumission de projet",
-    description:
-      "Soumettez facilement vos projets académiques pour centralisation.",
+    title: "Project submission",
+    description: "Easily submit your academic projects for centralization.",
   },
   {
     id: 2,
-    title: "Suivi & Validation",
-    description:
-      "Suivez l'état de vos projets et obtenez des validations rapidement.",
+    title: "Monitoring & Validation",
+    description: "Track the status of your projects and get approvals quickly.",
   },
   {
     id: 3,
-    title: "Statistiques",
-    description:
-      "Analysez les données des projets grâce à des statistiques détaillées.",
+    title: "Statistics",
+    description: "Analyze project data with detailed statistics.",
   },
   {
     id: 4,
-    title: "Commentaires & notes",
+    title: "Comments & Ratings",
     description:
-      "Recevez des commentaires et des notes pour améliorer vos projets.",
+      "Receive feedback and ratings on your projects from teachers and peers.",
   },
   {
     id: 5,
-    title: "Archives consultables",
-    description:
-      "Accédez aux archives des projets pour consultation et inspiration.",
+    title: "Searchable archives",
+    description: "Access project archives for consultation and inspiration.",
   },
 ];
 const Fonctionnalites = ({ isDarkMode }) => {
@@ -106,7 +102,7 @@ const Fonctionnalites = ({ isDarkMode }) => {
       <div className="text-center w-full">
         <Reveal width="100%" isDarkMode={isDarkMode}>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl w-full font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
-            Fonctionnalités clés
+            Key Features
           </h1>
           <hr className="w-4/5 mx-auto mb-10 border-t-2 border-[var(--color-blue-1)] dark:border-blue-50" />
         </Reveal>
@@ -192,7 +188,9 @@ const Card = ({ id, title, description, isDarkMode }) => {
           {getIconById(id)}
           {title}
         </motion.span>
-        <p className="text-lg font-inter text-justify">{description}</p>
+        <p className="text-lg font-inter text-[var(--color-blue-1)] dark:text-blue-200 text-justify">
+          {description}
+        </p>
       </div>
       <Background isDarkMode={isDarkMode} />
     </motion.div>

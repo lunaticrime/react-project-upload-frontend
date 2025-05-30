@@ -10,33 +10,33 @@ export const navLinks = [
 export const features = [
   {
     id: 1,
-    title: "Soumission de projet",
+    title: "Project submission",
     description:
-      "Soumettez facilement vos projets académiques pour centralisation.",
+      "Easily submit your academic projects for centralization.",
   },
   {
     id: 2,
-    title: "Suivi & Validation",
+    title: "Monitoring & Validation",
     description:
-      "Suivez l'état de vos projets et obtenez des validations rapidement.",
+      "Track the status of your projects and get approvals quickly.",
   },
   {
     id: 3,
-    title: "Statistiques",
+    title: "Statistics",
     description:
-      "Analysez les données des projets grâce à des statistiques détaillées.",
+      "Analyze project data with detailed statistics.",
   },
   {
     id: 4,
-    title: "Commentaires & notes",
+    title: "Comments & Ratings",
     description:
-      "Recevez des commentaires et des notes pour améliorer vos projets.",
+      "Receive feedback and ratings on your projects from teachers and peers.",
   },
   {
     id: 5,
-    title: "Archives consultables",
+    title: "Searchable archives",
     description:
-      "Accédez aux archives des projets pour consultation et inspiration.",
+      "Access project archives for consultation and inspiration.",
   },
 ];
 

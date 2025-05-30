@@ -6,24 +6,24 @@ import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const filterData = {
   years: [
-    { id: 0, value: "default", label: "Filtrer par année" }, // Default value
+    { id: 0, value: "default", label: "Filter by Year" }, // Default value
     { id: 1, value: "2023", label: "2023" },
     { id: 2, value: "2022", label: "2022" },
     { id: 3, value: "2021", label: "2021" },
     { id: 4, value: "2020", label: "2020" },
   ],
   modules: [
-    { id: 0, value: "default", label: "Filtrer par module" }, // Default value
+    { id: 0, value: "default", label: "Filter by Module" }, // Default value
     { id: 1, value: "Module 1", label: "Module 1" }, // Ensure values match tableData
     { id: 2, value: "Module 2", label: "Module 2" },
     { id: 3, value: "Module 3", label: "Module 3" },
     { id: 4, value: "Module 4", label: "Module 4" },
   ],
   status: [
-    { id: 0, value: "default", label: "Filtrer par status" }, // Default value
-    { id: 1, value: "pending", label: "🟡 En Attente" },
-    { id: 2, value: "approved", label: "🟢 Validé" },
-    { id: 3, value: "rejected", label: "🔴 Refusé" },
+    { id: 0, value: "default", label: "Filter by Status" }, // Default value
+    { id: 1, value: "pending", label: "🟡 Pending" },
+    { id: 2, value: "approved", label: "🟢 Approved" },
+    { id: 3, value: "rejected", label: "🔴 Rejected" },
   ],
 };
 const Filter = ({
@@ -52,23 +52,23 @@ const Filter = ({
         <div className="relative rounded-lg p-2 flex-grow sm:flex-grow-0">
           <input
             type="text"
-            placeholder="Rechercher Etudiant"
-            value={searchQuery} // Bind search query state
-            onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
-            className="border-2 border-[var(--color-blue-3)] rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-[var(--color-blue-2)] sm:text-base"
+            placeholder="Search Student"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-blue-50 font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
           />
-          <span className="absolute inset-y-0 right-3 flex items-center text-[var(--color-blue-3)] pr-2">
+          <span className="absolute inset-y-0 right-3 flex items-center text-blue-1 dark:text-blue-50 pr-2">
             <FaSearch className="h-5 w-5" />
           </span>
         </div>
         <button
-          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-[var(--color-blue-3)] text-[var(--color-background)]"
+          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
           onClick={() => setShowFilters(!showFilters)}
         >
           <FaFilter className="h-5 w-5" />
         </button>
         <button
-          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-[var(--color-blue-3)] text-[var(--color-background)]"
+          className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
           onClick={resetFilters}
         >
           <FaRedo className="h-5 w-5" />
@@ -77,10 +77,10 @@ const Filter = ({
 
       {/* Filters List for Responsive View */}
       {showFilters && (
-        <div className="w-full bg-[var(--color-background)] p-4 rounded-lg shadow-lg sm:hidden">
+        <div className="w-full bg-[var(--color-background)] dark:bg-blue-2-dark p-4 rounded-lg shadow-lg sm:hidden">
           <div className="mb-4">
-            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
-              Année :
+            <h3 className="font-bold text-[var(--color-blue-1)] dark:text-blue-50 text-lg">
+              Year:
             </h3>
             <ul>
               {filterData.years.slice(1).map(
@@ -91,8 +91,8 @@ const Filter = ({
                     key={year.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedYear === year.value
-                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-2"
-                        : "text-[var(--color-blue-1)] opacity-50"
+                        ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-2"
+                        : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
                     }`}
                     onClick={() => setSelectedYear(year.value)}
                   >
@@ -102,10 +102,10 @@ const Filter = ({
               )}
             </ul>
           </div>
-          <hr className="border-t border-gray-300 w-4/5 mx-auto mb-4" />
+          <hr className="border-t border-gray-300 dark:border-blue-50 w-4/5 mx-auto mb-4" />
           <div className="mb-4">
-            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
-              Module :
+            <h3 className="font-bold text-[var(--color-blue-1)] dark:text-blue-50 text-lg">
+              Module:
             </h3>
             <ul>
               {filterData.modules.slice(1).map(
@@ -116,8 +116,8 @@ const Filter = ({
                     key={module.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedModule === module.value
-                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-4"
-                        : "text-[var(--color-blue-1)] opacity-50"
+                        ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-4"
+                        : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
                     }`}
                     onClick={() => setSelectedModule(module.value)}
                   >
@@ -127,10 +127,10 @@ const Filter = ({
               )}
             </ul>
           </div>
-          <hr className="border-t border-gray-300 w-4/5 mx-auto mb-4" />
+          <hr className="border-t border-gray-300 dark:border-blue-50 w-4/5 mx-auto mb-4" />
           <div>
-            <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
-              Statut :
+            <h3 className="font-bold text-[var(--color-blue-1)] dark:text-blue-50 text-lg">
+              Status:
             </h3>
             <ul>
               {filterData.status.slice(1).map(
@@ -141,8 +141,8 @@ const Filter = ({
                     key={status.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedStatus === status.value
-                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-4"
-                        : "text-[var(--color-blue-1)] opacity-50"
+                        ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-4"
+                        : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
                     }`}
                     onClick={() => setSelectedStatus(status.value)}
                   >
@@ -165,30 +165,28 @@ const Filter = ({
         <Listbox value={selectedYear} onChange={setSelectedYear}>
           <div className="relative w-full sm:w-48 mx-2">
             <Listbox.Button
-              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                 selectedYear !== "default"
-                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
-                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+                  ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
+                  : "bg-[var(--color-background)] text-blue-1 dark:text-blue-50 focus:ring-[var(--color-blue-3)]"
               }`}
             >
               <span className="block truncate">
-                {
-                  filterData.years.find((year) => year.value === selectedYear)
-                    ?.label
-                }
+                {filterData.years.find((year) => year.value === selectedYear)
+                  ?.label || "Filter by Year"}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
                   className={`h-5 w-5 ${
                     selectedYear !== "default"
-                      ? "text-[var(--color-background)]"
-                      : "text-[var(--color-blue-1)]"
+                      ? "text-blue-50"
+                      : "text-blue-1 dark:text-blue-50"
                   }`}
                   aria-hidden="true"
                 />
               </span>
             </Listbox.Button>
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[var(--color-background)] py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-blue-1-dark py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
               {filterData.years.map((year) => (
                 <Listbox.Option
                   key={year.id}
@@ -199,8 +197,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-blue-3)] text-white"
-                        : "text-[var(--color-blue-1)]"
+                        ? "bg-blue-1 text-white"
+                        : "text-blue-1 dark:text-blue-50"
                     }`
                   }
                 >
@@ -215,10 +213,10 @@ const Filter = ({
         <Listbox value={selectedModule} onChange={setSelectedModule}>
           <div className="relative w-full sm:w-48 mx-2">
             <Listbox.Button
-              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                 selectedModule !== "default"
-                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
-                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+                  ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
+                  : "bg-[var(--color-background)] text-blue-1 dark:text-blue-50 focus:ring-[var(--color-blue-3)]"
               }`}
             >
               <span className="block truncate">
@@ -232,14 +230,14 @@ const Filter = ({
                 <ChevronUpDownIcon
                   className={`h-5 w-5 ${
                     selectedModule !== "default"
-                      ? "text-[var(--color-background)]"
-                      : "text-[var(--color-blue-1)]"
+                      ? "text-blue-50"
+                      : "text-blue-1 dark:text-blue-50"
                   }`}
                   aria-hidden="true"
                 />
               </span>
             </Listbox.Button>
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[var(--color-background)] py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-blue-1-dark py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
               {filterData.modules.map((module) => (
                 <Listbox.Option
                   key={module.id}
@@ -250,8 +248,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-blue-3)] text-white"
-                        : "text-[var(--color-blue-1)]"
+                        ? "bg-blue-1 text-white"
+                        : "text-blue-1 dark:text-blue-50"
                     }`
                   }
                 >
@@ -266,10 +264,10 @@ const Filter = ({
         <Listbox value={selectedStatus} onChange={setSelectedStatus}>
           <div className="relative w-full sm:w-48 mx-2">
             <Listbox.Button
-              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border border-gray-300 focus:outline-none focus:ring-2 transition-all duration-300 ease-in-out ${
+              className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                 selectedStatus !== "default"
-                  ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
-                  : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+                  ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
+                  : "bg-[var(--color-background)] text-blue-1 dark:text-blue-50 focus:ring-[var(--color-blue-3)]"
               }`}
             >
               <span className="block truncate">
@@ -283,14 +281,14 @@ const Filter = ({
                 <ChevronUpDownIcon
                   className={`h-5 w-5 ${
                     selectedStatus !== "default"
-                      ? "text-[var(--color-background)]"
-                      : "text-[var(--color-blue-1)]"
+                      ? "text-blue-50"
+                      : "text-blue-1 dark:text-blue-50"
                   }`}
                   aria-hidden="true"
                 />
               </span>
             </Listbox.Button>
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-[var(--color-background)] py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-blue-1-dark py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
               {filterData.status.map((status) => (
                 <Listbox.Option
                   key={status.id}
@@ -301,8 +299,8 @@ const Filter = ({
                       disabled
                         ? "text-gray-400 cursor-not-allowed"
                         : active
-                        ? "bg-[var(--color-blue-3)] text-white"
-                        : "text-[var(--color-blue-1)]"
+                        ? "bg-blue-1 text-white"
+                        : "text-blue-1 dark:text-blue-50"
                     }`
                   }
                 >
@@ -317,10 +315,10 @@ const Filter = ({
       {/* Reset Button */}
       <button
         onClick={resetFilters}
-        className="hidden sm:flex items-center gap-2 mt-4 sm:mt-0 px-4 py-2 bg-[var(--color-blue-3)] text-[var(--color-background)] font-semibold rounded-lg shadow-md hover:bg-[var(--color-blue-4)] transition-all duration-300 ease-in-out"
+        className="hidden sm:flex items-center gap-2 mt-4 sm:mt-0 px-4 py-2 bg-blue-1 text-blue-50 font-semibold rounded-lg shadow-md hover:bg-blue-50 hover:text-blue-1 dark:bg-blue-2-dark dark:text-blue-50 dark:border-white dark:hover:bg-blue-50 dark:hover:text-blue-1-dark border-2 transition-all duration-300 ease-in-out"
       >
         <FaRedo className="h-4 w-4" />
-        Réinitialiser
+        Reset
       </button>
     </div>
   );

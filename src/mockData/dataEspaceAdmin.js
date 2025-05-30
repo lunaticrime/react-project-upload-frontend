@@ -253,7 +253,7 @@ export const usersData = [
 
 export const filterData = {
   role: [
-    { id: 0, value: "default", label: "Filtrer par Role" },
+    { id: 0, value: "default", label: "Filter by Role" },
     { id: 1, value: "Admin", label: "Admin" },
     { id: 2, value: "Student", label: "Student" },
     { id: 3, value: "Teacher", label: "Teacher" },

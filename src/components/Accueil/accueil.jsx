@@ -28,7 +28,7 @@ export default function Accueil({ isDarkMode }) {
                       ease: "easeInOut",
                     }}
                     d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1"
-                    stroke={isDarkMode ? "#1976c9" : "#75b1ff"}
+                    stroke={isDarkMode ? "#104070" : "#75b1ff"}
                     strokeWidth="8"
                     className="z-10"
                   />
@@ -38,7 +38,7 @@ export default function Accueil({ isDarkMode }) {
           </div>
         </Reveal>
         <Reveal isDarkMode={isDarkMode} width="100%">
-          <p className="text-sm sm:text-base lg:text-[22px] font-inter text-[var(--color-blue-1)] dark:text-slate-400 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
+          <p className="text-sm sm:text-base lg:text-[22px] font-inter text-[var(--color-blue-1)] dark:text-blue-200 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-snug lg:leading-normal">
             Manage your academic projects in one place and
             <RotatingWord />
           </p>

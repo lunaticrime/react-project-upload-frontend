@@ -38,27 +38,27 @@ const Filter = ({
               placeholder="Search Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-[var(--color-blue-1)] font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
+              className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-blue-50 font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
             />
             <span className="absolute inset-y-0 right-3 flex items-center text-blue-1 dark:text-blue-50 pr-2">
               <FaSearch className="h-5 w-5" />
             </span>
           </div>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1bg-blue-1e-50"
- l e-50     onClick={() => setShowFilters(!showFilters)}
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            onClick={() => setShowFilters(!showFilters)}
           >
-            <FaFilter className="h-5 w-5 " />
+            <FaFilter className="h-5 w-5" />
           </button>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-bl1e-50"
-b  e-50     onClick={handleReset}
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            onClick={handleReset}
           >
-            <FaRedo className="h-5 w-5 " />
+            <FaRedo className="h-5 w-5" />
           </button>
           <button
-            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-bl1e-50"
-b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
           >
             <FaUserPlus className="h-5 w-5 " />
           </button>
@@ -66,9 +66,9 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
 
         {/* Filters List for Responsive View */}
         {showFilters && (
-          <div className="w-full bg-[var(--color-background)] p-4 rounded-lg shadow-lg sm:hidden">
+          <div className="w-full bg-[var(--color-background)] dark:bg-blue-2-dark p-4 rounded-lg shadow-lg sm:hidden">
             <div className="mb-4">
-              <h3 className="font-bold text-[var(--color-blue-1)] text-lg">
+              <h3 className="font-bold text-[var(--color-blue-1)] dark:text-blue-50 text-lg">
                 Role:
               </h3>
               <ul>
@@ -77,8 +77,8 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
                     key={role.id}
                     className={`cursor-pointer py-1 pl-4 ${
                       selectedRole === role.value
-                        ? "text-[var(--color-blue-3)] font-extrabold text-lg opacity-100 ml-2"
-                        : "text-[var(--color-blue-1)] opacity-50"
+                        ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-2"
+                        : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
                     }`}
                     onClick={() => setSelectedRole(role.value)}
                   >
@@ -93,8 +93,8 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
         {/* Filters Container for Desktop View */}
         <div
           className={`${
-            showFilters || window.innerWidth < 640 ? "hidden" : "block"
-          } sm:flex flex-wrap items-center gap-4`}
+            showFilters || window.innerWidth < 640 ? "hidden" : "flex"
+          } flex-wrap items-center gap-4`}
         >
           {/* Filter by Role */}
           <Listbox value={selectedRole} onChange={setSelectedRole}>
@@ -102,8 +102,8 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
               <Listbox.Button
                 className={`relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                   selectedRole !== "default"
-                    ? "bg-gradient-to-r from-[var(--color-blue-3)] to-[var(--color-blue-4)] text-[var(--color-background)] focus:ring-[var(--color-blue-1)]"
-                    : "bg-[var(--color-background)] text-[var(--color-blue-1)] focus:ring-[var(--color-blue-3)]"
+                    ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
+                    : "bg-[var(--color-background)] text-blue-1 focus:ring-[var(--color-blue-3)]"
                 }`}
               >
                 <span className="block truncate dark:text-blue-50">
@@ -148,7 +148,7 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
         {/* Reset Button */}
         <button
           onClick={handleReset}
-          className="hidden sm:flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 flex gap-2 border-2 cursor-pointer whitespace-nowrap bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark shadow-md transition-all duration-300 ease-in-out"
+          className="sm:flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 flex gap-2 border-2 cursor-pointer whitespace-nowrap bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark shadow-md transition-all duration-300 ease-in-out"
         >
           <FaRedo className="h-4 w-4" />
           Reset
@@ -163,7 +163,12 @@ b  e-50     onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on c
           style={{ width: hovered ? "auto" : "40px", height: "40px" }}
         >
           <div className="flex items-center justify-center w-8 h-8">
-            <FaUserPlus className={`text-xl ${hovered?"text-blue-1":"text-blue-50 dark:text-blue-1"}`} /> {/* User add icon */}
+            <FaUserPlus
+              className={`text-xl ${
+                hovered ? "text-blue-1" : "text-blue-50 dark:text-blue-1"
+              }`}
+            />{" "}
+            {/* User add icon */}
           </div>
           <div
             style={{ width: hovered ? ref.current?.offsetWidth || 0 : 0 }}

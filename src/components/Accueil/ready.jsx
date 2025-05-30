@@ -44,16 +44,14 @@ const Ready = ({ isDarkMode }) => {
       <div className="w-full lg:w-1/2 text-center lg:text-left">
         <Reveal isDarkMode={isDarkMode} width="100%">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
-            Prêt à mettre en valeur vos projets ?
+            Ready to showcase your projects?
           </h1>
         </Reveal>
         <Reveal isDarkMode={isDarkMode} width="100%">
-          <button className="reverse-default-btn my-2">
-            Commencer maintenant
-          </button>
-          <p className="mt-4 text-sm sm:text-base text-[var(--color-blue-1)] dark:text-blue-50 font-inter italic max-w-md mx-auto lg:mx-0">
-            Découvrez une plateforme intuitive pour gérer vos projets
-            académiques en toute simplicité.
+          <button className="reverse-default-btn my-2">Start now</button>
+          <p className="mt-4 text-sm sm:text-base text-[var(--color-blue-1)] dark:text-blue-200 font-inter italic max-w-md mx-auto lg:mx-0">
+            Discover an intuitive platform to manage your academic projects with
+            ease.
           </p>
         </Reveal>
       </div>

@@ -60,10 +60,10 @@ const DashBord = ({ data, itemsPerPage }) => {
       <div className="overflow-auto rounded-lg shadow hidden md:block">
         {data.length > 0 ? (
           <table className="w-full">
-            <thead className="bg-blue-100 dark:bg-blue-1 border-b-2 border-blue-300">
+            <thead className="bg-blue-100 dark:bg-blue-1-dark border-b-2 border-blue-300 dark:border-blue-50">
               <tr>
                 <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
-                  Nom
+                  Name
                 </th>
                 <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
                   Email
@@ -72,39 +72,39 @@ const DashBord = ({ data, itemsPerPage }) => {
                   Role
                 </th>
                 <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50">
-                  Dernière Connexion
+                  Last Login
                 </th>
                 <th className="p-3 text-sm font-semibold tracking-wide text-left text-blue-800 dark:text-blue-50 w-32"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-blue-1">
+            <tbody className="divide-y divide-blue-200 dark:divide-blue-50">
               {currentData.map((row) => (
                 <tr
                   key={row.id}
-                  className={row.id % 2 === 0 ? "bg-blue-50 dark:bg-blue-2" : "bg-white dark:bg-blue-3-dark"}
+                  className={row.id % 2 === 0 ? "bg-blue-50 dark:bg-blue-2-dark" : "bg-white dark:bg-blue-1-dark"}
                 >
-                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                     {row.name}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                     {row.email}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                     {row.role}
                   </td>
-                  <td className="p-3 text-sm text-blue-900 dark:text-blue-100 whitespace-nowrap">
+                  <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                     {row.lastLogin}
                   </td>
                   <td className="p-3 text-sm text-blue-900 whitespace-nowrap flex gap-4">
                     <FaEdit
                       onClick={() => handleEdit(row)} // Call handleEdit on click
                       className="text-[var(--color-blue-3)] hover:text-[var(--color-blue-4)] cursor-pointer text-xl transition-transform duration-200 hover:scale-110"
-                      title="Modifier"
+                      title="Edit"
                     />
                     <FaTrash
                       onClick={() => handleDelete(row)} // Call handleDelete on click
                       className="text-red-500 hover:text-red-600 cursor-pointer text-xl transition-transform duration-200 hover:scale-110"
-                      title="Supprimer"
+                      title="Delete"
                     />
                   </td>
                 </tr>
@@ -123,28 +123,28 @@ const DashBord = ({ data, itemsPerPage }) => {
         {currentData.map((row) => (
           <div
             key={row.id}
-            className="bg-white space-y-3 p-4 rounded-lg shadow"
+            className="bg-white dark:bg-blue-1-dark space-y-3 p-4 rounded-lg shadow"
           >
             <div className="flex items-center justify-between">
-              <div className="text-sm text-blue-900 font-medium">
+              <div className="text-sm text-blue-900 dark:text-blue-50 font-medium">
                 {row.name}
               </div>
               <div className="flex gap-4">
                 <FaEdit
                   onClick={() => handleEdit(row)} // Call handleEdit on click
                   className="text-[var(--color-blue-3)] hover:text-[var(--color-blue-4)] cursor-pointer text-xl transition-transform duration-200 hover:scale-110"
-                  title="Modifier"
+                  title="Edit"
                 />
                 <FaTrash
                   onClick={() => handleDelete(row)} // Call handleDelete on click
                   className="text-red-500 hover:text-red-600 cursor-pointer text-xl transition-transform duration-200 hover:scale-110"
-                  title="Supprimer"
+                  title="Delete"
                 />
               </div>
             </div>
-            <div className="text-sm text-blue-900">{row.email}</div>
-            <div className="text-sm text-blue-900">{row.role}</div>
-            <div className="text-sm text-blue-900">{row.lastLogin}</div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">{row.email}</div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">{row.role}</div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">{row.lastLogin}</div>
           </div>
         ))}
       </div>

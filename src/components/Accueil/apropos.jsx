@@ -38,7 +38,7 @@ const Apropos = ({ isDarkMode }) => {
       <div className="text-center w-full">
         <Reveal width="100%" isDarkMode={isDarkMode}>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl w-full font-bold font-poppins text-[var(--color-blue-1)] dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
-            Pourquoi cette plateforme ?
+            Why this platform ?
           </h1>
           <hr className="w-4/5 mx-auto mb-10 border-t-2 border-[var(--color-blue-1)] dark:border-blue-50" />
         </Reveal>
@@ -58,17 +58,16 @@ const Apropos = ({ isDarkMode }) => {
         </div>
         <div className="lg:w-1/2 text-center lg:text-left m-6 sm:m-8">
           <Reveal isDarkMode={isDarkMode}>
-            <p className="text-base sm:text-lg lg:text-xl font-inter text-[var(--color-blue-1)] dark:text-blue-50 mb-4 sm:mb-6 lg:mb-8 tracking-wide sm:leading-normal lg:leading-relaxed text-justify">
-              Les étudiants de l'ENSAK réalisent chaque année des projets dans
-              le cadre de modules ou de stages. Malheureusement, ces projets
-              sont rarement centralisés, ce qui empêche leur valorisation, leur
-              consultation ou leur suivi.
+            <p className="text-base sm:text-lg lg:text-xl font-inter text-[var(--color-blue-1)] dark:text-blue-200 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-relaxed lg:leading-loose text-justify">
+              ENSAK students carry out projects each year as part of modules or
+              internships. Unfortunately, these projects are rarely centralized,
+              which prevents them from being valued, consulted, or monitored.
             </p>
           </Reveal>
           <Reveal isDarkMode={isDarkMode}>
-            <p className="text-base sm:text-lg lg:text-xl font-inter text-[var(--color-blue-1)] dark:text-blue-50 mb-4 sm:mb-6 lg:mb-8 tracking-wide sm:leading-normal lg:leading-relaxed text-justify">
-              Cette plateforme offre une solution simple et efficace pour les
-              étudiants, les enseignants et les responsables de filière.
+            <p className="text-base sm:text-lg lg:text-xl font-inter text-[var(--color-blue-1)] dark:text-blue-200 mb-6 sm:mb-8 lg:mb-10 tracking-wide sm:leading-relaxed lg:leading-loose text-justify">
+              This platform offers a simple and effective solution for students,
+              teachers, and course managers.
             </p>
           </Reveal>
         </div>

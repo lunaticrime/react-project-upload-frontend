@@ -8,23 +8,23 @@ const utilisateurs = [
   {
     id: 1,
     Icon: FaUserGraduate,
-    title: "Étudiants",
+    title: "Students",
     description:
-      "Soumettez vos projets, suivez leur progression et apportez des modifications facilement.",
+      "Submit your projects, track their progress, and make modifications easily.",
   },
   {
     id: 2,
     Icon: FaChalkboard,
-    title: "Enseignants",
+    title: "Teachers",
     description:
-      "Validez, commentez et évaluez les projets pour guider vos étudiants efficacement.",
+      "Validate, comment, and evaluate projects to effectively guide your students.",
   },
   {
     id: 3,
     Icon: FaUserCog, // Changed icon to FaUserCog
-    title: "Responsables",
+    title: "Administrators",
     description:
-      "Supervisez l'ensemble des projets, analysez les statistiques et exportez les données.",
+      "Manage the platform, oversee project submissions, and ensure smooth operation.",
   },
 ];
 

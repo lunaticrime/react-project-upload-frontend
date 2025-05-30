@@ -1,22 +1,22 @@
 export const NavbarMenu = [
   {
     id: 1,
-    title: "Acceuil",
-    url: "/",
+    title: "Home",
+    url: "#top", // Link to the top of the page
   },
   {
     id: 2,
-    title: "Fonctionnalités",
-    url: "/functionalities",
+    title: "About",
+    url: "#apropos", // Link to "Pourquoi cette plateforme?"
   },
   {
     id: 3,
-    title: "À propos",
-    url: "/about",
+    title: "Features",
+    url: "#fonctionnalites", // Link to "Fonctionnalités clés"
   },
   {
     id: 4,
     title: "Contact",
-    url: "/contact",
+    url: "#contact", // Link to the bottom of the page
   },
 ];

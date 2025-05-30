@@ -6,6 +6,7 @@ import Apropos from "../components/Accueil/apropos";
 import Fonctionnalites from "../components/Accueil/fonctionnalites";
 import User from "../components/Accueil/utilisateurs";
 import Ready from "../components/Accueil/ready";
+import BackToTop from "../components/utils/BackToTop"; // Import BackToTop component
 
 const Home = ({ isDarkMode, setIsDarkMode }) => {
   return (
@@ -14,14 +15,18 @@ const Home = ({ isDarkMode, setIsDarkMode }) => {
     >
       <TestNavbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <div className="home-container">
-        {/* <Feed /> */}
+        <div id="top"></div> {/* Anchor for "Acceuil" */}
         <AccueilContent isDarkMode={isDarkMode} />
+        <div id="apropos"></div> {/* Anchor for "À propos" */}
         <Apropos isDarkMode={isDarkMode} />
+        <div id="fonctionnalites"></div> {/* Anchor for "Fonctionnalités" */}
         <Fonctionnalites isDarkMode={isDarkMode} />
         <User isDarkMode={isDarkMode} />
         <Ready isDarkMode={isDarkMode} />
+        <div id="contact"></div> {/* Anchor for "Contact" */}
       </div>
       <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      <BackToTop /> {/* Add BackToTop component */}
     </main>
   );
 };

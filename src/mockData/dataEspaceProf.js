@@ -24,21 +24,21 @@ export const navLinks = [
 
 export const filterData = {
   years: [
-    { id: 0, value: "default", label: "Filtrer par année" }, // Default value
+    { id: 0, value: "default", label: "Filter by Year" }, // Default value
     { id: 1, value: "2023", label: "2023" },
     { id: 2, value: "2022", label: "2022" },
     { id: 3, value: "2021", label: "2021" },
     { id: 4, value: "2020", label: "2020" },
   ],
   modules: [
-    { id: 0, value: "default", label: "Filtrer par module" }, // Default value
+    { id: 0, value: "default", label: "Filter by Module" }, // Default value
     { id: 1, value: "Module 1", label: "Module 1" }, // Les valeurs doivent correspondre à celles du backend
     { id: 2, value: "Module 2", label: "Module 2" },
     { id: 3, value: "Module 3", label: "Module 3" },
     { id: 4, value: "Module 4", label: "Module 4" },
   ],
   status: [
-    { id: 0, value: "default", label: "Filtrer par status" }, // Default value
+    { id: 0, value: "default", label: "Filter by Status" }, // Default value
     { id: 1, value: "pending", label: "🟡 En Attente" },
     { id: 2, value: "approved", label: "🟢 Validé" },
     { id: 3, value: "rejected", label: "🔴 Refusé" },

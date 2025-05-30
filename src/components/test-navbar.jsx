@@ -76,7 +76,7 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
               onClick={() => (window.location.href = "/login")}
             >
               <IconUserCircle stroke={2} className="self-center" />
-              <span>Se connecter</span>
+              <span>Sign In</span>
             </button>
             <div
               className="lg:hidden"

@@ -45,7 +45,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             className={`px-3 py-1 rounded-md text-sm font-medium transition-colors duration-300 ${
               currentPage === 1
                 ? "text-gray-400 cursor-not-allowed"
-                : "text-gray-600 hover:text-[var(--color-blue-3)]"
+                : "text-gray-600 hover:text-[var(--color-blue-3)] dark:text-blue-50 dark:hover:text-blue-200"
             }`}
           >
             ← Previous
@@ -56,15 +56,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         {getPageNumbers().map((page, index) => (
           <li key={index}>
             {page === "..." ? (
-              <span className="px-2 text-gray-400">...</span>
+              <span className="px-2 text-gray-400 dark:text-blue-200">...</span>
             ) : (
               <button
                 onClick={() => handlePageChange(page)}
                 className={`relative px-3 py-1 text-sm font-medium transition-all duration-300 ${
                   currentPage === page
-                    ? "text-[var(--color-blue-3)] after:scale-x-100"
-                    : "text-gray-600 hover:text-[var(--color-blue-3)] after:scale-x-0"
-                } after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:h-[2px] after:w-[80%] after:bg-[var(--color-blue-3)] after:origin-left after:transition-transform after:duration-300`}
+                    ? "text-[var(--color-blue-3)] dark:text-blue-50 after:scale-x-100"
+                    : "text-gray-600 hover:text-[var(--color-blue-3)] dark:text-blue-50 dark:hover:text-blue-200 after:scale-x-0"
+                } after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2 after:h-[2px] after:w-[80%] after:bg-[var(--color-blue-3)] dark:after:bg-blue-50 after:origin-left after:transition-transform after:duration-300`}
               >
                 {page}
               </button>
@@ -80,7 +80,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             className={`px-3 py-1 rounded-md text-sm font-medium transition-colors duration-300 ${
               currentPage === totalPages
                 ? "text-gray-400 cursor-not-allowed"
-                : "text-gray-600 hover:text-[var(--color-blue-3)]"
+                : "text-gray-600 hover:text-[var(--color-blue-3)] dark:text-blue-50 dark:hover:text-blue-200"
             }`}
           >
             Next →

@@ -39,9 +39,9 @@ export const filterData = {
   ],
   status: [
     { id: 0, value: "default", label: "Filter by Status" }, // Default value
-    { id: 1, value: "pending", label: "🟡 En Attente" },
-    { id: 2, value: "approved", label: "🟢 Validé" },
-    { id: 3, value: "rejected", label: "🔴 Refusé" },
+    { id: 1, value: "pending", label: "🟡  Pending" },
+    { id: 2, value: "approved", label: "🟢 Approved" },
+    { id: 3, value: "rejected", label: "🔴 Rejected" },
   ],
 };
 

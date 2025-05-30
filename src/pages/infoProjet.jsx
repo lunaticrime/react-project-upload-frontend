@@ -82,6 +82,7 @@ function InfoProjet() {
         statusValue={project.status}
         submissionDate="2025-05-07"
         isDarkMode={isDarkMode}
+        projectId={project.id}
       />
       <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <BackToTop />

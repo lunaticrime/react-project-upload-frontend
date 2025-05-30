@@ -4,9 +4,27 @@ import React, { useState } from "react";
 const ModifyUser = ({ user, onClose }) => {
   const [role, setRole] = useState(user?.role || "Student"); // Default role
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page reload
-    console.log("Form submitted"); // Add your form submission logic here
+
+    try {
+      // Simulate an API call to modify the user
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ success: true, message: "User modified successfully" });
+        }, 500); // Simulate a response delay
+      });
+
+      if (response.success) {
+        alert(response.message); // Show success message
+      } else {
+        alert("Failed to modify user"); // Show failure message
+      }
+    } catch (error) {
+      console.error("Error modifying user:", error);
+      alert("An error occurred while modifying the user"); // Show error message
+    }
+
     onClose(); // Close the modal after submission
   };
 

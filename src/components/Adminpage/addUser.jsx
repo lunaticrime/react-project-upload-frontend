@@ -4,9 +4,27 @@ import React, { useState } from "react";
 const AddUser = ({ onClose }) => {
   const [role, setRole] = useState("Student"); // Default role
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page reload
-    console.log("User added"); // Add your form submission logic here
+
+    try {
+      // Simulate an API call to add a user
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ success: true, message: "User added successfully" });
+        }, 500); // Simulate a response delay
+      });
+
+      if (response.success) {
+        alert(response.message); // Show success message
+      } else {
+        alert("Failed to add user"); // Show failure message
+      }
+    } catch (error) {
+      console.error("Error adding user:", error);
+      alert("An error occurred while adding the user"); // Show error message
+    }
+
     onClose(); // Close the modal after submission
   };
 

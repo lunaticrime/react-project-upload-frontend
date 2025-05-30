@@ -4,12 +4,12 @@ export default function Info({ projectName, description, type, year, files }) {
   return (
     <div className="px-4 sm:px-8 md:px-12 lg:px-20 py-8 sm:py-10 md:py-12 bg-blue-50 dark:bg-blue-2-dark">
       <h1 className="text-lg sm:text-xl md:text-2xl font-poppins text-blue-1 dark:text-blue-50 mb-6 underline">
-        Informations Du Projet
+        Project Information
       </h1>
       <div className="text-sm sm:text-base md:text-lg font-medium font-poppins text-blue-1 dark:text-blue-50 space-y-4">
         <div className="flex flex-col sm:flex-row">
           <p className="w-full sm:w-40">
-            📌 <strong>Titre</strong>
+            📌 <strong>Title</strong>
           </p>
           <p>
             <span className="hidden sm:inline">:</span> {projectName}
@@ -33,7 +33,7 @@ export default function Info({ projectName, description, type, year, files }) {
         </div>
         <div className="flex flex-col sm:flex-row">
           <p className="w-full sm:w-40">
-            📅 <strong>Année</strong>
+            📅 <strong>Year</strong>
           </p>
           <p>
             <span className="hidden sm:inline">:</span> {year}
@@ -41,7 +41,7 @@ export default function Info({ projectName, description, type, year, files }) {
         </div>
         <div className="flex flex-col sm:flex-row">
           <p className="w-full sm:w-40">
-            📥 <strong>Fichiers</strong>
+            📥 <strong>Files</strong>
           </p>
           <p>
             <span className="hidden sm:inline">:</span>
@@ -56,7 +56,7 @@ export default function Info({ projectName, description, type, year, files }) {
                   href={file.link}
                   className="text-blue-1 dark:text-blue-50 underline ml-2 hover:text-blue-3 dark:hover:text-blue-200"
                 >
-                  [Télécharger]
+                  [Download]
                 </a>
               </li>
             ))}

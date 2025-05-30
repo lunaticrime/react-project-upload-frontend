@@ -2,6 +2,28 @@ import React from "react";
 // import { X } from "react-feather";
 
 const DeleteUser = ({ user, onClose, onConfirm }) => {
+  const handleDelete = async () => {
+    try {
+      // Simuler un appel API pour supprimer un utilisateur
+      const response = await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ success: true, message: "User deleted successfully" });
+        }, 500); // Simuler un délai de réponse
+      });
+
+      if (response.success) {
+        alert(response.message); // Afficher un message de succès
+      } else {
+        alert("Failed to delete user"); // Afficher un message d'échec
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("An error occurred while deleting the user"); // Afficher un message d'erreur
+    }
+
+    onClose(); // Fermer la modal après la suppression
+  };
+
   return (
     <div
       onClick={onClose}
@@ -57,7 +79,7 @@ const DeleteUser = ({ user, onClose, onConfirm }) => {
           </button>
           <button
             type="button"
-            onClick={onConfirm}
+            onClick={handleDelete}
             className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
           >
             Delete

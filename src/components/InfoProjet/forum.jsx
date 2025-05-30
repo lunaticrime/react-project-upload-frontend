@@ -20,7 +20,7 @@ export default function Forum() {
           htmlFor="remarque"
           className="block text-left text-base sm:text-lg md:text-xl font-medium font-poppins text-blue-1 dark:text-blue-50 mb-2"
         >
-          📝 <strong>Zone de remarque</strong>
+          📝 <strong>Comment box</strong>
         </label>
         <textarea
           id="remarque"
@@ -46,7 +46,7 @@ export default function Forum() {
           </svg>
 
           <span className="text-base sm:text-lg md:text-xl font-medium font-poppins text-blue-1 dark:text-blue-200">
-            <strong>Note :</strong>
+            <strong>Grade :</strong>
           </span>
 
           <span className="px-3 py-1 rounded-md bg-blue-3 dark:bg-blue-50 text-white dark:text-blue-1 text-sm sm:text-base font-semibold">

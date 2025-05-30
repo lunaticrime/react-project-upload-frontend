@@ -44,7 +44,7 @@ const DashBord = ({ data, itemsPerPage }) => {
   };
 
   return (
-    <div className="p-5 h-screen">
+    <div className="p-5 min-h-fit">
       {/* ModifyUser Popup */}
       {showModifyPopup && (
         <ModifyUser user={selectedUser} onClose={handleClosePopup} />
@@ -81,7 +81,11 @@ const DashBord = ({ data, itemsPerPage }) => {
               {currentData.map((row) => (
                 <tr
                   key={row.id}
-                  className={row.id % 2 === 0 ? "bg-blue-50 dark:bg-blue-2-dark" : "bg-white dark:bg-blue-1-dark"}
+                  className={
+                    row.id % 2 === 0
+                      ? "bg-blue-50 dark:bg-blue-2-dark"
+                      : "bg-white dark:bg-blue-1-dark"
+                  }
                 >
                   <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                     {row.name}
@@ -142,9 +146,15 @@ const DashBord = ({ data, itemsPerPage }) => {
                 />
               </div>
             </div>
-            <div className="text-sm text-blue-900 dark:text-blue-50">{row.email}</div>
-            <div className="text-sm text-blue-900 dark:text-blue-50">{row.role}</div>
-            <div className="text-sm text-blue-900 dark:text-blue-50">{row.lastLogin}</div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">
+              {row.email}
+            </div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">
+              {row.role}
+            </div>
+            <div className="text-sm text-blue-900 dark:text-blue-50">
+              {row.lastLogin}
+            </div>
           </div>
         ))}
       </div>

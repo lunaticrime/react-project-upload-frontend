@@ -21,7 +21,7 @@ const TestNavbar = ({ isDarkMode, setIsDarkMode }) => {
   }
 
   return (
-    <header className="sticky top-0 z-100">
+    <header className=" top-0 z-100">
       <nav
         className={`bg-blue-50 dark:bg-blue-1-dark z-50 shadow-md ${
           isDarkMode ? "dark" : ""

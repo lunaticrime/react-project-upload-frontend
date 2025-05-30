@@ -30,10 +30,10 @@ export default function Valider({ statusValue, submissionDate }) {
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-10 mt-6">
         {statusValue === "pending" ? (
           <>
-            <button className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 hover:border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer">
+            <button className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer">
               ✅ Valider
             </button>
-            <button className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 hover:border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer">
+            <button className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer">
               ❌ Refuser
             </button>
           </>

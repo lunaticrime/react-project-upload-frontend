@@ -10,7 +10,6 @@ import Export from "../components/Adminpage/Export";
 import Navbar from "../components/test-navbar";
 import Footer from "../components/footer";
 
-
 export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
   const itemsPerPage = 10;
 
@@ -29,14 +28,16 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
   });
 
   return (
-    <div className={`bg-blue-50 dark:bg-blue-2-dark ${isDarkMode ? "dark" : ""}`}>
+    <div
+      className={`bg-blue-50 dark:bg-blue-2-dark ${isDarkMode ? "dark" : ""}`}
+    >
       {/* <Navbar /> */}
       <Bienvenue isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <div id="dashboard" >
-        <Charts />
-        <Cards />
+      <div id="dashboard">
+        <Charts isDarkMode={isDarkMode} />
+        <Cards isDarkMode={isDarkMode} />
       </div>
-      <div id="gestion-utilisateurs" >
+      <div id="gestion-utilisateurs">
         <Filtre
           selectedRole={selectedRole}
           setSelectedRole={setSelectedRole}
@@ -47,10 +48,8 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
       </div>
       <div id="exportation" className={`${isDarkMode ? "dark" : ""}`}>
         <Export />
-
-        <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>
+      <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
     </div>
   );
 }
-

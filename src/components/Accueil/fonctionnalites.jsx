@@ -188,7 +188,7 @@ const Card = ({ id, title, description, isDarkMode }) => {
           {getIconById(id)}
           {title}
         </motion.span>
-        <p className="text-lg font-inter text-[var(--color-blue-1)] dark:text-blue-200 text-justify">
+        <p className="text-lg font-inter text-blue-50 dark:text-blue-200 text-justify">
           {description}
         </p>
       </div>

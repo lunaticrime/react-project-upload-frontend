@@ -46,7 +46,7 @@ const DashBord = ({ data, itemsPerPage }) => {
   };
 
   return (
-    <div className="p-5 h-screen mb-20">
+    <div className="p-5 min-h-fit">
       <div className="overflow-auto rounded-lg shadow hidden md:block">
         <table className="w-full">
           <thead className="bg-blue-100 dark:bg-blue-1-dark border-b-2 border-blue-300 dark:border-blue-50">

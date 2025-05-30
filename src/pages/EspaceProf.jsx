@@ -36,30 +36,32 @@ function EspaceProf() {
   });
 
   return (
-    <div
-      className={`bg-blue-50 dark:bg-blue-2-dark ${
-        isDarkMode ? "dark" : ""
-      } transition-all duration-300`}
-    >
-      {/* <Navbar /> */}
-      <Title />
-      <h2 className="text-3xl font-bold text-center text-blue-1 dark:text-blue-50 mt-20 mb-10">
-        Manage Your Projects
-      </h2>
-      <Filter
-        selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
-        selectedModule={selectedModule}
-        setSelectedModule={setSelectedModule}
-        selectedStatus={selectedStatus}
-        setSelectedStatus={setSelectedStatus}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
-      <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <BackToTop /> {/* Add BackToTop component */}
-    </div>
+    <>
+      <div
+        className={`bg-blue-50 dark:bg-blue-2-dark ${
+          isDarkMode ? "dark" : ""
+        } transition-all duration-300`}
+      >
+        {/* <Navbar /> */}
+        <Title />
+        <h2 className="text-3xl font-bold text-center text-blue-1 dark:text-blue-50 mt-20 mb-10">
+          Manage Your Projects
+        </h2>
+        <Filter
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          selectedModule={selectedModule}
+          setSelectedModule={setSelectedModule}
+          selectedStatus={selectedStatus}
+          setSelectedStatus={setSelectedStatus}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
+        <BackToTop /> {/* Add BackToTop component */}
+        <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      </div>
+    </>
   );
 }
 

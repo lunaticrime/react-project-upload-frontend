@@ -11,7 +11,7 @@ export default function DraggableTabs({ isDarkMode, setProfileActiveTab }) {
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
 
-  const tabs = ["Overview", "Projects", "Something", "About"];
+  const tabs = ["Overview", "Projects", "About"];
 
   const handleArrowClick = (direction) => {
     if (!tabsBoxRef.current) return;

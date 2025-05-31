@@ -53,6 +53,12 @@ const mockUserData = {
   projects_count: 6,
   followers_count: 120,
   following_count: 180,
+  about: "Hi! I'm Oualid, a passionate developer who loves building web apps, learning new technologies, and collaborating with others. I enjoy solving problems and turning ideas into reality. When I'm not coding, you'll find me exploring new music, playing chess, or hanging out with friends.",
+  social_links: {
+    github: "https://github.com/",
+    linkedin: "https://linkedin.com/",
+    instagram: "https://instagram.com/"
+  }
 };
 
 // Mock data for projects
@@ -136,6 +142,10 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [selectedProject, setSelectedProject] = useState(null);
   const [editProfileData, setEditProfileData] = useState(mockUserData);
+  const [editAboutData, setEditAboutData] = useState({
+    about: mockUserData.about,
+    social_links: { ...mockUserData.social_links }
+  });
   const { openCommandMenu } = useCommandMenu();
 
   const handleProfileEdit = (e) => {
@@ -144,6 +154,15 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
     console.log('Updated profile data:', editProfileData);
     // For now, just update the mock data
     mockUserData = { ...editProfileData };
+  };
+
+  const handleAboutEdit = (e) => {
+    e.preventDefault();
+    // Here you would typically make an API call to update the about section
+    console.log('Updated about data:', editAboutData);
+    // For now, just update the mock data
+    mockUserData.about = editAboutData.about;
+    mockUserData.social_links = editAboutData.social_links;
   };
 
   const handleInputChange = (e) => {
@@ -189,8 +208,8 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
           <div className="flex flex-col lg:flex-row ">
             <div className="picture w-50 h-50 lg:w-3xs lg:h-[256px] rounded-full bg-slate-500 border-8 border-slate-50 dark:border-blue-1-dark lg:-translate-y-1/2 bg-[url(./assets/login_registration.svg)] bg-cover"></div>
             <div className="flex flex-col gap-2 items-center lg:items-start justify-start my-5 mx-5 text-blue-1-dark dark:text-blue-50">
-              <h1 className="text-3xl">Username</h1>
-              <p>@username</p>
+              <h1 className="text-3xl">{mockUserData.name}</h1>
+              <p>@{mockUserData.username}</p>
             </div>
           </div>
           <div className="search/addProject flex gap-2 justify-center items-center my-10">
@@ -442,40 +461,103 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
             ))}
           </div>
         )}
-        {activeTab === "Something" && (
-          <div className="MAIN-CONTENT w-full flex justify-center mt-4">
-            <div className="bg-white dark:bg-blue-1-dark rounded-xl shadow-lg p-6 w-full max-w-xl flex flex-col gap-4 items-center">
-              <h1 className="text-2xl font-bold dark:text-blue-50 flex items-center gap-2">
-                Fun Facts <span>🎉</span>
-              </h1>
-              <ul className="list-disc pl-6 text-blue-900 dark:text-blue-50 text-sm">
-                <li>Loves coding late at night 🌙</li>
-                <li>Can solve a Rubik's cube in under a minute 🧩</li>
-                <li>Drinks way too much coffee ☕</li>
-                <li>Has a meme folder for every occasion 😂</li>
-              </ul>
-              <div className="flex items-center gap-2 mt-4 text-blue-500 dark:text-blue-200 italic">
-                <FaQuoteLeft />
-                <span>
-                  "Code is like humor. When you have to explain it, it's bad."
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
+        
         {activeTab === "About" && (
           <div className="MAIN-CONTENT w-full flex justify-center mt-4">
             <div className="bg-white dark:bg-blue-1-dark rounded-xl shadow-lg p-6 w-full max-w-2xl flex flex-col md:flex-row gap-8">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold dark:text-blue-50 mb-2">
-                  About Me
-                </h1>
+                <div className="flex justify-between items-center mb-2">
+                  <h1 className="text-2xl font-bold dark:text-blue-50">
+                    About Me
+                  </h1>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="text-blue-1 font-semibold rounded-md px-3 py-1 duration-200 flex gap-2 border-2 border-blue-1 dark:border-blue-50 cursor-pointer whitespace-nowrap hover:bg-blue-1 hover:text-blue-50 dark:text-blue-50 dark:bg-blue-1-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark">
+                        
+                        Edit
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px] dark:bg-blue-1-dark">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl">Edit About Section</DialogTitle>
+                        <DialogDescription>
+                          Update your about information and social links
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={handleAboutEdit} className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="about">About Me</Label>
+                          <Textarea
+                            id="about"
+                            name="about"
+                            value={editAboutData.about}
+                            onChange={(e) => setEditAboutData(prev => ({
+                              ...prev,
+                              about: e.target.value
+                            }))}
+                            placeholder="Tell us about yourself"
+                            rows={4}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="github">GitHub URL</Label>
+                          <Input
+                            id="github"
+                            name="github"
+                            value={editAboutData.social_links.github}
+                            onChange={(e) => setEditAboutData(prev => ({
+                              ...prev,
+                              social_links: {
+                                ...prev.social_links,
+                                github: e.target.value
+                              }
+                            }))}
+                            placeholder="https://github.com/username"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="linkedin">LinkedIn URL</Label>
+                          <Input
+                            id="linkedin"
+                            name="linkedin"
+                            value={editAboutData.social_links.linkedin}
+                            onChange={(e) => setEditAboutData(prev => ({
+                              ...prev,
+                              social_links: {
+                                ...prev.social_links,
+                                linkedin: e.target.value
+                              }
+                            }))}
+                            placeholder="https://linkedin.com/in/username"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="instagram">Instagram URL</Label>
+                          <Input
+                            id="instagram"
+                            name="instagram"
+                            value={editAboutData.social_links.instagram}
+                            onChange={(e) => setEditAboutData(prev => ({
+                              ...prev,
+                              social_links: {
+                                ...prev.social_links,
+                                instagram: e.target.value
+                              }
+                            }))}
+                            placeholder="https://instagram.com/username"
+                          />
+                        </div>
+                        <div className="flex justify-end gap-2">
+                          <Button type="submit" className="bg-blue-1 text-blue-50 hover:bg-blue-2">
+                            Save Changes
+                          </Button>
+                        </div>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                </div>
                 <p className="text-gray-700 dark:text-blue-100 mb-4">
-                  Hi! I'm Oualid, a passionate developer who loves building web
-                  apps, learning new technologies, and collaborating with
-                  others. I enjoy solving problems and turning ideas into
-                  reality. When I'm not coding, you'll find me exploring new
-                  music, playing chess, or hanging out with friends.
+                  {mockUserData.about}
                 </p>
               </div>
               <div className="flex flex-col items-center justify-center gap-4 min-w-[160px]">
@@ -484,7 +566,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     Connect with me
                   </span>
                   <a
-                    href="https://github.com/"
+                    href={mockUserData.social_links.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-blue-900 dark:text-blue-50 hover:text-blue-500 dark:hover:text-blue-200 mb-1"
@@ -492,7 +574,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     <FaGithub /> GitHub
                   </a>
                   <a
-                    href="https://linkedin.com/"
+                    href={mockUserData.social_links.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-blue-900 dark:text-blue-50 hover:text-blue-500 dark:hover:text-blue-200 mb-1"
@@ -500,7 +582,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     <FaLinkedin /> LinkedIn
                   </a>
                   <a
-                    href="https://instagram.com/"
+                    href={mockUserData.social_links.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-blue-900 dark:text-blue-50 hover:text-blue-500 dark:hover:text-blue-200"

@@ -23,12 +23,6 @@ const ProfileTabs = ({ setActiveTab }) => {
             setActiveTab={setActiveTab}
           />
           <Card
-            title="Something"
-            href="/"
-            Icon={FiUsers}
-            setActiveTab={setActiveTab}
-          />
-          <Card
             title="About"
             hre="/"
             Icon={FiUser}

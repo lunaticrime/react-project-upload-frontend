@@ -9,7 +9,6 @@ const ProfileTabs = () => {
         <div className="lg:grid gap-2 lg:gap-4 grid-cols-4 flex min-w-max">
           <Card title="Overview" href="#" Icon={FiUser} subtitle={""} />
           <Card title="Projects" href="#" Icon={FiMail} subtitle={""} />
-          <Card title="Something" href="#" Icon={FiUsers} subtitle={""} />
           <Card title="About" href="#" Icon={FiCreditCard} subtitle={""} />
         </div>
       </div>

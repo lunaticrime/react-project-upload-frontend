@@ -2,9 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { Reveal } from "../utils/Reveal";
 import ready from "../../assets/ready.svg";
 import TiltCard from "../utils/tiltCard";
+import { useNavigate } from "react-router-dom";
+
 const Ready = ({ isDarkMode }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,7 +51,12 @@ const Ready = ({ isDarkMode }) => {
           </h1>
         </Reveal>
         <Reveal isDarkMode={isDarkMode} width="100%">
-          <button className="reverse-default-btn my-2">Start now</button>
+          <button
+            className="reverse-default-btn my-2"
+            onClick={() => navigate("/login")}
+          >
+            Start now
+          </button>
           <p className="mt-4 text-sm sm:text-base text-[var(--color-blue-1)] dark:text-blue-200 font-inter italic max-w-md mx-auto lg:mx-0">
             Discover an intuitive platform to manage your academic projects with
             ease.

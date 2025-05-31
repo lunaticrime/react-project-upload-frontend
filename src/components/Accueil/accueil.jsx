@@ -3,7 +3,9 @@ import { Reveal } from "../utils/Reveal";
 import TiltCard from "../utils/tiltCard";
 import accueilImg from "../../assets/Accueil1.svg";
 import RotatingWord from "../utils/RotatingWord";
+import { useNavigate } from "react-router-dom";
 export default function Accueil({ isDarkMode }) {
+  const navigate = useNavigate();
   return (
     <div className="h-[calc(100vh-108px)] flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10">
       {/* Left Section */}
@@ -45,7 +47,12 @@ export default function Accueil({ isDarkMode }) {
         </Reveal>
         <Reveal isDarkMode={isDarkMode} width="100%">
           <div className="py-5">
-            <button className="reverse-default-btn">Access your space</button>
+            <button
+              className="reverse-default-btn"
+              onClick={() => navigate("/login")}
+            >
+              Access your space
+            </button>
           </div>
         </Reveal>
       </div>

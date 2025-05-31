@@ -238,17 +238,6 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={editProfileData.email}
-                      onChange={handleInputChange}
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                  <div className="space-y-2">
                     <Label htmlFor="bio">Bio</Label>
                     <Textarea
                       id="bio"
@@ -268,38 +257,6 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                       onChange={handleSkillsChange}
                       placeholder="React, Laravel, Tailwind"
                     />
-                  </div>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="projects_count">Projects Count</Label>
-                      <Input
-                        id="projects_count"
-                        name="projects_count"
-                        type="number"
-                        value={editProfileData.projects_count}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="followers_count">Followers Count</Label>
-                      <Input
-                        id="followers_count"
-                        name="followers_count"
-                        type="number"
-                        value={editProfileData.followers_count}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="following_count">Following Count</Label>
-                      <Input
-                        id="following_count"
-                        name="following_count"
-                        type="number"
-                        value={editProfileData.following_count}
-                        onChange={handleInputChange}
-                      />
-                    </div>
                   </div>
                   <div className="flex justify-end gap-2">
                     <Button type="submit" className="bg-blue-1 text-blue-50 hover:bg-blue-2">

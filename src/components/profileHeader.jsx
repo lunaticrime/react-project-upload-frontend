@@ -35,6 +35,25 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { TabsDemo } from "./profileEdit";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+
+// Mock data for user profile
+const mockUserData = {
+  id: 1,
+  name: "Oualid",
+  username: "oualid",
+  email: "oualid@example.com",
+  bio: "Full Stack Developer & Student at ENSA Kenitra. Passionate about building cool things and learning new tech!",
+  avatar: "./assets/login_registration.svg",
+  skills: ["React", "Laravel", "Tailwind"],
+  role: "student",
+  projects_count: 6,
+  followers_count: 120,
+  following_count: 180,
+};
 
 // Mock data for projects
 const mockProjects = [
@@ -116,7 +135,32 @@ const mockProjects = [
 const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [editProfileData, setEditProfileData] = useState(mockUserData);
   const { openCommandMenu } = useCommandMenu();
+
+  const handleProfileEdit = (e) => {
+    e.preventDefault();
+    // Here you would typically make an API call to update the profile
+    console.log('Updated profile data:', editProfileData);
+    // For now, just update the mock data
+    mockUserData = { ...editProfileData };
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditProfileData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSkillsChange = (e) => {
+    const skills = e.target.value.split(',').map(skill => skill.trim());
+    setEditProfileData(prev => ({
+      ...prev,
+      skills
+    }));
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -163,11 +207,106 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                   Edit
                 </button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-fit dark:bg-blue-1-dark flex flex-col gap-4 items-center">
+              <DialogContent className="sm:max-w-[600px] dark:bg-blue-1-dark">
                 <DialogHeader>
                   <DialogTitle className="text-2xl">Edit Profile</DialogTitle>
+                  <DialogDescription>
+                    Update your profile information below
+                  </DialogDescription>
                 </DialogHeader>
-                <TabsDemo />
+                <form onSubmit={handleProfileEdit} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        value={editProfileData.name}
+                        onChange={handleInputChange}
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="username">Username</Label>
+                      <Input
+                        id="username"
+                        name="username"
+                        value={editProfileData.username}
+                        onChange={handleInputChange}
+                        placeholder="@username"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={editProfileData.email}
+                      onChange={handleInputChange}
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="bio">Bio</Label>
+                    <Textarea
+                      id="bio"
+                      name="bio"
+                      value={editProfileData.bio}
+                      onChange={handleInputChange}
+                      placeholder="Tell us about yourself"
+                      rows={3}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="skills">Skills (comma-separated)</Label>
+                    <Input
+                      id="skills"
+                      name="skills"
+                      value={editProfileData.skills.join(', ')}
+                      onChange={handleSkillsChange}
+                      placeholder="React, Laravel, Tailwind"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="projects_count">Projects Count</Label>
+                      <Input
+                        id="projects_count"
+                        name="projects_count"
+                        type="number"
+                        value={editProfileData.projects_count}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="followers_count">Followers Count</Label>
+                      <Input
+                        id="followers_count"
+                        name="followers_count"
+                        type="number"
+                        value={editProfileData.followers_count}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="following_count">Following Count</Label>
+                      <Input
+                        id="following_count"
+                        name="following_count"
+                        type="number"
+                        value={editProfileData.following_count}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <Button type="submit" className="bg-blue-1 text-blue-50 hover:bg-blue-2">
+                      Save Changes
+                    </Button>
+                  </div>
+                </form>
               </DialogContent>
             </Dialog>
             <button
@@ -193,29 +332,30 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
             <div className="bg-white dark:bg-blue-1-dark rounded-xl shadow-lg p-6 flex flex-col md:flex-row gap-8 w-full max-w-2xl">
               <div className="flex-1 flex flex-col gap-2">
                 <h1 className="text-3xl font-bold text-blue-900 dark:text-blue-50">
-                  Oualid
+                  {mockUserData.name}
                 </h1>
-                <p className="text-blue-500 dark:text-blue-200">@oualid</p>
+                <p className="text-blue-500 dark:text-blue-200">
+                  @{mockUserData.username}
+                </p>
                 <p className="text-gray-700 dark:text-blue-100 mt-2">
-                  Full Stack Developer & Student at ENSA Kenitra. Passionate
-                  about building cool things and learning new tech!
+                  {mockUserData.bio}
                 </p>
                 <div className="flex gap-6 mt-4">
                   <div className="flex flex-col items-center">
                     <span className="text-xl font-bold text-blue-900 dark:text-blue-50">
-                      6
+                      {mockUserData.projects_count}
                     </span>
                     <span className="text-xs text-gray-500">Projects</span>
                   </div>
                   <div className="flex flex-col items-center">
                     <span className="text-xl font-bold text-blue-900 dark:text-blue-50">
-                      120
+                      {mockUserData.followers_count}
                     </span>
                     <span className="text-xs text-gray-500">Followers</span>
                   </div>
                   <div className="flex flex-col items-center">
                     <span className="text-xl font-bold text-blue-900 dark:text-blue-50">
-                      180
+                      {mockUserData.following_count}
                     </span>
                     <span className="text-xs text-gray-500">Following</span>
                   </div>
@@ -225,15 +365,14 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     Skills
                   </span>
                   <div className="flex gap-2 mt-2">
-                    <div className="bg-blue-100 dark:bg-blue-2-dark text-blue-900 dark:text-blue-50 px-3 py-1 rounded-full text-xs font-semibold">
-                      React
-                    </div>
-                    <div className="bg-blue-100 dark:bg-blue-2-dark text-blue-900 dark:text-blue-50 px-3 py-1 rounded-full text-xs font-semibold">
-                      Laravel
-                    </div>
-                    <div className="bg-blue-100 dark:bg-blue-2-dark text-blue-900 dark:text-blue-50 px-3 py-1 rounded-full text-xs font-semibold">
-                      Tailwind
-                    </div>
+                    {mockUserData.skills.map((skill, index) => (
+                      <div
+                        key={index}
+                        className="bg-blue-100 dark:bg-blue-2-dark text-blue-900 dark:text-blue-50 px-3 py-1 rounded-full text-xs font-semibold"
+                      >
+                        {skill}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>

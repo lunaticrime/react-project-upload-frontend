@@ -47,6 +47,7 @@ const mockPosts = [
 ];
 
 const whoToFollow = [
+  { id: 200, name: "Oualid C.", avatar: loginRegistrationImg },
   { id: 201, name: "Hossam E.", avatar: loginRegistrationImg },
   { id: 202, name: "Jilali E.", avatar: loginRegistrationImg },
   { id: 203, name: "Abdelbasset A.", avatar: loginRegistrationImg },

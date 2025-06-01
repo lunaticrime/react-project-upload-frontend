@@ -1,50 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import loginRegistrationImg from "../assets/login_registration.svg";
-
-// Mock data for posts
-const mockPosts = [
-  {
-    id: 1,
-    title: "Project 1",
-    caption: "This is the first project post.",
-    author: {
-      id: 101,
-      name: "Oualid 1",
-      avatar: loginRegistrationImg,
-    },
-    likes: 10,
-    comments: [{ id: 1, author: "Oualid 7", text: "Nice project!" }],
-    thumbnail: loginRegistrationImg,
-  },
-  {
-    id: 2,
-    title: "Project 2",
-    caption: "This is the second project post.",
-    author: {
-      id: 102,
-      name: "Oualid 2",
-      avatar: loginRegistrationImg,
-    },
-    likes: 15,
-    comments: [],
-    thumbnail: loginRegistrationImg,
-  },
-  {
-    id: 3,
-    title: "Project 3",
-    caption: "This is the third project post.",
-    author: {
-      id: 103,
-      name: "Oualid 3",
-      avatar: loginRegistrationImg,
-    },
-    likes: 20,
-    comments: [],
-    thumbnail: loginRegistrationImg,
-  },
-];
+import apiClient from "../services/apiClient";
 
 const whoToFollow = [
   { id: 200, name: "Oualid C.", avatar: loginRegistrationImg },
@@ -52,37 +10,132 @@ const whoToFollow = [
   { id: 202, name: "Jilali E.", avatar: loginRegistrationImg },
   { id: 203, name: "Abdelbasset A.", avatar: loginRegistrationImg },
 ];
+// Mock data for posts
+// const mockPosts = [
+//   {
+//     id: 1,
+//     title: "Project 1",
+//     caption: "This is the first project post.",
+//     author: {
+//       id: 101,
+//       name: "Oualid 1",
+//       avatar: loginRegistrationImg,
+//     },
+//     likes: 10,
+//     comments: [{ id: 1, author: "Oualid 7", text: "Nice project!" }],
+//     thumbnail: loginRegistrationImg,
+//   },
+//   {
+//     id: 2,
+//     title: "Project 2",
+//     caption: "This is the second project post.",
+//     author: {
+//       id: 102,
+//       name: "Oualid 2",
+//       avatar: loginRegistrationImg,
+//     },
+//     likes: 15,
+//     comments: [],
+//     thumbnail: loginRegistrationImg,
+//   },
+//   {
+//     id: 3,
+//     title: "Project 3",
+//     caption: "This is the third project post.",
+//     author: {
+//       id: 103,
+//       name: "Oualid 3",
+//       avatar: loginRegistrationImg,
+//     },
+//     likes: 20,
+//     comments: [],
+//     thumbnail: loginRegistrationImg,
+//   },
+// ];
 
 const Feed = () => {
-  const [posts, setPosts] = useState(mockPosts);
+  const [posts, setPosts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]); // store liked post ids
   const [showComments, setShowComments] = useState({}); // { [postId]: true/false }
   const [commentInputs, setCommentInputs] = useState({}); // { [postId]: "" }
   const navigate = useNavigate();
 
-  const handleLike = (postId) => {
-    if (likedPosts.includes(postId)) {
-      // Unlike
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const response = await apiClient.get("/all-projets");
+        setPosts(response.data);
+
+        // Initialize likedPosts state based on the is_liked_by_user flag from the backend
+        const initialLikedPosts = response.data
+          .filter((post) => post.is_liked_by_user)
+          .map((post) => post.id);
+        setLikedPosts(initialLikedPosts);
+
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        setError("Failed to load projects. Please try again later.");
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  const handleLike = async (postId) => {
+    console.log(`Like button clicked for post ID: ${postId}`); // Log click
+    // Find the post in the current state
+    const postToLike = posts.find((post) => post.id === postId);
+    if (!postToLike) {
+      console.error(`Post with ID ${postId} not found.`); // Log if post not found
+      return; // Should not happen if UI is correct
+    }
+
+    // Determine if the user has already liked this post (assuming backend includes likes for current user or a liked status)
+    // For now, we'll use the likedPosts state which needs to be initialized from backend data
+    const isLiked = likedPosts.includes(postId);
+    console.log(`Post ID ${postId} is currently liked: ${isLiked}`); // Log current like status
+
+    try {
+      console.log(`Sending POST request to /projets/${postId}/likes`); // Log API call
+      const response = await apiClient.post(`/projets/${postId}/likes`);
+      console.log("Like API response:", response.data); // Log API response data
+
+      // Update the local likedPosts state based on the backend response
+      if (response.data.liked) {
+        setLikedPosts([...likedPosts, postId]);
+        console.log(`Added post ID ${postId} to likedPosts`);
+      } else {
+        setLikedPosts(likedPosts.filter((id) => id !== postId));
+        console.log(`Removed post ID ${postId} from likedPosts`);
+      }
+
+      // Update the likes count in the posts state
       setPosts(
         posts.map((post) =>
-          post.id === postId ? { ...post, likes: post.likes - 1 } : post
+          post.id === postId
+            ? { ...post, likes_count: response.data.likes_count }
+            : post
         )
       );
-      setLikedPosts(likedPosts.filter((id) => id !== postId));
-    } else {
-      // Like
-      setPosts(
-        posts.map((post) =>
-          post.id === postId ? { ...post, likes: post.likes + 1 } : post
-        )
-      );
-      setLikedPosts([...likedPosts, postId]);
+      console.log(`Updated likes count for post ID ${postId}`);
+    } catch (error) {
+      console.error(
+        "Error toggling like:",
+        error.response ? error.response.data : error.message
+      ); // Log detailed error
+      // Optionally show an error message to the user
     }
   };
   //   const handleProfileClick = (authorId) => {
   //     navigate(`/profile/${authorId}`);
-  const handleProfileClick = () => {
-    navigate("/profile");
+  const handleProfileClick = (authorId) => {
+    navigate(`/profile/${authorId}`);
   };
 
   const handleToggleComments = (postId) => {
@@ -93,23 +146,33 @@ const Feed = () => {
     setCommentInputs({ ...commentInputs, [postId]: value });
   };
 
-  const handleAddComment = (postId) => {
+  const handleAddComment = async (postId) => {
     const text = commentInputs[postId]?.trim();
     if (!text) return;
-    setPosts(
-      posts.map((post) =>
-        post.id === postId
-          ? {
-              ...post,
-              comments: [
-                ...post.comments,
-                { id: Date.now(), author: "You", text },
-              ],
-            }
-          : post
-      )
-    );
-    setCommentInputs({ ...commentInputs, [postId]: "" });
+
+    try {
+      const response = await apiClient.post(`/projets/${postId}/comments`, {
+        comment: text,
+      });
+
+      // Get the comment data from the response
+      const newCommentData = response.data.comment;
+
+      // Update the posts state with the new comment
+      setPosts(
+        posts.map((post) =>
+          post.id === postId
+            ? { ...post, comments: [...post.comments, newCommentData] }
+            : post
+        )
+      );
+
+      // Clear the comment input for this post
+      setCommentInputs({ ...commentInputs, [postId]: "" });
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      // Optionally show an error message to the user
+    }
   };
 
   return (
@@ -118,6 +181,17 @@ const Feed = () => {
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8">
           {/* Feed Center */}
           <div className="w-full md:w-2/3 flex flex-col gap-6 px-4 sm:px-6">
+            {isLoading && (
+              <p className="text-center text-blue-500">Loading projects...</p>
+            )}
+            {error && <p className="text-center text-red-500">{error}</p>}
+
+            {!isLoading && !error && posts.length === 0 && (
+              <p className="text-center text-gray-500 dark:text-gray-400">
+                No projects to display.
+              </p>
+            )}
+
             {posts.map((post) => (
               <div
                 key={post.id}
@@ -125,22 +199,30 @@ const Feed = () => {
               >
                 <div className="flex items-center mb-2">
                   <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
+                    src={
+                      post.user?.profile_photo_url
+                        ? `http://localhost:8000/storage/${post.user.profile_photo_url}`
+                        : loginRegistrationImg
+                    }
+                    alt={post.user?.name || "User"}
                     className="w-10 h-10 rounded-full mr-2 cursor-pointer border-2 border-blue-200"
-                    onClick={handleProfileClick}
+                    onClick={() => handleProfileClick(post.user?.id)}
                   />
                   <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-50">
-                    {post.author.name}
+                    {post.user?.name || "Unknown User"}
                   </h3>
                 </div>
                 <img
-                  src={post.thumbnail}
+                  src={
+                    post.image
+                      ? `http://localhost:8000/storage/${post.image}`
+                      : loginRegistrationImg
+                  }
                   alt="Project thumbnail"
                   className="w-full h-56 object-cover rounded-md mb-3 border border-blue-100"
                 />
                 <h2 className="text-xl font-bold mb-1 text-blue-900 dark:text-blue-50">
-                  {post.title}
+                  {post.titre}
                 </h2>
                 <p className="text-gray-700 dark:text-blue-100 mb-4">
                   {post.caption}
@@ -159,34 +241,39 @@ const Feed = () => {
                     ) : (
                       <FaRegHeart />
                     )}{" "}
-                    <span>{post.likes}</span>
+                    <span>{post.likes_count || 0}</span>
                   </button>
                   <button
                     onClick={() => handleToggleComments(post.id)}
                     className="flex items-center gap-1 text-blue-500 hover:text-blue-700 focus:outline-none"
                   >
-                    <FaComment /> <span>{post.comments.length}</span>
+                    <FaComment />{" "}
+                    <span>
+                      {post.comments_count ||
+                        (post.comments ? post.comments.length : 0)}
+                    </span>
                   </button>
                 </div>
                 {showComments[post.id] && (
                   <div className="mt-2 border-t border-blue-100 pt-2">
                     <div className="flex flex-col gap-2 max-h-40 overflow-y-auto mb-2">
-                      {post.comments.length === 0 && (
+                      {post.comments && post.comments.length > 0 ? (
+                        post.comments.map((comment) => (
+                          <div
+                            key={comment.id}
+                            className="text-sm text-gray-800 dark:text-blue-50 bg-blue-50 dark:bg-blue-2-dark rounded px-2 py-1"
+                          >
+                            <span className="font-semibold mr-1">
+                              {comment.user?.name || "Unknown User"}:
+                            </span>
+                            {comment.comment}
+                          </div>
+                        ))
+                      ) : (
                         <span className="text-gray-400 text-sm">
                           No comments yet.
                         </span>
                       )}
-                      {post.comments.map((comment) => (
-                        <div
-                          key={comment.id}
-                          className="text-sm text-gray-800 dark:text-blue-50 bg-blue-50 dark:bg-blue-2-dark rounded px-2 py-1"
-                        >
-                          <span className="font-semibold mr-1">
-                            {comment.author}:
-                          </span>
-                          {comment.text}
-                        </div>
-                      ))}
                     </div>
                     <div className="flex gap-2">
                       <input

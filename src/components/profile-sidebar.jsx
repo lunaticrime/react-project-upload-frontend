@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings, User } from "lucide-react";
 import { FaUser, FaChevronUp } from "react-icons/fa";
 import {
   Sidebar,
@@ -27,29 +27,29 @@ import { useState } from "react";
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/feed",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Profile",
+    url: "/profile",
+    icon: User,
   },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
+  // {
+  //   title: "Calendar",
+  //   url: "#",
+  //   icon: Calendar,
+  // },
+  // {
+  //   title: "Search",
+  //   url: "#",
+  //   icon: Search,
+  // },
+  // {
+  //   title: "Settings",
+  //   url: "#",
+  //   icon: Settings,
+  // },
 ];
 
 export function AppSidebar() {
@@ -88,10 +88,14 @@ export function AppSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-[14rem]">
                 <DropdownMenuItem>
-                  <span>Account</span>
+                  <a href="/profile" className="w-full">
+                    <span>Account</span>
+                  </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <a href="#" className="w-full">
+                    <span>Sign out</span>
+                  </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

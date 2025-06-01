@@ -17,8 +17,11 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { useState } from "react";
 
 const FormCard = ({ setIsOpen }) => {
+  const [projectType, setProjectType] = useState("");
+
   return (
     <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
       <Card className="w-xs sm:w-lg md:w-2xl lg:w-3xl dark:bg-blue-1-dark-sec bg-blue-100 max-h-[80vh] flex flex-col">

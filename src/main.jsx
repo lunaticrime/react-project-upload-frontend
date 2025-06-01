@@ -9,7 +9,7 @@ import EspaceAdmin from "./pages/EspaceAdmin";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    
+    {/*
     <Router>
       <Routes>
         <Route path="/" element={<EspaceProf />} />
@@ -17,13 +17,12 @@ createRoot(document.getElementById("root")).render(
         <Route path="/accueil" element={<Accueil />} />
       </Routes>
     </Router>
-    {/*
+    */}
     <Router>
       <Routes>
         <Route path="/" element={<EspaceAdmin />} />
       </Routes>
     </Router>
   </StrictMode>
-  */}
-  </StrictMode>
+
 );

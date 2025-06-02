@@ -12,11 +12,17 @@ import Footer from "../components/footer";
 
 export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
   const itemsPerPage = 10;
-  const [isExportOpen, setIsExportOpen] = useState(false); // State for Export popup
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Filter states
-  const [selectedRole, setSelectedRole] = useState("default");
+  const [selectedRole, setSelectedRole] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (search, role) => {
+    setSearchQuery(search);
+    setSelectedRole(role);
+  };
 
   // Filtered data
   const filteredData = usersData.filter((user) => {
@@ -44,8 +50,14 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
           setSelectedRole={setSelectedRole}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          onSearch={handleSearch}
         />
-        <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
+        <DashBord
+          itemsPerPage={itemsPerPage}
+          refreshTrigger={refreshTrigger}
+          roleFilter={selectedRole}
+          searchTerm={searchQuery}
+        />
         {/* Centered Export Button */}
         <div className="flex justify-center mt-6">
           <button
@@ -57,11 +69,9 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
         </div>
       </div>
       {/* Export Popup */}
-      <Export
-        isOpen={isExportOpen}
-        onClose={() => setIsExportOpen(false)}
-        className="bg-blue-50 dark:bg-blue-1 opacity-100"
-      />
+      {isExportOpen && (
+        <Export isOpen={isExportOpen} onClose={() => setIsExportOpen(false)} />
+      )}
       <div id="exportation" className={`${isDarkMode ? "dark" : ""}`}>
         <Export />
       </div>

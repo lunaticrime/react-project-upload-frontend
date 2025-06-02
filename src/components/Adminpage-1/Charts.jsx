@@ -1,0 +1,126 @@
+import React from "react";
+import { Reveal } from "../utils/Reveal";
+import { Pie, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from "chart.js";
+import { motion } from "framer-motion"; // Import framer-motion
+// import { projectStats } from "../../../mockData/dataEspaceAdmin";
+const projectStats = {
+  statusDistribution: [40, 30, 30], // Approved, Pending, Rejected
+  years: ["2020", "2021", "2022", "2023"],
+  projectsPerYear: [10, 15, 20, 25], // Number of projects per year
+};
+// Register required chart.js components
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
+
+const chartAnimation = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+};
+
+export default function DashBord({ isDarkMode }) {
+  const pieData = {
+    labels: ["Approved", "Pending", "Rejected"],
+    datasets: [
+      {
+        data: projectStats.statusDistribution,
+        backgroundColor: ["#4CAF50", "#FFC107", "#F44336"], // Green, Yellow, Red
+        hoverBackgroundColor: ["#45A049", "#FFB300", "#E53935"], // Darker Green, Yellow, Red
+      },
+    ],
+  };
+
+  const barData = {
+    labels: projectStats.years,
+    datasets: [
+      {
+        label: "Number of Projects",
+        data: projectStats.projectsPerYear,
+        backgroundColor: projectStats.projectsPerYear.map(
+          (_, index) => (index % 2 === 0 ? "#1976c9" : "#4d99ff") // Alternating palette colors
+        ),
+        hoverBackgroundColor: projectStats.projectsPerYear.map(
+          (_, index) => (index % 2 === 0 ? "#0c5594" : "#75b1ff") // Alternating palette colors
+        ),
+      },
+    ],
+  };
+
+  const barOptions = {
+    maintainAspectRatio: false, // Allow the chart to resize dynamically
+    plugins: {
+      legend: {
+        display: false, // Hide the legend
+        labels: {
+          boxWidth: 0, // Reserve space for the legend
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="mb-20 flex flex-col items-center justify-center px-6 py-12 dark:bg-blue-2-dark">
+      {/* Updated Title Section */}
+      <Reveal isDarkMode={isDarkMode}>
+        <div className="text-center w-full">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-poppins text-blue-1 dark:text-blue-50 mb-4 leading-snug sm:leading-snug lg:leading-normal xl:leading-20 tracking-wide">
+            Dashboard – Program Director
+          </h1>
+          <hr className="w-4/5 mx-auto mb-10 border-t-2 text-blue-1 dark:text-blue-50" />
+        </div>
+      </Reveal>
+      {/* Charts Section */}
+      <Reveal isDarkMode={isDarkMode} width="100%">
+        <div className="mt-10 flex flex-wrap justify-center gap-20 w-full">
+          {/* Pie Chart */}
+          <motion.div
+            className="w-full sm:w-1/2 lg:w-1/3 h-96 flex flex-col items-center justify-between"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={chartAnimation}
+          >
+            <Pie data={pieData} className="flex-grow" />
+            <h2 className="text-xl font-bold font-poppins text-blue-1 dark:text-blue-50 text-center mt-4">
+              Project Distribution
+            </h2>
+            <p className="text-sm font-inter text-blue-2 dark:text-blue-100 text-center mt-2">
+              Discover the proportion of approved, pending, and rejected
+              projects.
+            </p>
+          </motion.div>
+          {/* Bar Chart */}
+          <motion.div
+            className="w-full sm:w-1/2 lg:w-1/3 h-96 flex flex-col items-center justify-between"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={chartAnimation}
+          >
+            <Bar data={barData} options={barOptions} className="flex-grow" />
+            <h2 className="text-xl font-bold font-poppins text-blue-1 dark:text-blue-50 text-center mt-4">
+              Projects by Year
+            </h2>
+            <p className="text-sm font-inter text-blue-2 dark:text-blue-100 text-center mt-2">
+              Analyze the annual evolution of completed projects.
+            </p>
+          </motion.div>
+        </div>
+      </Reveal>
+    </div>
+  );
+}

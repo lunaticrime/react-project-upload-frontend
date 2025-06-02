@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
-import { FaSearch, FaRedo, FaUserPlus } from "react-icons/fa";
+import { FaSearch, FaFilter, FaRedo, FaUserPlus } from "react-icons/fa"; // Import icons
 import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { filterData } from "../../mockData/dataEspaceAdmin";
 import Title from "./Title";
-import AddUser from "./addUser";
+import AddUser from "./addUser"; // Import AddUser component
+import Filter from "./Filtre";
+import UserManagementDashBoard from "./DashBord";
 
-const Filter = ({
+const FilterComponent = ({
   selectedRole,
   setSelectedRole,
   searchQuery,
@@ -14,18 +16,17 @@ const Filter = ({
   onSearch,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
-  const [showAddUserPopup, setShowAddUserPopup] = useState(false);
+  const [showAddUserPopup, setShowAddUserPopup] = useState(false); // State to toggle AddUser popup
   const [hovered, setHovered] = useState(false);
   const ref = useRef(null);
 
   const handleReset = () => {
-    setSelectedRole("");
+    setSelectedRole(""); // Change from "default" to empty string
     setSearchQuery("");
-    if (onSearch) onSearch("", "");
   };
 
-  const handleSearch = () => {
-    if (onSearch) onSearch(searchQuery, selectedRole);
+  const handleSearchClick = () => {
+    onSearch(searchQuery, selectedRole);
   };
 
   return (
@@ -44,33 +45,27 @@ const Filter = ({
               placeholder="Search Name"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSearch()}
               className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-blue-50 font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
             />
             <span className="absolute inset-y-0 right-3 flex items-center text-blue-1 dark:text-blue-50 pr-2">
               <FaSearch className="h-5 w-5" />
             </span>
           </div>
-          {/* Remove old search/filter buttons */}
-          {/* Add new Search button */}
           <button
-            className="flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
-            onClick={handleSearch}
-            title="Search"
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            onClick={() => setShowFilters(!showFilters)}
           >
-            <FaSearch className="h-5 w-5" />
+            <FaFilter className="h-5 w-5" />
           </button>
           <button
-            className="flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
             onClick={handleReset}
-            title="Reset"
           >
             <FaRedo className="h-5 w-5" />
           </button>
           <button
-            className="flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
-            onClick={() => setShowAddUserPopup(true)}
-            title="Add User"
+            className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+            onClick={() => setShowAddUserPopup(true)} // Show AddUser popup on click
           >
             <FaUserPlus className="h-5 w-5 " />
           </button>
@@ -92,10 +87,7 @@ const Filter = ({
                         ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-2"
                         : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
                     }`}
-                    onClick={() => {
-                      setSelectedRole(role.value);
-                      if (onSearch) onSearch(searchQuery, role.value);
-                    }}
+                    onClick={() => setSelectedRole(role.value)}
                   >
                     {role.label}
                   </li>
@@ -112,17 +104,11 @@ const Filter = ({
           } flex-wrap items-center gap-4`}
         >
           {/* Filter by Role */}
-          <Listbox
-            value={selectedRole}
-            onChange={(value) => {
-              setSelectedRole(value);
-              if (onSearch) onSearch(searchQuery, value);
-            }}
-          >
+          <Listbox value={selectedRole} onChange={setSelectedRole}>
             <div className="relative w-full sm:w-48 mx-2">
               <Listbox.Button
                 className={`relative w-full cursor-pointer rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
-                  selectedRole !== ""
+                  selectedRole !== "default"
                     ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
                     : "bg-[var(--color-background)] text-blue-1 focus:ring-[var(--color-blue-3)]"
                 }`}
@@ -134,7 +120,7 @@ const Filter = ({
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 ">
                   <ChevronUpDownIcon
                     className={`h-5 w-5 ${
-                      selectedRole !== ""
+                      selectedRole !== "default"
                         ? "text-blue-50"
                         : "text-blue-1 dark:text-blue-50"
                     }`}
@@ -202,4 +188,16 @@ const Filter = ({
   );
 };
 
-export default Filter;
+const EspaceAdmin = () => {
+  const handleSearch = (search, role) => {
+    setSearchParams({ search, role });
+  };
+
+  return (
+    <div>
+      {/* ...existing JSX... */}
+    </div>
+  );
+};
+
+export default EspaceAdmin;

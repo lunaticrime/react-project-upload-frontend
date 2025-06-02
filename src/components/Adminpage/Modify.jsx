@@ -1,28 +1,31 @@
 import React, { useState } from "react";
 // import { X } from "react-feather";
+import apiClient from "../../services/apiClient";
 
 const ModifyUser = ({ user, onClose }) => {
-  const [role, setRole] = useState(user?.role || "Student"); // Default role
+  const [role, setRole] = useState(user?.role || "etudiant"); // Default role
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page reload
 
     try {
-      // Simulate an API call to modify the user
-      const response = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ success: true, message: "User modified successfully" });
-        }, 500); // Simulate a response delay
+      const response = await apiClient.put(`/admin/users/${user.id}`, {
+        name: event.target.elements.name.value,
+        email: event.target.elements.email.value,
+        role: role,
       });
 
-      if (response.success) {
-        alert(response.message); // Show success message
+      if (response.data && response.data.message) {
+        alert(response.data.message); // Show success message
       } else {
         alert("Failed to modify user"); // Show failure message
       }
     } catch (error) {
       console.error("Error modifying user:", error);
-      alert("An error occurred while modifying the user"); // Show error message
+      alert(
+        error.response?.data?.message ||
+          "An error occurred while modifying the user"
+      ); // Show error message
     }
 
     onClose(); // Close the modal after submission
@@ -66,6 +69,7 @@ const ModifyUser = ({ user, onClose }) => {
               Name
             </label>
             <input
+              name="name"
               type="text"
               defaultValue={user?.name || ""}
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
@@ -76,6 +80,7 @@ const ModifyUser = ({ user, onClose }) => {
               Email
             </label>
             <input
+              name="email"
               type="email"
               defaultValue={user?.email || ""}
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
@@ -91,9 +96,9 @@ const ModifyUser = ({ user, onClose }) => {
                 onChange={(e) => setRole(e.target.value)}
                 className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-blue-50 dark:bg-blue-1 text-blue-2 dark:text-blue-50 appearance-none"
               >
-                <option value="Student">Student</option>
-                <option value="Teacher">Teacher</option>
-                <option value="Admin">Admin</option>
+                <option value="etudiant">Student</option>
+                <option value="prof">Teacher</option>
+                <option value="admin">Admin</option>
               </select>
               <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
                 <svg

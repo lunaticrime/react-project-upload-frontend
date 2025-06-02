@@ -219,7 +219,7 @@ const Feed = () => {
                       : loginRegistrationImg
                   }
                   alt="Project thumbnail"
-                  className="w-full h-56 object-cover rounded-md mb-3 border border-blue-100"
+                  className="w-full h-96 object-cover rounded-md mb-3 border border-blue-100"
                 />
                 <h2 className="text-xl font-bold mb-1 text-blue-900 dark:text-blue-50">
                   {post.titre}

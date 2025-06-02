@@ -8,6 +8,7 @@ import BackToTop from "../components/utils/BackToTop"; // Import BackToTop compo
 // import { tableData } from "../mockData/dataEspaceProf"; // Remove mock data import
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/apiClient"; // Correct import path
+import { FaSignOutAlt } from "react-icons/fa"; // Import sign out icon
 
 function EspaceProf() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -63,6 +64,11 @@ function EspaceProf() {
     navigate(`/infoProjet/${projectId}`);
   };
 
+  const handleSignOut = () => {
+    localStorage.clear(); // Clear all data from local storage
+    navigate("/login"); // Redirect to login page
+  };
+
   // Modify handleSearch to just update the filter states
   const handleSearch = (search, year, module, status) => {
     setSearchQuery(search);
@@ -106,6 +112,16 @@ function EspaceProf() {
             onInfoClick={handleInfoClick}
           />
         )}
+        <div className="flex justify-end mt-6 mb-6">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 gap-2 border-2 cursor-pointer whitespace-nowrap bg-red-500 border-red-500 hover:bg-red-600 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+          >
+            <FaSignOutAlt className="h-5 w-5" />
+            Sign Out
+          </button>
+        </div>
+        <div className="h-16"></div> {/* Spacer element */}
         <BackToTop /> {/* Add BackToTop component */}
         <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>

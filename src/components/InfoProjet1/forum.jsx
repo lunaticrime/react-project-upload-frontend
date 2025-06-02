@@ -15,6 +15,22 @@ export default function Forum() {
   return (
     <div className="px-4 sm:px-8 md:px-12 lg:px-20 py-8 bg-[var(--color-background)] rounded-lg shadow-lg">
       {/* Zone de remarque */}
+      <div className="mb-6">
+        <label
+          htmlFor="remarque"
+          className="block text-left text-base sm:text-lg md:text-xl font-medium font-poppins text-blue-1 dark:text-blue-50 mb-2"
+        >
+          📝 <strong>Comment box</strong>
+        </label>
+        <textarea
+          id="remarque"
+          className="w-full p-3 border border-blue-3 dark:border-blue-50 rounded-md bg-white dark:bg-blue-2-dark font-poppins text-blue-1 dark:text-blue-50 text-sm sm:text-base focus:ring-2 focus:ring-blue-3 dark:focus:ring-blue-50 transition-all"
+          value={remarque}
+          onChange={handleRemarqueChange}
+          placeholder="Entrez votre remarque ici..."
+          rows={4}
+        />
+      </div>
 
       {/* Section Note */}
       <div className="mb-6">

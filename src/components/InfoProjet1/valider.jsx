@@ -1,50 +1,45 @@
 import React from "react";
 import { filterData } from "../../mockData/dataEspaceProf";
 
-// Remove simulated API functions
-// const api = {
-//   updateProjectStatus: async (projectId, newStatus) => {
-//     // Simulate an API call to update the project status
-//     console.log(
-//       `Simulating API call: Update project ${projectId} status to ${newStatus}`
-//     );
-//     return new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve({ success: true, status: newStatus });
-//       }, 500);
-//     });
-//   },
-// };
+// Simulated API functions
+const api = {
+  updateProjectStatus: async (projectId, newStatus) => {
+    // Simulate an API call to update the project status
+    console.log(
+      `Simulating API call: Update project ${projectId} status to ${newStatus}`
+    );
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true, status: newStatus });
+      }, 500);
+    });
+  },
+};
 
-// Accept onUpdateStatus, rejectionComment, and setRejectionComment props
-export default function Valider({
-  statusValue,
-  submissionDate,
-  projectId,
-  onUpdateStatus,
-  rejectionComment,
-  setRejectionComment,
-}) {
-  // Removed local state for the rejection comment
-  // const [rejectionComment, setRejectionComment] = useState('');
-
+export default function Valider({ statusValue, submissionDate, projectId }) {
   const statusItem = filterData.status.find(
     (item) => item.value === statusValue
   );
 
-  // Removed local helper function
-  // const handleReject = () => { ... };
-
-  // Remove local updateStatus function
-  // const updateStatus = async (newStatus) => { ... };
+  const updateStatus = async (newStatus) => {
+    try {
+      const response = await api.updateProjectStatus(projectId, newStatus);
+      if (response.success) {
+        alert(`Status updated to ${response.status}`);
+      } else {
+        alert("Failed to update status");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("An error occurred while updating the status");
+    }
+  };
 
   return (
     <div className="px-4 sm:px-8 md:px-12 lg:px-20 pb-12 bg-blue-50 dark:bg-blue-2-dark font-poppins text-blue-1 dark:text-blue-50">
       <h1 className="py-6 sm:py-8 text-left text-lg sm:text-xl md:text-2xl mb-6 underline">
         Project Approval
       </h1>
-
-      {/* Status and Submission Date */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 sm:gap-10 text-sm sm:text-base md:text-lg font-medium mb-10">
         <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left">
           <p className="min-w-[10rem]">
@@ -61,50 +56,31 @@ export default function Valider({
           <p className="pl-1 sm:pl-2">{submissionDate}</p>
         </div>
       </div>
-
-      {/* Approval Section */}
-      {statusValue === "pending" && (
-        <div className="flex flex-col gap-6">
-          {/* Comment Input Field - Only show when status is pending */}
-          <textarea
-            value={rejectionComment}
-            onChange={(e) => setRejectionComment(e.target.value)}
-            placeholder="Enter rejection comment here..."
-            rows="3"
-            className="w-full p-2 border rounded-md dark:bg-blue-1-dark dark:text-blue-50 dark:border-blue-50"
-          />
-
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-10 mt-6">
+        {statusValue === "pending" ? (
+          <>
             <button
-              onClick={() => onUpdateStatus(projectId, "approved", "")}
+              onClick={() => updateStatus("approved")}
               className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer"
             >
               ✅ Approve
             </button>
             <button
-              onClick={() =>
-                onUpdateStatus(projectId, "rejected", rejectionComment)
-              }
+              onClick={() => updateStatus("rejected")}
               className="group flex items-center justify-center gap-2 rounded-xl bg-blue-1 dark:bg-blue-50 px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-white dark:text-blue-1 shadow-md hover:bg-white dark:hover:bg-blue-1 hover:text-blue-1 dark:hover:text-blue-50 border hover:border-blue-1 dark:hover:border-blue-50 transition-all duration-200 cursor-pointer"
             >
               ❌ Reject
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* No Action Available Message */}
-      {statusValue !== "pending" && (
-        <div className="flex justify-center">
+          </>
+        ) : (
           <button
             disabled
             className="rounded-xl px-5 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-semibold text-gray-500 bg-gray-200 cursor-not-allowed"
           >
             No action available for this status
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

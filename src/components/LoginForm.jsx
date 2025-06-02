@@ -15,59 +15,42 @@ const LoginForm = ({ isDarkMode }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-    setValidationErrors({});
     setIsLoading(true);
 
     try {
-      const response = await apiClient.post("/login", loginData); // ✅ Utilisation de apiClient
-      const data = response.data; // Avec Axios, les données sont dans response.data
+      const response = await apiClient.post("/login", {
+        email: loginData.email,
+        password: loginData.password,
+      });
 
-      localStorage.setItem("token", data.token); // ✅ Stocke sous la clé "token"
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (response.data && response.data.token && response.data.user) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      // Redirection après un court délai pour que l'utilisateur voie le message/état
-      // Ou vous pouvez avoir un état global qui déclenche la redirection
-      // et met à jour l'état de l'utilisateur authentifié.
-      switch (data.user.role) { //
-        case "admin":
-          navigate("/admin");
-          break;
-        case "prof":
-          navigate("/prof");
-          break;
-        case "etudiant":
-          navigate("/profile");
-          break;
-        default:
-          navigate("/profile");
-      }
-    } catch (errorCaught) {
-      console.error("Login failed:", errorCaught);
-      let errorMessage = "Login failed. Please check your credentials.";
-      if (errorCaught.response) { //
-        const apiData = errorCaught.response.data;
-        if (errorCaught.response.status === 422) { //
-          if (apiData.errors) {
-            setValidationErrors(apiData.errors);
-            const firstErrorField = Object.keys(apiData.errors)[0];
-            if (firstErrorField && apiData.errors[firstErrorField]) {
-              errorMessage = apiData.errors[firstErrorField][0];
-            } else {
-              errorMessage = apiData.message || errorMessage;
-            }
-          } else if (apiData.message) {
-            errorMessage = apiData.message;
-          } else if (apiData.email && Array.isArray(apiData.email)) { // Spécifique à votre AuthController
-            errorMessage = apiData.email[0];
-            setValidationErrors({ email: apiData.email });
-          }
-        } else if (apiData && apiData.message) { // Gérer d'autres erreurs API
-          errorMessage = apiData.message;
+        // Navigate based on user role
+        const userRole = response.data.user.role;
+        switch (userRole) {
+          case "admin":
+            navigate("/admin");
+            break;
+          case "prof":
+            navigate("/prof");
+            break;
+          case "etudiant":
+            navigate("/profile"); // Assuming students go to their profile page
+            break;
+          default:
+            navigate("/"); // Default fallback
         }
       } else {
-        errorMessage = errorCaught.message || "An unexpected network error occurred.";
+        setError("Invalid response from server: Missing token or user data.");
       }
-      setError(errorMessage);
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.message ||
+          "An error occurred during login. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -98,7 +81,9 @@ const LoginForm = ({ isDarkMode }) => {
             }
           />
           {validationErrors.email && (
-            <div className="text-red-500 text-xs">{validationErrors.email[0]}</div>
+            <div className="text-red-500 text-xs">
+              {validationErrors.email[0]}
+            </div>
           )}
           <input
             type="password"
@@ -112,7 +97,9 @@ const LoginForm = ({ isDarkMode }) => {
             }
           />
           {validationErrors.password && (
-            <div className="text-red-500 text-xs">{validationErrors.password[0]}</div>
+            <div className="text-red-500 text-xs">
+              {validationErrors.password[0]}
+            </div>
           )}
 
           <a href="#">Forgotten password?</a>
@@ -125,11 +112,7 @@ const LoginForm = ({ isDarkMode }) => {
           </button>
         </div>
         <img
-          src={
-            isDarkMode
-              ? lightLogo
-              : darkLogo
-          }
+          src={isDarkMode ? lightLogo : darkLogo}
           alt="ENSAK"
           className="mb-8 self-center w-1/2 h-auto hidden lg:block"
         />

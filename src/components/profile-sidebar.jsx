@@ -93,7 +93,7 @@ export function AppSidebar() {
                   </a>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <a href="#" className="w-full">
+                  <a href="/login" className="w-full">
                     <span>Sign out</span>
                   </a>
                 </DropdownMenuItem>

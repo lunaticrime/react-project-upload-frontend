@@ -347,10 +347,17 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
     try {
       const formData = new FormData();
       formData.append("name", editProfileData.name);
-      formData.append("username", editProfileData.username);
-      formData.append("bio", editProfileData.bio);
-      formData.append("about", editProfileData.about);
-      formData.append("skills", JSON.stringify(editProfileData.skills));
+
+      // Append optional fields only if they have values
+      if (editProfileData.username) {
+        formData.append("username", editProfileData.username);
+      }
+      if (editProfileData.bio) {
+        formData.append("bio", editProfileData.bio);
+      }
+      if (editProfileData.about) {
+        formData.append("about", editProfileData.about);
+      }
 
       // Append the selected image if it exists
       if (selectedImage) {

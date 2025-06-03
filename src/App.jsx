@@ -1,11 +1,12 @@
+// src/App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect, Suspense, lazy } from "react";
 import "./App.css";
-// import Home from "./pages/home";
-// import Login from "./pages/login";
-// import Profile from "./pages/profile";
-// import CommandMenu from "./components/commandMenu";
 import { CommandMenuProvider } from "./components/CommandMenuContext";
+
+// Importez PrivateRoute
+import PrivateRoute from "./components/PrivateRoute"; // Ajustez le chemin si nécessaire
+
 const EspaceAdmin = lazy(() => import("./pages/EspaceAdmin"));
 const EspaceProf = lazy(() => import("./pages/EspaceProf"));
 const Home = lazy(() => import("./pages/home"));
@@ -16,30 +17,14 @@ const FeedPage = lazy(() => import("./pages/FeedPage"));
 const InfoProjet = lazy(() => import("./pages/infoProjet"));
 import BarLoader from "./components/utils/loader";
 import lightLogo from "./assets/lightLogo.png";
-// const CommandMenu = lazyLoad("./components/commandMenu");
-// const Home = lazyLoad("pages/home.jsx");
-// const Login = lazyLoad("pages/login");
-// const Profile = lazyLoad("pages/profile");
-// const Home = lazy(() =>
-//   import("./pages/home");
-// );
-// const Login = lazy(() =>
-//   import("./pages/login");
-// );
-// const Profile = lazy(() =>
-//   import("./pages/profile");
-// );
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/profile-sidebar";
+
+// ... (le reste des imports et la logique de isDarkMode)
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem("isDarkMode");
     if (saved !== null) return saved === "true";
-
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     return prefersDark;
   });
 
@@ -64,6 +49,7 @@ function App() {
         >
           <CommandMenu />
           <Routes>
+            {/* Routes publiques */}
             <Route
               path="/"
               element={
@@ -71,26 +57,55 @@ function App() {
               }
             />
             <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
+
+            {/* Routes privées */}
             <Route
               path="/profile"
               element={
-                <Profile
-                  isDarkMode={isDarkMode}
-                  setIsDarkMode={setIsDarkMode}
-                />
+                <PrivateRoute>
+                  <Profile
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                  />
+                </PrivateRoute>
               }
             />
-            <Route path="/admin" element={<EspaceAdmin isDarkMode={isDarkMode}
-                  setIsDarkMode={setIsDarkMode}/>} />
-            <Route path="/prof" element={<EspaceProf />} />
-            <Route path="/info-projet/:id" element={<InfoProjet />} />
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute>
+                  <EspaceAdmin
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                  />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/prof"
+              element={
+                <PrivateRoute>
+                  <EspaceProf />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/info-projet/:id"
+              element={
+                <PrivateRoute>
+                  <InfoProjet />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/feed"
               element={
-                <FeedPage
-                  isDarkMode={isDarkMode}
-                  setIsDarkMode={setIsDarkMode}
-                />
+                <PrivateRoute>
+                  <FeedPage
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                  />
+                </PrivateRoute>
               }
             />
           </Routes>

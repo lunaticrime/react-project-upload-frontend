@@ -1,11 +1,9 @@
 // EspaceProf/DashBord.jsx
-import React, { useState, useEffect } from "react";
+import React from "react"; // Plus besoin de useState, useEffect
 import { useNavigate } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
-// import Pagination from "./pagination"; // Supprimé : la pagination est gérée par EspaceProf
-import apiClient from "../../services/apiClient";
 
-// Define filterData for status locally
+// Define filterData for status locally if still needed for display labels
 const filterDataStatus = {
   status: [
     { value: "approved", label: "🟢 Approved" },
@@ -15,24 +13,19 @@ const filterDataStatus = {
   ],
 };
 
-// onUpdateStatus now expects (projectId, newStatus, comment)
-// data est déjà paginée par EspaceProf.
-// Les props totalItems, currentPage, onPageChange ne sont plus nécessaires ici si la pagination est externe.
-const DashBord = ({ itemsPerPage, data }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+// DashBord reçoit les données déjà filtrées et paginées (currentProjects)
+// et ne gère aucune logique de filtre ni de pagination en interne.
+const DashBord = ({ data: currentProjects }) => {
   const navigate = useNavigate();
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  const currentData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const getProjectYear = (project) => {
+    if (project.submittedDate) {
+      return new Date(project.submittedDate).getFullYear();
+    }
+    if (project.created_at) {
+      return new Date(project.created_at).getFullYear();
+    }
+    return "N/A";
   };
 
   const getStatusLabel = (statusValue) => {
@@ -43,12 +36,14 @@ const DashBord = ({ itemsPerPage, data }) => {
   };
 
   const handleNavigateToProject = (projectId) => {
+    // Gardez le chemin qui fonctionne pour vous
     navigate(`/info-projet/${projectId}`);
   };
 
   return (
     <div className="p-5 min-h-fit dashbord-section">
-      {currentData.length === 0 ? (
+      {/* Aucune logique de filtre ici */}
+      {currentProjects.length === 0 ? (
         <div className="text-center py-10 text-gray-500 dark:text-gray-400">
           <p className="text-xl">Aucun projet trouvé.</p>
           <p>Essayez d'ajuster vos filtres ou votre recherche.</p>
@@ -78,7 +73,7 @@ const DashBord = ({ itemsPerPage, data }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-blue-200 dark:divide-blue-50">
-                {currentData.map((row) => (
+                {currentProjects.map((row) => (
                   <tr
                     key={row.id}
                     className={
@@ -103,7 +98,7 @@ const DashBord = ({ itemsPerPage, data }) => {
                       {row.user ? row.user.name : "N/A"}
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
-                      {row.annee || "N/A"}
+                      {getProjectYear(row)}
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                       {row.module ? row.module.name || row.module.nom : "N/A"}
@@ -131,7 +126,7 @@ const DashBord = ({ itemsPerPage, data }) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:hidden">
-            {currentData.map((row) => (
+            {currentProjects.map((row) => (
               <div
                 key={row.id}
                 className="bg-white dark:bg-blue-1-dark space-y-3 p-4 rounded-lg shadow"
@@ -139,7 +134,7 @@ const DashBord = ({ itemsPerPage, data }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 text-sm">
                     <div className="text-blue-500 dark:text-blue-50 font-semibold">
-                      {row.annee || "N/A"}
+                      {getProjectYear(row)}
                     </div>
                     <div>
                       <span
@@ -180,6 +175,7 @@ const DashBord = ({ itemsPerPage, data }) => {
           </div>
         </>
       )}
+      {/* Les contrôles de pagination sont maintenant gérés par le parent (EspaceProf) */}
     </div>
   );
 };

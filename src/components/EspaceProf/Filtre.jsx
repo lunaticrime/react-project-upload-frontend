@@ -4,16 +4,8 @@ import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import apiClient from "../../services/apiClient";
 
-// Define filterData for years and status locally (modules will be fetched)
+// filterDataYearsAndStatus will now only contain status, years will be fetched dynamically
 const filterDataYearsAndStatus = {
-  years: [
-    { id: 0, value: "", label: "Filter by Year" }, // Use empty string for no filter
-    { id: 1, value: "2023", label: "2023" },
-    { id: 2, value: "2022", label: "2022" },
-    { id: 3, value: "2021", label: "2021" },
-    { id: 4, value: "2020", label: "2020" },
-    // Add more years as needed
-  ],
   status: [
     { id: 0, value: "", label: "Filter by Status" }, // Use empty string for no filter
     { id: 1, value: "approved", label: "🟢 Approved" },
@@ -36,20 +28,23 @@ const Filter = ({
 }) => {
   const [showFilters, setShowFilters] = useState(false);
 
-  // State for modules fetched from API
   const [modules, setModules] = useState([]);
   const [loadingModules, setLoadingModules] = useState(true);
   const [moduleError, setModuleError] = useState(null);
 
-  // Fetch modules when the component mounts
+  // --- NEW STATE FOR DYNAMIC YEARS ---
+  const [availableYears, setAvailableYears] = useState([]);
+  const [loadingYears, setLoadingYears] = useState(true);
+  const [yearsError, setYearsError] = useState(null);
+  // --- END NEW STATE ---
+
   useEffect(() => {
+    // Fetch modules
     const fetchModules = async () => {
       try {
         const response = await apiClient.get("/modules");
-        // Assuming the API returns an array of module objects like [{ id: 1, nom: 'Module Name' }, ...]
-        // Map them to the format expected by the Listbox
         const formattedModules = [
-          { id: 0, value: "", label: "Filter by Module" }, // Add default option
+          { id: 0, value: "", label: "Filter by Module" },
           ...response.data.map((module) => ({
             id: module.id,
             value: String(module.id),
@@ -65,8 +60,31 @@ const Filter = ({
       }
     };
 
+    // --- NEW EFFECT FOR DYNAMIC YEARS ---
+    const fetchAvailableYears = async () => {
+      try {
+        const response = await apiClient.get("/projets/available-years"); // Call the new API endpoint
+        const formattedYears = [
+          { id: 0, value: "", label: "Filter by Year" }, // Default option
+          ...response.data.map((year, index) => ({
+            id: index + 1, // Simple ID for mapping
+            value: String(year),
+            label: String(year),
+          })),
+        ];
+        setAvailableYears(formattedYears);
+      } catch (err) {
+        console.error("Error fetching available years:", err);
+        setYearsError("Failed to load years.");
+      } finally {
+        setLoadingYears(false);
+      }
+    };
+    // --- END NEW EFFECT ---
+
     fetchModules();
-  }, []); // Empty dependency array means this effect runs only once on mount
+    fetchAvailableYears(); // Call the new fetch function
+  }, []); // Empty dependency array means these effects run only once on mount
 
   const resetFilters = () => {
     setSelectedYear("");
@@ -76,7 +94,6 @@ const Filter = ({
     if (onSearch) onSearch("", "", "", "");
   };
 
-  // Function to trigger the search with current filter values
   const triggerSearch = (
     search = searchQuery,
     year = selectedYear,
@@ -96,29 +113,26 @@ const Filter = ({
             placeholder="Rechercher Étudiant/Projet"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && triggerSearch()} // Trigger search on Enter
+            onKeyPress={(e) => e.key === "Enter" && triggerSearch()}
             className="border-2 border-blue-1 dark:border-blue-50 rounded-lg px-4 py-2 text-base w-full sm:w-100 focus:outline-none focus:ring-1 focus:ring-blue-50 font-goudy font-bold text-blue-2 dark:text-blue-50 sm:text-base placeholder:text-blue-1 dark:placeholder:text-blue-50 placeholder:opacity-50"
           />
           <span className="absolute inset-y-0 right-3 flex items-center text-blue-1 dark:text-blue-50 pr-2">
             <FaSearch className="h-5 w-5" />
           </span>
         </div>
-        {/* Toggle Filter Button for small screens */}
         <button
           className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
           onClick={() => setShowFilters(!showFilters)}
         >
           <FaFilter className="h-5 w-5" />
         </button>
-        {/* Explicit Search button for all screens */}
         <button
           className="flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
-          onClick={() => triggerSearch()} // Trigger search on button click
+          onClick={() => triggerSearch()}
           title="Search"
         >
           <FaSearch className="h-5 w-5" />
         </button>
-        {/* Reset button for small screens */}
         <button
           className="sm:hidden flex items-center justify-center p-2 rounded-lg bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
           onClick={resetFilters}
@@ -135,31 +149,37 @@ const Filter = ({
             <h3 className="font-bold text-[var(--color-blue-1)] dark:text-blue-50 text-lg">
               Année:
             </h3>
-            <ul>
-              {filterDataYearsAndStatus.years
-                .filter((year) => year.value !== "") // Filter out the "Filter by" option
-                .map((year) => (
-                  <li
-                    key={year.id}
-                    className={`cursor-pointer py-1 pl-4 ${
-                      selectedYear === year.value
-                        ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-2"
-                        : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
-                    }`}
-                    onClick={() => {
-                      setSelectedYear(year.value);
-                      triggerSearch(
-                        searchQuery,
-                        year.value,
-                        selectedModule,
-                        selectedStatus
-                      ); // Trigger search
-                    }}
-                  >
-                    {year.label}
-                  </li>
-                ))}
-            </ul>
+            {loadingYears ? (
+              <p>Loading years...</p>
+            ) : yearsError ? (
+              <p className="text-red-500">{yearsError}</p>
+            ) : (
+              <ul>
+                {availableYears // Use dynamically fetched years
+                  .filter((year) => year.value !== "")
+                  .map((year) => (
+                    <li
+                      key={year.id}
+                      className={`cursor-pointer py-1 pl-4 ${
+                        selectedYear === year.value
+                          ? "text-[var(--color-blue-3)] dark:text-blue-200 font-extrabold text-lg opacity-100 ml-2"
+                          : "text-[var(--color-blue-1)] dark:text-blue-50 opacity-50"
+                      }`}
+                      onClick={() => {
+                        setSelectedYear(year.value);
+                        triggerSearch(
+                          searchQuery,
+                          year.value,
+                          selectedModule,
+                          selectedStatus
+                        );
+                      }}
+                    >
+                      {year.label}
+                    </li>
+                  ))}
+              </ul>
+            )}
           </div>
           <hr className="border-t border-gray-300 dark:border-blue-50 w-4/5 mx-auto mb-4" />
           {/* Module Filter */}
@@ -174,7 +194,7 @@ const Filter = ({
             ) : (
               <ul>
                 {modules
-                  .filter((module) => module.value !== "") // Filter out the "Filter by" option
+                  .filter((module) => module.value !== "")
                   .map((module) => (
                     <li
                       key={module.id}
@@ -190,7 +210,7 @@ const Filter = ({
                           selectedYear,
                           module.value,
                           selectedStatus
-                        ); // Trigger search
+                        );
                       }}
                     >
                       {module.label}
@@ -207,7 +227,7 @@ const Filter = ({
             </h3>
             <ul>
               {filterDataYearsAndStatus.status
-                .filter((status) => status.value !== "") // Filter out the "Filter by" option
+                .filter((status) => status.value !== "")
                 .map((status) => (
                   <li
                     key={status.id}
@@ -223,7 +243,7 @@ const Filter = ({
                         selectedYear,
                         selectedModule,
                         status.value
-                      ); // Trigger search
+                      );
                     }}
                   >
                     {status.label}
@@ -241,7 +261,7 @@ const Filter = ({
           value={selectedYear}
           onChange={(value) => {
             setSelectedYear(value);
-            triggerSearch(searchQuery, selectedYear, selectedModule, value); // Trigger search
+            triggerSearch(searchQuery, value, selectedModule, selectedStatus);
           }}
         >
           <div className="relative w-full sm:w-48 mx-2">
@@ -253,9 +273,12 @@ const Filter = ({
               }`}
             >
               <span className="block truncate">
-                {filterDataYearsAndStatus.years.find(
-                  (year) => year.value === selectedYear
-                )?.label || "Filter by Year"}
+                {loadingYears
+                  ? "Loading..."
+                  : yearsError
+                  ? "Error loading"
+                  : availableYears.find((year) => year.value === selectedYear)
+                      ?.label || "Filter by Year"}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
@@ -269,11 +292,11 @@ const Filter = ({
               </span>
             </Listbox.Button>
             <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-blue-1-dark py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
-              {filterDataYearsAndStatus.years.map((year) => (
+              {availableYears.map((year) => ( // Use dynamically fetched years
                 <Listbox.Option
                   key={year.id}
                   value={year.value}
-                  disabled={year.value === ""} // Disable the "Filter by" option
+                  disabled={year.value === ""}
                   className={({ active, disabled }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 rounded-lg ${
                       disabled
@@ -296,7 +319,7 @@ const Filter = ({
           value={selectedModule}
           onChange={(value) => {
             setSelectedModule(value);
-            triggerSearch(searchQuery, selectedYear, value, selectedStatus); // Trigger search
+            triggerSearch(searchQuery, selectedYear, value, selectedStatus);
           }}
         >
           <div className="relative w-full sm:w-48 mx-2">
@@ -331,7 +354,7 @@ const Filter = ({
                 <Listbox.Option
                   key={module.id}
                   value={module.value}
-                  disabled={module.value === ""} // Disable the "Filter by" option
+                  disabled={module.value === ""}
                   className={({ active, disabled }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 rounded-lg ${
                       disabled
@@ -354,7 +377,7 @@ const Filter = ({
           value={selectedStatus}
           onChange={(value) => {
             setSelectedStatus(value);
-            triggerSearch(searchQuery, selectedYear, selectedModule, value); // Trigger search
+            triggerSearch(searchQuery, selectedYear, selectedModule, value);
           }}
         >
           <div className="relative w-full sm:w-48 mx-2">
@@ -386,7 +409,7 @@ const Filter = ({
                 <Listbox.Option
                   key={status.id}
                   value={status.value}
-                  disabled={status.value === ""} // Disable the "Filter by" option
+                  disabled={status.value === ""}
                   className={({ active, disabled }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 rounded-lg ${
                       disabled

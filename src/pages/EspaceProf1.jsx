@@ -1,3 +1,5 @@
+// EspaceProf.jsx
+
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/test-navbar";
 import Title from "../components/EspaceProf/Title";
@@ -5,7 +7,9 @@ import Filter from "../components/EspaceProf/Filtre";
 import DashBord from "../components/EspaceProf/DashBord";
 import Footer from "../components/footer"; // Import the Footer component
 import BackToTop from "../components/utils/BackToTop"; // Import BackToTop component
-import { tableData } from "../mockData/dataEspaceProf";
+import { useNavigate } from "react-router-dom";
+import apiClient from "../services/apiClient"; // Correct import path
+import { FaSignOutAlt } from "react-icons/fa"; // Import sign out icon
 
 function EspaceProf() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -19,21 +23,61 @@ function EspaceProf() {
   const itemsPerPage = 10;
 
   // Filter states
-  const [selectedYear, setSelectedYear] = useState("default");
-  const [selectedModule, setSelectedModule] = useState("default");
-  const [selectedStatus, setSelectedStatus] = useState("default");
+  const [selectedYear, setSelectedYear] = useState(""); // Initialize with empty string for no filter
+  const [selectedModule, setSelectedModule] = useState(""); // Initialize with empty string for no filter
+  const [selectedStatus, setSelectedStatus] = useState(""); // Initialize with empty string for no filter
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Filtered data
-  const filteredData = tableData.filter((item) => {
-    return (
-      (selectedYear === "default" || item.year === selectedYear) &&
-      (selectedModule === "default" || item.module === selectedModule) &&
-      (selectedStatus === "default" || item.status === selectedStatus) &&
-      (searchQuery === "" ||
-        item.student.toLowerCase().includes(searchQuery.toLowerCase())) // Filter by search query
-    );
-  });
+  // State for fetched data
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Function to fetch projects from the backend
+  const fetchProjects = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams();
+      if (searchQuery) params.append("search", searchQuery);
+      if (selectedYear) params.append("submitted_year", selectedYear); // Changed 'annee' to 'submitted_year'
+      if (selectedModule) params.append("module_id", selectedModule);
+      if (selectedStatus) params.append("approval_status", selectedStatus);
+
+      const response = await apiClient.get(`/projets`, { params });
+      setProjects(response.data);
+    } catch (err) {
+      console.error("Error fetching projects for EspaceProf:", err);
+      setError("Failed to load projects. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch projects when component mounts or filters change
+  useEffect(() => {
+    fetchProjects();
+  }, [searchQuery, selectedYear, selectedModule, selectedStatus]); // Dependencies
+
+  const navigate = useNavigate();
+
+  const handleInfoClick = (projectId) => {
+    navigate(`/infoProjet/${projectId}`);
+  };
+
+  const handleSignOut = () => {
+    localStorage.clear(); // Clear all data from local storage
+    navigate("/login"); // Redirect to login page
+  };
+
+  // Modify handleSearch to just update the filter states
+  const handleSearch = (search, year, module, status) => {
+    setSearchQuery(search);
+    setSelectedYear(year);
+    setSelectedModule(module);
+    setSelectedStatus(status);
+    // fetchProjects is triggered by the useEffect dependency array when state changes
+  };
 
   return (
     <>
@@ -42,11 +86,11 @@ function EspaceProf() {
           isDarkMode ? "dark" : ""
         } transition-all duration-300`}
       >
-        {/* <Navbar /> */}
         <Title />
         <h2 className="text-3xl font-bold text-center text-blue-1 dark:text-blue-50 mt-20 mb-10">
           Manage Your Projects
         </h2>
+        {/* Pass filter states and the handleSearch function to Filter component */}
         <Filter
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
@@ -56,8 +100,28 @@ function EspaceProf() {
           setSelectedStatus={setSelectedStatus}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          onSearch={handleSearch}
         />
-        <DashBord data={filteredData} itemsPerPage={itemsPerPage} />
+        {/* Pass fetched projects data to DashBord component */}
+        {loading && <p className="text-center">Loading projects...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+        {!loading && !error && (
+          <DashBord
+            data={projects}
+            itemsPerPage={itemsPerPage}
+            onInfoClick={handleInfoClick}
+          />
+        )}
+        <div className="flex justify-end mt-6 mb-6">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 gap-2 border-2 cursor-pointer whitespace-nowrap bg-red-500 border-red-500 hover:bg-red-600 hover:text-white shadow-md transition-all duration-300 ease-in-out"
+          >
+            <FaSignOutAlt className="h-5 w-5" />
+            Sign Out
+          </button>
+        </div>
+        <div className="h-16"></div> {/* Spacer element */}
         <BackToTop /> {/* Add BackToTop component */}
         <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>

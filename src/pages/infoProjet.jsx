@@ -1,3 +1,5 @@
+// infoProjet.jsx
+
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Title from "../components/InfoProjet/Title";
@@ -7,6 +9,10 @@ import Valider from "../components/InfoProjet/valider";
 import BackToTop from "../components/utils/BackToTop";
 import Footer from "../components/footer";
 import apiClient from "../services/apiClient";
+
+// Make sure this environment variable is set in your .env file (e.g., VITE_APP_URL=http://localhost:8000)
+const APP_URL = import.meta.env.VITE_APP_URL || "http://localhost:8000";
+const STORAGE_BASE_URL = `${APP_URL}/storage/`; // Define STORAGE_BASE_URL here for consistency
 
 function InfoProjet() {
   const { id } = useParams();
@@ -24,10 +30,11 @@ function InfoProjet() {
     localStorage.setItem("isDarkMode", isDarkMode);
   }, [isDarkMode]);
 
-  // Function to fetch CSRF cookie
   const fetchCsrfToken = async () => {
     try {
-      await apiClient.get("/sanctum/csrf-cookie");
+      // Assuming apiClient is configured with the correct base URL (e.g., http://localhost:8000)
+      // and CSRF route is /sanctum/csrf-cookie
+      await apiClient.get("/sanctum/csrf-cookie"); // This route is in api.php
       console.log("CSRF cookie fetched.");
     } catch (err) {
       console.error("Failed to fetch CSRF cookie:", err);
@@ -37,16 +44,12 @@ function InfoProjet() {
   const fetchProjectDetails = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-
-    // Fetch CSRF token before making authenticated requests
     await fetchCsrfToken();
 
-    // Add this log to inspect cookies just before the API call
     console.log(
       "Cookies available before fetching project details:",
       document.cookie
     );
-
     const currentToken = localStorage.getItem("token");
     console.log(
       "Fetching project details. Token in localStorage:",
@@ -54,15 +57,17 @@ function InfoProjet() {
     );
 
     try {
+      // The route is /projets/{projet}
+      // apiClient should handle prefixing /api if necessary, or its baseURL includes it.
       const response = await apiClient.get(`/projets/${id}`);
-      console.log("Project data fetched:", response.data); // Debugging log
+      console.log("Project data fetched:", response.data);
       setProjectData(response.data);
     } catch (e) {
       console.error(
         "Erreur lors de la récupération des détails du projet:",
-        e.message
+        e.response?.data?.message || e.message // More detailed error
       );
-      setError(e.message);
+      setError(e.response?.data?.message || e.message);
     } finally {
       setIsLoading(false);
     }
@@ -77,56 +82,71 @@ function InfoProjet() {
     newStatus,
     comment = ""
   ) => {
+    setIsLoading(true); // Set loading at the beginning
     const currentProjectId = projectIdToUpdate || id;
-    // Fetch CSRF token before making authenticated requests
     await fetchCsrfToken();
-
-    // Add this log to inspect cookies just before the API call
-    console.log(
-      "Cookies available before fetching project details:",
-      document.cookie
-    );
-
+    
     const currentToken = localStorage.getItem("token");
     console.log(
-      "Fetching project details. Token in localStorage:",
+      "Updating project status. Token in localStorage:",
       currentToken ? "Present" : "Missing"
     );
 
     try {
-      // Include the rejectionComment from state if status is rejected
       const payload = { status: newStatus };
-      // Use the comment parameter if status is rejected
       if (newStatus === "rejected") {
         if (comment.trim() === "") {
-          alert("A comment is required to reject this project.");
-          setIsLoading(false); // Stop loading if validation fails on frontend
-          return; // Stop the API call
+          // Changed alert to console.error and return for better UX
+          console.error("A comment is required to reject this project.");
+          setIsLoading(false);
+          return;
         }
         payload.comment = comment;
       }
 
+      // The route is /projets/{projet}/review
       const response = await apiClient.post(
         `/projets/${currentProjectId}/review`,
         payload
       );
 
-      fetchProjectDetails();
-      alert(
+      setProjectData(response.data.projet); // Update project data with fresh data from response
+      // Changed alert to console.log for better UX
+      console.log(
         `Projet ${
           newStatus === "approved" ? "approuvé" : "rejeté"
         } avec succès!`
       );
-      // Clear comment after successful update (optional)
-      setRejectionComment("");
+      setRejectionComment(""); // Clear comment
     } catch (err) {
-      console.error("Erreur lors de la mise à jour du statut:", err.message);
-      setError(err.message);
-      alert(`Erreur: ${err.message}`);
+      console.error("Erreur lors de la mise à jour du statut:", err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || err.message);
+      // Changed alert to console.error for better UX
+      console.error(`Erreur: ${err.response?.data?.message || err.message}`);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Define a function to get the correct file URL
+  const getProjectFileUrl = (filePath) => {
+    if (!filePath) {
+      return null; // Or a default placeholder if needed for files
+    }
+    // Check if the URL is already a full external URL
+    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+      return filePath;
+    }
+    // Otherwise, it's a local storage path, prepend STORAGE_BASE_URL
+    return `${STORAGE_BASE_URL}${filePath}`;
+  };
+
+  // Define a function to get the correct image URL with fallback
+  const getProjectImageUrl = (imagePath) => {
+    const url = getProjectFileUrl(imagePath);
+    return url || "https://placehold.co/600x400/EBF8FF/3182CE?text=Image+Projet";
+  };
+
 
   if (isLoading && !projectData) {
     return (
@@ -142,7 +162,7 @@ function InfoProjet() {
     );
   }
 
-  if (error) {
+  if (error && !projectData) { // Keep showing error if projectData is null
     return (
       <div
         className={`bg-blue-50 dark:bg-blue-2-dark ${
@@ -163,21 +183,57 @@ function InfoProjet() {
       </div>
     );
   }
+  
+  // If projectData is null even after loading and no specific error string, show generic message
+  if (!projectData) {
+     return (
+      <div
+        className={`flex justify-center items-center min-h-screen bg-blue-50 dark:bg-blue-2-dark ${
+          isDarkMode ? "dark" : ""
+        }`}
+      >
+        <p className="text-xl text-red-500 dark:text-red-300">
+          Impossible de charger les données du projet. Veuillez réessayer.
+        </p>
+         <button
+            onClick={() => navigate(-1)}
+            className="ml-4 mt-4 px-4 py-2 bg-blue-1 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          >
+            Retour
+          </button>
+      </div>
+    );
+  }
 
+
+  // --- Corrected File Preparation ---
   const filesForInfo = [];
-  if (projectData.fichier_url) {
+
+  // 1. Project File (PDF, ZIP, DOCX, etc.)
+  // projectData.fichier is the path like "projets/fichiers/document.pdf"
+  if (projectData.fichier) {
     filesForInfo.push({
-      name: projectData.fichier?.split("/").pop() || "Fichier principal",
-      link: projectData.fichier_url,
+      name: `Document: ${projectData.fichier.split("/").pop() || "Fichier principal"}`,
+      link: getProjectFileUrl(projectData.fichier), // Use the new helper function
     });
   }
-  if (projectData.image_url) {
+
+  // 2. Project Image File (if you want it in the downloadable files list)
+  // projectData.image is the path like "projets/images/image.jpg"
+  if (projectData.image) {
     filesForInfo.push({
-      name: projectData.image?.split("/").pop() || "Image du projet",
-      link: projectData.image_url,
-      type: "image",
+      name: `Image: ${projectData.image.split("/").pop() || "Image du projet"}`,
+      link: getProjectFileUrl(projectData.image), // Use the new helper function
     });
   }
+
+  // 3. Project Certificate (if approved and path exists)
+  
+  // --- End of Corrected File Preparation ---
+
+  // For the main display image in the Info component, construct its URL similarly:
+  const mainImageUrl = getProjectImageUrl(projectData.image);
+
 
   return (
     <div
@@ -198,22 +254,23 @@ function InfoProjet() {
           description={projectData.description}
           type={
             projectData.module
-              ? projectData.module.name || projectData.module.nom
+              ? projectData.module.name || projectData.module.nom // Ensure 'name' or 'nom' exists
               : "Module inconnu"
           }
-          year={projectData.annee || "Année inconnue"}
-          files={filesForInfo}
+          year={projectData.annee || (projectData.submittedDate ? new Date(projectData.submittedDate).getFullYear() : "Année inconnue")}
+          files={filesForInfo} // Pass the corrected files array
           isDarkMode={isDarkMode}
-          projectImageUrl={
-            projectData.image_url ||
-            "https://placehold.co/600x400/EBF8FF/3182CE?text=Image+Projet"
-          }
+          projectImageUrl={mainImageUrl} // Pass the correctly constructed URL for the main image
         />
         <Forum isDarkMode={isDarkMode} projectId={projectData.id} />
+        {/* Only show Valider component if user is prof or admin, you'll need user role from auth context */}
+        {/* Example: { (currentUser.role === 'prof' || currentUser.role === 'admin') && ( */}
         <Valider
           statusValue={projectData.approval_status}
           submissionDate={
-            projectData.created_at
+            projectData.submittedDate // Prefer submittedDate if available, fallback to created_at
+              ? new Date(projectData.submittedDate).toLocaleDateString()
+              : projectData.created_at
               ? new Date(projectData.created_at).toLocaleDateString()
               : "Date inconnue"
           }
@@ -222,7 +279,10 @@ function InfoProjet() {
           onUpdateStatus={handleUpdateProjectStatus}
           rejectionComment={rejectionComment}
           setRejectionComment={setRejectionComment}
+          profId={projectData.prof_id} // Pass prof_id for authorization check in Valider
+          user={projectData.user} // Pass the student user for context
         />
+        {/* )} */}
       </div>
       <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <BackToTop />

@@ -1,67 +1,146 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../components/test-navbar";
-import Title from "../components/EspaceProf/Title";
-import Filter from "../components/EspaceProf/Filtre";
-import DashBord from "../components/EspaceProf/DashBord";
-import Footer from "../components/footer"; // Import the Footer component
-import BackToTop from "../components/utils/BackToTop"; // Import BackToTop component
-// import { tableData } from "../mockData/dataEspaceProf"; // Remove mock data import
+import React, { useState, useEffect, useMemo } from "react";
+import Navbar from "../components/test-navbar"; // Assurez-vous des chemins corrects
+import Title from "../components/EspaceProf/Title"; // Assurez-vous des chemins corrects
+import Filter from "../components/EspaceProf/Filtre"; // Assurez-vous des chemins corrects
+import DashBord from "../components/EspaceProf/DashBord"; // Assurez-vous des chemins corrects
+import Footer from "../components/footer"; // Assurez-vous des chemins corrects
+import BackToTop from "../components/utils/BackToTop"; // Assurez-vous des chemins corrects
 import { useNavigate } from "react-router-dom";
-import apiClient from "../services/apiClient"; // Correct import path
-import { FaSignOutAlt } from "react-icons/fa"; // Import sign out icon
+import apiClient from "../services/apiClient"; // Assurez-vous du chemin correct
+import { FaSignOutAlt } from "react-icons/fa";
+
+const ITEMS_PER_PAGE = 10; // Définir la taille de la pagination
 
 function EspaceProf() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("isDarkMode") === "true";
-  }); // Initialize dark mode state from localStorage
+  });
 
   useEffect(() => {
-    localStorage.setItem("isDarkMode", isDarkMode); // Persist dark mode state
+    localStorage.setItem("isDarkMode", isDarkMode);
   }, [isDarkMode]);
-
-  const itemsPerPage = 10;
-
-  // Filter states
-  const [selectedYear, setSelectedYear] = useState(""); // Initialize with empty string for no filter
-  const [selectedModule, setSelectedModule] = useState(""); // Initialize with empty string for no filter
-  const [selectedStatus, setSelectedStatus] = useState(""); // Initialize with empty string for no filter
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // State for fetched data
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Function to fetch projects from the backend
-  const fetchProjects = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams();
-      if (searchQuery) params.append("search", searchQuery);
-      if (selectedYear) params.append("annee", selectedYear);
-      if (selectedModule) params.append("module_id", selectedModule);
-      if (selectedStatus) params.append("approval_status", selectedStatus);
-
-      const response = await apiClient.get(`/projets`, { params });
-      setProjects(response.data);
-    } catch (err) {
-      console.error("Error fetching projects for EspaceProf:", err);
-      setError("Failed to load projects. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch projects when component mounts or filters change
-  useEffect(() => {
-    fetchProjects();
-  }, [searchQuery, selectedYear, selectedModule, selectedStatus]); // Dependencies
 
   const navigate = useNavigate();
 
-  const handleInfoClick = (projectId) => {
-    navigate(`/infoProjet/${projectId}`);
+  // États des filtres, gérés ici
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedModule, setSelectedModule] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  // État pour toutes les données brutes des projets
+  const [allProjects, setAllProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // États de pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Fonction utilitaire pour obtenir l'année d'un projet (copie de DashBord pour cohérence)
+  const getProjectYear = (project) => {
+    if (project.submittedDate) {
+      return new Date(project.submittedDate).getFullYear();
+    }
+    if (project.created_at) {
+      return new Date(project.created_at).getFullYear();
+    }
+    return "N/A";
+  };
+
+  // Fonction pour récupérer toutes les données des projets de l'API
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await apiClient.get("/projets"); // API qui retourne TOUS les projets non filtrés
+        setAllProjects(response.data);
+      } catch (err) {
+        console.error("Error fetching all projects:", err);
+        setError("Failed to load projects. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllProjects();
+  }, []); // Exécuté une seule fois au montage pour récupérer toutes les données
+
+  // Logique de filtrage des projets (optimisée avec useMemo)
+  // Cette fonction s'exécute à chaque fois qu'un filtre change ou que allProjects change
+  const filteredProjects = useMemo(() => {
+    let filtered = allProjects;
+
+    // Appliquer le filtre par recherche textuelle
+    if (searchQuery) {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (project) =>
+          project.titre.toLowerCase().includes(lowerCaseQuery) ||
+          project.user?.name.toLowerCase().includes(lowerCaseQuery) // Assurez-vous que user existe
+      );
+    }
+
+    // Appliquer le filtre par année
+    if (selectedYear && selectedYear !== "") { // "" correspond à "Filter by Year"
+      filtered = filtered.filter((project) => {
+        const projectYear = getProjectYear(project).toString();
+        return projectYear === selectedYear;
+      });
+    }
+
+    // Appliquer le filtre par module
+    if (selectedModule && selectedModule !== "") { // "" correspond à "Filter by Module"
+      filtered = filtered.filter(
+        (project) => String(project.module?.id) === selectedModule // Assurez-vous que module existe
+      );
+    }
+
+    // Appliquer le filtre par statut
+    if (selectedStatus && selectedStatus !== "") { // "" correspond à "Filter by Status"
+      filtered = filtered.filter(
+        (project) => project.approval_status === selectedStatus
+      );
+    }
+
+    return filtered;
+  }, [allProjects, searchQuery, selectedYear, selectedModule, selectedStatus]);
+
+  // Réinitialiser la page courante quand les filtres changent
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filteredProjects]); // Déclenché quand filteredProjects change
+
+  // Logique de pagination
+  const totalFilteredItems = filteredProjects.length;
+  const totalPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
+
+  const currentProjectsForDisplay = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredProjects.slice(startIndex, endIndex);
+  }, [filteredProjects, currentPage]); // S'exécute quand filteredProjects ou currentPage change
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Fonction appelée par le composant Filter pour appliquer les filtres
+  const handleApplyFilters = (search, year, module, status) => {
+    setSearchQuery(search);
+    setSelectedYear(year);
+    setSelectedModule(module);
+    setSelectedStatus(status);
+    // setCurrentPage(1) est géré par l'useEffect sur filteredProjects
+  };
+
+  // Fonction appelée par le composant Filter pour réinitialiser les filtres
+  const handleResetFilters = () => {
+    setSearchQuery("");
+    setSelectedYear("");
+    setSelectedModule("");
+    setSelectedStatus("");
+    setCurrentPage(1); // Réinitialiser la pagination aussi
   };
 
   const handleSignOut = () => {
@@ -69,28 +148,20 @@ function EspaceProf() {
     navigate("/login"); // Redirect to login page
   };
 
-  // Modify handleSearch to just update the filter states
-  const handleSearch = (search, year, module, status) => {
-    setSearchQuery(search);
-    setSelectedYear(year);
-    setSelectedModule(module);
-    setSelectedStatus(status);
-    // fetchProjects is triggered by the useEffect dependency array when state changes
-  };
-
   return (
     <>
       <div
         className={`bg-blue-50 dark:bg-blue-2-dark ${
           isDarkMode ? "dark" : ""
-        } transition-all duration-300`}
+        } transition-all duration-300 min-h-screen`}
       >
         {/* <Navbar /> */}
         <Title />
         <h2 className="text-3xl font-bold text-center text-blue-1 dark:text-blue-50 mt-20 mb-10">
           Manage Your Projects
         </h2>
-        {/* Pass filter states and the handleSearch function to Filter component */}
+
+        {/* Passer tous les états et les fonctions de rappel au composant Filter */}
         <Filter
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
@@ -100,19 +171,58 @@ function EspaceProf() {
           setSelectedStatus={setSelectedStatus}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          onSearch={handleSearch}
+          onApplyFilters={handleApplyFilters} // Important
+          onResetFilters={handleResetFilters} // Important
         />
-        {/* Pass fetched projects data to DashBord component */}
-        {loading && <p className="text-center">Loading projects...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
-        {!loading && !error && (
-          <DashBord
-            data={projects}
-            itemsPerPage={itemsPerPage}
-            onInfoClick={handleInfoClick}
-          />
+
+        {loading ? (
+          <p className="text-center text-blue-1 dark:text-blue-50">Loading projects...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          <>
+            {/* Passer les données déjà filtrées et paginées à DashBord */}
+            <DashBord
+              data={currentProjectsForDisplay}
+              itemsPerPage={ITEMS_PER_PAGE}
+              // onInfoClick n'est plus nécessaire ici si DashBord gère sa propre navigation
+            />
+
+            {/* Contrôles de pagination */}
+            {totalFilteredItems > 0 && totalPages > 1 && (
+              <div className="flex justify-center mt-4">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 mx-1 border rounded-md bg-blue-500 text-white disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-4 py-2 mx-1 border rounded-md ${
+                      currentPage === page
+                        ? "bg-blue-700 text-white"
+                        : "bg-blue-200 text-blue-800"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 mx-1 border rounded-md bg-blue-500 text-white disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
         )}
-        <div className="flex justify-end mt-6 mb-6">
+        <div className="flex justify-end mt-6 mb-6 mr-12"> {/* Adjusted margin for button */}
           <button
             onClick={handleSignOut}
             className="flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 gap-2 border-2 cursor-pointer whitespace-nowrap bg-red-500 border-red-500 hover:bg-red-600 hover:text-white shadow-md transition-all duration-300 ease-in-out"
@@ -121,8 +231,8 @@ function EspaceProf() {
             Sign Out
           </button>
         </div>
-        <div className="h-16"></div> {/* Spacer element */}
-        <BackToTop /> {/* Add BackToTop component */}
+        <div className="h-16"></div>
+        <BackToTop />
         <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       </div>
     </>

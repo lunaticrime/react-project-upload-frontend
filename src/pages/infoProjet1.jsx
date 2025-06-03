@@ -1,89 +1,281 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-// import Navbar from "../components/EspaceProf/navbar";
+// infoProjet.jsx
+
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Title from "../components/InfoProjet/Title";
 import Info from "../components/InfoProjet/info";
 import Forum from "../components/InfoProjet/forum";
 import Valider from "../components/InfoProjet/valider";
-import { tableData } from "../mockData/dataEspaceProf";
-import BackToTop from "../components/utils/BackToTop"; // Import BackToTop component
-import Footer from "../components/footer"; // Import Footer component
+import BackToTop from "../components/utils/BackToTop";
+import Footer from "../components/footer";
+import apiClient from "../services/apiClient";
 
-// Page de détails d'un projet
-// Pour le backend Laravel :
-// - Récupérer les détails du projet via une API (GET /api/projects/{id})
-//   => ProjectController@show, retourner un ProjectResource détaillé
-// - Les fichiers associés doivent être récupérés via l'API ou un storage Laravel
-//   => Stocker les fichiers dans storage/app/public et exposer via Storage::url()
-//   => Retourner un tableau de fichiers dans la réponse API (nom, url, type)
-// - Les commentaires et notes peuvent être envoyés via POST /api/projects/{id}/comments ou /notes
-//   => Créer un modèle Comment lié au projet (relation hasMany)
-//   => Pour la note, ajouter un champ "note" sur le projet ou une table de notes séparée
-// - Pour la validation/refus, prévoir une route PATCH /api/projects/{id}/status avec un middleware d'autorisation
-// - Sécuriser l'accès aux détails selon le rôle (enseignant, admin, étudiant propriétaire)
+// Make sure this environment variable is set in your .env file (e.g., VITE_APP_URL=http://localhost:8000)
+const APP_URL = import.meta.env.VITE_APP_URL || "http://localhost:8000";
 
 function InfoProjet() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("isDarkMode") === "true";
-  }); // Initialize dark mode state from localStorage
+  });
+
+  const [projectData, setProjectData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [rejectionComment, setRejectionComment] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("isDarkMode", isDarkMode); // Persist dark mode state
+    localStorage.setItem("isDarkMode", isDarkMode);
   }, [isDarkMode]);
 
-  // Conversion de l'id en entier pour la recherche dans le mockData
-  const project = tableData.find((item) => item.id === parseInt(id));
+  const fetchCsrfToken = async () => {
+    try {
+      // Assuming apiClient is configured with the correct base URL (e.g., http://localhost:8000)
+      // and CSRF route is /sanctum/csrf-cookie
+      await apiClient.get("/sanctum/csrf-cookie"); // This route is in api.php
+      console.log("CSRF cookie fetched.");
+    } catch (err) {
+      console.error("Failed to fetch CSRF cookie:", err);
+    }
+  };
 
-  if (!project) {
-    // Gestion du cas où le projet n'existe pas (404 côté backend)
+  const fetchProjectDetails = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    await fetchCsrfToken();
+
+    console.log(
+      "Cookies available before fetching project details:",
+      document.cookie
+    );
+    const currentToken = localStorage.getItem("token");
+    console.log(
+      "Fetching project details. Token in localStorage:",
+      currentToken ? "Present" : "Missing"
+    );
+
+    try {
+      // The route is /projets/{projet}
+      // apiClient should handle prefixing /api if necessary, or its baseURL includes it.
+      const response = await apiClient.get(`/projets/${id}`);
+      console.log("Project data fetched:", response.data);
+      setProjectData(response.data);
+    } catch (e) {
+      console.error(
+        "Erreur lors de la récupération des détails du projet:",
+        e.response?.data?.message || e.message // More detailed error
+      );
+      setError(e.response?.data?.message || e.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchProjectDetails();
+  }, [fetchProjectDetails]);
+
+  const handleUpdateProjectStatus = async (
+    projectIdToUpdate,
+    newStatus,
+    comment = ""
+  ) => {
+    setIsLoading(true); // Set loading at the beginning
+    const currentProjectId = projectIdToUpdate || id;
+    await fetchCsrfToken();
+    
+    const currentToken = localStorage.getItem("token");
+    console.log(
+      "Updating project status. Token in localStorage:",
+      currentToken ? "Present" : "Missing"
+    );
+
+    try {
+      const payload = { status: newStatus };
+      if (newStatus === "rejected") {
+        if (comment.trim() === "") {
+          alert("A comment is required to reject this project.");
+          setIsLoading(false);
+          return;
+        }
+        payload.comment = comment;
+      }
+
+      // The route is /projets/{projet}/review
+      const response = await apiClient.post(
+        `/projets/${currentProjectId}/review`,
+        payload
+      );
+
+      setProjectData(response.data.projet); // Update project data with fresh data from response
+      alert(
+        `Projet ${
+          newStatus === "approved" ? "approuvé" : "rejeté"
+        } avec succès!`
+      );
+      setRejectionComment(""); // Clear comment
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour du statut:", err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || err.message);
+      alert(`Erreur: ${err.response?.data?.message || err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading && !projectData) {
+    return (
+      <div
+        className={`flex justify-center items-center min-h-screen bg-blue-50 dark:bg-blue-2-dark ${
+          isDarkMode ? "dark" : ""
+        }`}
+      >
+        <p className="text-xl text-blue-1 dark:text-blue-50">
+          Chargement des détails du projet...
+        </p>
+      </div>
+    );
+  }
+
+  if (error && !projectData) { // Keep showing error if projectData is null
     return (
       <div
         className={`bg-blue-50 dark:bg-blue-2-dark ${
           isDarkMode ? "dark" : ""
-        } transition-all duration-300`}
+        } transition-all duration-300 min-h-screen flex flex-col`}
       >
-        <div className="p-5">
+        <div className="flex-grow p-5 text-center">
           <h1 className="text-2xl font-bold text-red-500 dark:text-red-300">
-            Projet introuvable
+            Erreur: {error}
           </h1>
+          <button
+            onClick={() => navigate(-1)}
+            className="mt-4 px-4 py-2 bg-blue-1 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          >
+            Retour
+          </button>
         </div>
-        <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-        <BackToTop />
       </div>
     );
   }
+  
+  // If projectData is null even after loading and no specific error string, show generic message
+  if (!projectData) {
+     return (
+      <div
+        className={`flex justify-center items-center min-h-screen bg-blue-50 dark:bg-blue-2-dark ${
+          isDarkMode ? "dark" : ""
+        }`}
+      >
+        <p className="text-xl text-red-500 dark:text-red-300">
+          Impossible de charger les données du projet. Veuillez réessayer.
+        </p>
+         <button
+            onClick={() => navigate(-1)}
+            className="ml-4 mt-4 px-4 py-2 bg-blue-1 text-white rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          >
+            Retour
+          </button>
+      </div>
+    );
+  }
+
+
+  // --- Corrected File Preparation ---
+  const filesForInfo = [];
+
+  // 1. Project File (PDF, ZIP, DOCX, etc.)
+  // projectData.fichier is the path like "projets/fichiers/document.pdf"
+  if (projectData.fichier) {
+    filesForInfo.push({
+      name: `Document: ${projectData.fichier.split("/").pop() || "Fichier principal"}`,
+      link: `${APP_URL}/storage/${projectData.fichier}`, // Construct public URL
+    });
+  }
+
+  // 2. Project Image File (if you want it in the downloadable files list)
+  // projectData.image is the path like "projets/images/image.jpg"
+  if (projectData.image) {
+    filesForInfo.push({
+      name: `Image: ${projectData.image.split("/").pop() || "Image du projet"}`,
+      link: `${APP_URL}/storage/${projectData.image}`, // Construct public URL
+    });
+  }
+
+  // 3. Project Certificate (if approved)
+  // projectData.approval_status comes from the backend
+  if (projectData.approval_status === "approved") {
+    const certificateFileName = `Certificat_${projectData.titre
+      .replace(/[^A-Za-z0-9\-]/g, "_") // Sanitize title for filename
+      .substring(0, 50)}.pdf`; // Limit length
+    filesForInfo.push({
+      name: `Attestation: ${certificateFileName}`,
+      // This link directly hits your backend download route
+      // It assumes your API routes are prefixed with /api/ by your web server or Laravel setup for API calls.
+      // If apiClient adds /api, then this link should also have it.
+      // Or, if the apiClient baseURL is just APP_URL, and calls use /api/projets, then this also needs /api.
+      link: `${APP_URL}/api/projets/${projectData.id}/certificat/download`,
+    });
+  }
+  // --- End of Corrected File Preparation ---
+
+  // projectData.image is the path, projectData.image_url was your previous attempt.
+  // For the main display image in the Info component, construct its URL similarly:
+  const mainImageUrl = projectData.image
+    ? `${APP_URL}/storage/${projectData.image}`
+    : "https://placehold.co/600x400/EBF8FF/3182CE?text=Image+Projet";
+
 
   return (
     <div
       className={`bg-blue-50 dark:bg-blue-2-dark ${
         isDarkMode ? "dark" : ""
-      } transition-all duration-300`}
+      } transition-all duration-300 min-h-screen flex flex-col`}
     >
-      <Title
-        projectName={project.projectName}
-        studentName={project.student}
-        isDarkMode={isDarkMode}
-      />
-      <Info
-        projectName={project.projectName}
-        description={project.description}
-        type={project.module}
-        year={project.year}
-        files={[
-          // Les liens de fichiers doivent venir du backend (storage Laravel)
-          { name: "rapport_final.pdf", link: "/path/to/rapport_final.pdf" },
-          { name: "source_code.zip", link: "/path/to/source_code.zip" },
-        ]}
-        isDarkMode={isDarkMode}
-      />
-      <Forum isDarkMode={isDarkMode} />
-      <Valider
-        statusValue={project.status}
-        submissionDate="2025-05-07"
-        isDarkMode={isDarkMode}
-        projectId={project.id}
-      />
+      <div className="flex-grow">
+        <Title
+          projectName={projectData.titre}
+          studentName={
+            projectData.user ? projectData.user.name : "Étudiant inconnu"
+          }
+          isDarkMode={isDarkMode}
+        />
+        <Info
+          projectName={projectData.titre}
+          description={projectData.description}
+          type={
+            projectData.module
+              ? projectData.module.name || projectData.module.nom // Ensure 'name' or 'nom' exists
+              : "Module inconnu"
+          }
+          year={projectData.annee || (projectData.submittedDate ? new Date(projectData.submittedDate).getFullYear() : "Année inconnue")}
+          files={filesForInfo} // Pass the corrected files array
+          isDarkMode={isDarkMode}
+          projectImageUrl={mainImageUrl} // Pass the correctly constructed URL for the main image
+        />
+        <Forum isDarkMode={isDarkMode} projectId={projectData.id} />
+        {/* Only show Valider component if user is prof or admin, you'll need user role from auth context */}
+        {/* Example: { (currentUser.role === 'prof' || currentUser.role === 'admin') && ( */}
+        <Valider
+          statusValue={projectData.approval_status}
+          submissionDate={
+            projectData.submittedDate // Prefer submittedDate if available, fallback to created_at
+              ? new Date(projectData.submittedDate).toLocaleDateString()
+              : projectData.created_at
+              ? new Date(projectData.created_at).toLocaleDateString()
+              : "Date inconnue"
+          }
+          isDarkMode={isDarkMode}
+          projectId={projectData.id}
+          onUpdateStatus={handleUpdateProjectStatus}
+          rejectionComment={rejectionComment}
+          setRejectionComment={setRejectionComment}
+          profId={projectData.prof_id} // Pass prof_id for authorization check in Valider
+          user={projectData.user} // Pass the student user for context
+        />
+        {/* )} */}
+      </div>
       <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       <BackToTop />
     </div>

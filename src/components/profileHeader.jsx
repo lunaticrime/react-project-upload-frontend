@@ -1,3 +1,6 @@
+const APP_API_URL = import.meta.env.VITE_APP_API_URL || 'http://localhost:8000';
+const STORAGE_BASE_URL = import.meta.env.VITE_STORAGE_BASE_URL || `${APP_API_URL}/storage/`;
+
 import React, { useState, useEffect } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import apiClient from "../services/apiClient";
@@ -42,105 +45,6 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-
-// Mock data for user profile
-// const mockUserData = {
-//   id: 1,
-//   name: "Oualid",
-//   username: "oualid",
-//   email: "oualid@example.com",
-//   bio: "Full Stack Developer & Student at ENSA Kenitra. Passionate about building cool things and learning new tech!",
-//   avatar: "./assets/login_registration.svg",
-//   skills: ["React", "Laravel", "Tailwind"],
-//   role: "student",
-//   projects_count: 6,
-//   followers_count: 120,
-//   following_count: 180,
-//   about:
-//     "Hi! I'm Oualid, a passionate developer who loves building web apps, learning new technologies, and collaborating with others. I enjoy solving problems and turning ideas into reality. When I'm not coding, you'll find me exploring new music, playing chess, or hanging out with friends.",
-//   social_links: {
-//     github: "https://github.com/",
-//     linkedin: "https://linkedin.com/",
-//     instagram: "https://instagram.com/",
-//   },
-// };
-
-// // Mock data for projects
-// const mockProjects = [
-//   {
-//     id: 1,
-//     title: "Project 1",
-//     caption: "Caption for Project 1",
-//     image: "./assets/login_registration.svg",
-//     status: "approved",
-//     approvedBy: "Dr. Oumaira",
-//     approvedDate: "2024-03-15",
-//     certificateUrl: "/certificates/project1.pdf",
-//     description: "A detailed description of Project 1 and its achievements.",
-//     technologies: ["React", "Node.js", "MongoDB"],
-//     duration: "3 months",
-//   },
-//   {
-//     id: 2,
-//     title: "Project 2",
-//     caption: "Caption for Project 2",
-//     image: "./assets/login_registration.svg",
-//     status: "pending",
-//     submittedDate: "2024-03-10",
-//     description: "A detailed description of Project 2 and its goals.",
-//     technologies: ["Python", "Django", "PostgreSQL"],
-//     duration: "2 months",
-//   },
-//   {
-//     id: 3,
-//     title: "Project 3",
-//     caption: "Caption for Project 3",
-//     image: "./assets/login_registration.svg",
-//     status: "refused",
-//     refusedDate: "2024-03-05",
-//     refusedReason: "Incomplete documentation",
-//     description: "A detailed description of Project 3 and its challenges.",
-//     technologies: ["Java", "Spring Boot", "MySQL"],
-//     duration: "4 months",
-//   },
-//   {
-//     id: 4,
-//     title: "Project 4",
-//     caption: "Caption for Project 4",
-//     image: "./assets/login_registration.svg",
-//     status: "approved",
-//     approvedBy: "Prof. Oumaira",
-//     approvedDate: "2024-02-28",
-//     certificateUrl: "/certificates/project4.pdf",
-//     description: "A detailed description of Project 4 and its innovations.",
-//     technologies: ["Vue.js", "Express", "Redis"],
-//     duration: "5 months",
-//   },
-//   {
-//     id: 5,
-//     title: "Project 5",
-//     caption: "Caption for Project 5",
-//     image: "./assets/login_registration.svg",
-//     status: "pending",
-//     submittedDate: "2024-03-12",
-//     description: "A detailed description of Project 5 and its objectives.",
-//     technologies: ["Angular", "Firebase", "TypeScript"],
-//     duration: "3 months",
-//   },
-//   {
-//     id: 6,
-//     title: "Project 6",
-//     caption: "Caption for Project 6",
-//     image: "./assets/login_registration.svg",
-//     status: "approved",
-//     approvedBy: "Dr. Oumaira",
-//     approvedDate: "2024-03-01",
-//     certificateUrl: "/certificates/project6.pdf",
-//     description: "A detailed description of Project 6 and its impact.",
-//     technologies: ["React Native", "GraphQL", "AWS"],
-//     duration: "6 months",
-//   },
-// ];
 
 const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
   const { userIdInRoute } = useParams();
@@ -381,6 +285,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
       setImagePreview(null);
 
       // Update local storage if it's the current user's profile
+      const isCurrentUserProfile = authenticatedUser && updatedUserData && authenticatedUser.id === updatedUserData.id;
       if (isCurrentUserProfile) {
         const currentUser = JSON.parse(localStorage.getItem("user"));
         localStorage.setItem(
@@ -444,7 +349,22 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
     );
   };
 
-  const storageBaseUrl = "http://localhost:8000/storage/";
+  // Define a function to get the correct image URL
+  const getProfileImageUrl = (url) => {
+    if (!url) {
+      return "./assets/login_registration.svg"; // Default fallback image
+    }
+    // Check if the URL is an external URL (like DiceBear)
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    // Otherwise, it's a local storage path, prepend storageBaseUrl
+    // Add a timestamp to bust browser cache for local images
+    const timestamp = new Date().getTime();
+    return `${STORAGE_BASE_URL}${url}?t=${timestamp}`;
+  };
+
+
   const isCurrentUserProfile =
     authenticatedUser && userData && authenticatedUser.id === userData.id;
 
@@ -487,15 +407,8 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
           <div className="flex flex-col lg:flex-row ">
             <div
               style={{
-                backgroundImage: `url(${(() => {
-                  if (userData.profile_photo_url) {
-                    // Append a timestamp to the URL to bust browser cache
-                    const timestamp = new Date().getTime();
-                    return `${storageBaseUrl}${userData.profile_photo_url}?t=${timestamp}`;
-                  } else {
-                    return "./assets/login_registration.svg";
-                  }
-                })()})`,
+                // Utilisez la fonction getProfileImageUrl ici
+                backgroundImage: `url(${getProfileImageUrl(userData.profile_photo_url)})`,
               }}
               className="picture w-50 h-50 lg:w-3xs lg:h-[256px] rounded-full bg-slate-500 border-8 border-slate-50 dark:border-blue-1-dark lg:-translate-y-1/2 bg-[url(./assets/login_registration.svg)] bg-cover"
             ></div>
@@ -548,12 +461,8 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                       <div className="flex items-center gap-4">
                         <div className="w-24 h-24 rounded-full overflow-hidden">
                           <img
-                            src={
-                              imagePreview ||
-                              (userData.profile_photo_url
-                                ? storageBaseUrl + userData.profile_photo_url
-                                : "./assets/login_registration.svg")
-                            }
+                            // Utilisez la fonction getProfileImageUrl ici pour l'aperçu
+                            src={imagePreview || getProfileImageUrl(userData.profile_photo_url)}
                             alt="Profile preview"
                             className="w-full h-full object-cover"
                           />
@@ -667,7 +576,8 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                   {userData.name}
                 </h1>
                 <p className="text-blue-500 dark:text-blue-200">
-                  @{userData.username || userData.email?.split("@")[0]}
+                  @
+                  {userData.username || userData.email?.split("@")[0]}
                 </p>
                 <p className="text-gray-700 dark:text-blue-100 mt-2">
                   {userData.bio || "Aucune biographie pour le moment."}
@@ -744,7 +654,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                         style={{
                           backgroundImage: `url(${
                             project.image
-                              ? storageBaseUrl + project.image
+                              ? STORAGE_BASE_URL + project.image
                               : "./assets/login_registration.svg"
                           })`,
                         }}
@@ -810,34 +720,40 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                         </div>
 
                         {selectedProject.approval_status === "approved" && (
-                          <>
-                            <div className="space-y-2">
-                              <h4 className="font-medium">Approval Details</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-300">
-                                Approved by{" "}
-                                {selectedProject.approval_by_name ||
-                                  selectedProject.approval_by ||
-                                  "N/A"}{" "}
-                                on{" "}
-                                {selectedProject.approval_at
-                                  ? new Date(
-                                      selectedProject.approval_at
-                                    ).toLocaleDateString()
-                                  : "N/A"}
-                              </p>
-                            </div>
-                            <div className="space-y-2">
-                              <h4 className="font-medium">Certificate</h4>
-                              <a
-                                href={`/api/projets/${selectedProject.id}/certificat/download`}
-                                className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
-                                download
-                              >
-                                Download Certificate
-                              </a>
-                            </div>
-                          </>
-                        )}
+  <>
+    <div>
+      <h4 className="font-medium text-gray-700 dark:text-gray-300">Détails d'Approbation</h4>
+      <p className="text-gray-600 dark:text-gray-400">
+        Approuvé par {selectedProject.approval_by_name || selectedProject.prof?.name || selectedProject.approval_by || "N/A"} le {selectedProject.approval_at ? new Date(selectedProject.approval_at).toLocaleDateString() : "N/A"}
+      </p>
+    </div>
+    
+    {/* CORRECTION PRINCIPALE ICI */}
+    {selectedProject.certificate_path ? ( // Vérifie si un chemin de certificat existe
+      <div>
+  <h4 className="font-medium text-gray-700 dark:text-gray-300">Certificat</h4>
+  <a
+    // C'est ici que la modification a été faite :
+    // Utilisation correcte des "template literals" de JavaScript (avec les backticks `)
+    // pour concaténer la base URL et le chemin relatif du certificat.
+    href={`${STORAGE_BASE_URL}${selectedProject.certificate_path}`}
+    className="inline-flex items-center text-blue-500 dark:text-blue-400 hover:underline"
+    target="_blank"
+    rel="noopener noreferrer"
+    download
+  >
+    Télécharger le Certificat
+  </a>
+</div>
+    ) : (
+      <div>
+        <h4 className="font-medium text-gray-700 dark:text-gray-400">Certificat</h4>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Certificat non disponible.</p>
+      </div>
+    )}
+    {/* FIN DE LA CORRECTION PRINCIPALE */}
+  </>
+)}
                         {selectedProject.approval_status === "rejected" && (
                           <div className="space-y-2">
                             <h4 className="font-medium">Refusal Details</h4>

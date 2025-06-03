@@ -3,6 +3,7 @@ import { FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import loginRegistrationImg from "../assets/login_registration.svg";
 import apiClient from "../services/apiClient";
+import ProjectDetailsModal from "./ProjectDetailsModal";
 
 const whoToFollow = [
   { id: 200, name: "Oualid C.", avatar: loginRegistrationImg },
@@ -63,6 +64,24 @@ const Feed = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // State for modal
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  // Function to open modal
+  const handleImageClick = (project) => {
+    setSelectedProject(project);
+    setShowModal(true);
+  };
+
+  // Function to close modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProject(null);
+    // Re-fetch projects or update the specific project in state if needed
+    // For simplicity, we'll rely on the state updates from like/comment handlers
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -91,28 +110,19 @@ const Feed = () => {
     console.log(`Like button clicked for post ID: ${postId}`); // Log click
     // Find the post in the current state
     const postToLike = posts.find((post) => post.id === postId);
-    if (!postToLike) {
-      console.error(`Post with ID ${postId} not found.`); // Log if post not found
-      return; // Should not happen if UI is correct
-    }
 
     // Determine if the user has already liked this post (assuming backend includes likes for current user or a liked status)
     // For now, we'll use the likedPosts state which needs to be initialized from backend data
     const isLiked = likedPosts.includes(postId);
-    console.log(`Post ID ${postId} is currently liked: ${isLiked}`); // Log current like status
 
     try {
-      console.log(`Sending POST request to /projets/${postId}/likes`); // Log API call
       const response = await apiClient.post(`/projets/${postId}/likes`);
-      console.log("Like API response:", response.data); // Log API response data
 
       // Update the local likedPosts state based on the backend response
       if (response.data.liked) {
         setLikedPosts([...likedPosts, postId]);
-        console.log(`Added post ID ${postId} to likedPosts`);
       } else {
         setLikedPosts(likedPosts.filter((id) => id !== postId));
-        console.log(`Removed post ID ${postId} from likedPosts`);
       }
 
       // Update the likes count in the posts state
@@ -123,7 +133,14 @@ const Feed = () => {
             : post
         )
       );
-      console.log(`Updated likes count for post ID ${postId}`);
+
+      // Update the selectedProject state if the liked post is currently in the modal
+      if (selectedProject && selectedProject.id === postId) {
+        setSelectedProject((prevProject) => ({
+          ...prevProject,
+          likes_count: response.data.likes_count,
+        }));
+      }
     } catch (error) {
       console.error(
         "Error toggling like:",
@@ -135,7 +152,7 @@ const Feed = () => {
   //   const handleProfileClick = (authorId) => {
   //     navigate(`/profile/${authorId}`);
   const handleProfileClick = (authorId) => {
-    navigate(`/profile/${authorId}`);
+    // navigate(`/profile/${authorId}`);
   };
 
   const handleToggleComments = (postId) => {
@@ -169,6 +186,15 @@ const Feed = () => {
 
       // Clear the comment input for this post
       setCommentInputs({ ...commentInputs, [postId]: "" });
+
+      // Update the selectedProject state if the commented post is currently in the modal
+      if (selectedProject && selectedProject.id === postId) {
+        setSelectedProject((prevProject) => ({
+          ...prevProject,
+          comments: [...prevProject.comments, newCommentData],
+        }));
+        console.log(`Updated selectedProject comments for post ID ${postId}`);
+      }
     } catch (error) {
       console.error("Error adding comment:", error);
       // Optionally show an error message to the user
@@ -219,7 +245,8 @@ const Feed = () => {
                       : loginRegistrationImg
                   }
                   alt="Project thumbnail"
-                  className="w-full h-96 object-cover rounded-md mb-3 border border-blue-100"
+                  className="w-full h-96 object-cover rounded-md mb-3 border border-blue-100 cursor-pointer"
+                  onClick={() => handleImageClick(post)}
                 />
                 <h2 className="text-xl font-bold mb-1 text-blue-900 dark:text-blue-50">
                   {post.titre}
@@ -327,6 +354,18 @@ const Feed = () => {
           </aside>
         </div>
       </div>
+      {/* Render the modal */}
+      <ProjectDetailsModal
+        isOpen={showModal}
+        onClose={handleCloseModal}
+        project={selectedProject}
+        // Pass down handlers if modal needs to perform these actions
+        handleLike={handleLike}
+        handleAddComment={handleAddComment}
+        likedPosts={likedPosts}
+        commentInputs={commentInputs} // Pass comment input state
+        handleCommentInput={handleCommentInput} // Pass comment input handler
+      />
     </>
   );
 };

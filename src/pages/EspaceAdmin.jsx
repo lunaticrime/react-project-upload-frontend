@@ -39,8 +39,11 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    localStorage.clear(); // Clear all data from local storage
-    navigate("/login"); // Redirect to login page
+    // Clear authentication state
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    // Redirect to login page
+    navigate("/login");
   };
 
   return (
@@ -76,7 +79,7 @@ export default function EspaceAdmin({ isDarkMode, setIsDarkMode }) {
             Exporter les données
           </button>
         </div>
-        <div className="flex justify-end mt-6 mb-6">
+        <div className="flex justify-end m-6">
           <button
             onClick={handleSignOut}
             className="flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 gap-2 border-2 cursor-pointer whitespace-nowrap bg-red-500 border-red-500 hover:bg-red-600 hover:text-white shadow-md transition-all duration-300 ease-in-out"

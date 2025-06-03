@@ -17,7 +17,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
   const roleMapping = {
     Student: "etudiant",
-    Teacher: "enseignant",
+    Teacher: "prof",
     Admin: "admin",
   };
 
@@ -54,8 +54,11 @@ const AddUser = ({ onClose, onUserAdded }) => {
       password_confirmation: mot_de_passe_confirmation,
     };
 
+    console.log("Sending user data:", userData); // Log the request data
+
     try {
       const response = await apiClient.post(`/admin/users`, userData);
+      console.log("Response:", response); // Log the successful response
 
       if (response.status === 201) {
         setSuccess(response.data.message || "User added successfully!");
@@ -82,6 +85,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
       }
     } catch (err) {
       console.error("Error adding user:", err);
+      console.log("Error response:", err.response?.data); // Log the error response data
       if (err.response && err.response.data) {
         const messages =
           Object.values(err.response.data.errors || {})
@@ -184,8 +188,6 @@ const AddUser = ({ onClose, onUserAdded }) => {
             />
           </div>
           <div className="mb-4">
-            {" "}
-            {/* Adjusted margin */}
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Password
             </label>
@@ -196,8 +198,13 @@ const AddUser = ({ onClose, onUserAdded }) => {
               onChange={(e) => setMotDePasse(e.target.value)}
               required
               minLength="8"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
+            <p className="mt-1 text-sm text-gray-500">
+              Password must be at least 8 characters and include uppercase,
+              lowercase, numbers, and symbols.
+            </p>
           </div>
           <div className="mb-6">
             {" "}
@@ -212,6 +219,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               onChange={(e) => setMotDePasseConfirmation(e.target.value)}
               required
               minLength="8"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>

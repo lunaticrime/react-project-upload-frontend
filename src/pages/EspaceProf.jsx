@@ -31,6 +31,7 @@ function EspaceProf() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [availableYears, setAvailableYears] = useState([]); // State for available years
 
   // Function to fetch projects from the backend
   const fetchProjects = async () => {
@@ -45,6 +46,17 @@ function EspaceProf() {
 
       const response = await apiClient.get(`/projets`, { params });
       setProjects(response.data);
+      // Extract unique years from fetched projects
+      const years = [
+        ...new Set(
+          response.data.map((project) =>
+            new Date(project.created_at).getFullYear()
+          )
+        ),
+      ]
+        .sort((a, b) => b - a) // Sort years in descending order
+        .map((year) => ({ value: String(year), label: String(year) }));
+      setAvailableYears([{ value: "", label: "Filter by Year" }, ...years]); // Add default option
     } catch (err) {
       console.error("Error fetching projects for EspaceProf:", err);
       setError("Failed to load projects. Please try again.");
@@ -65,8 +77,11 @@ function EspaceProf() {
   };
 
   const handleSignOut = () => {
-    localStorage.clear(); // Clear all data from local storage
-    navigate("/login"); // Redirect to login page
+    // Clear authentication state
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    // Redirect to login page
+    navigate("/login");
   };
 
   // Modify handleSearch to just update the filter states
@@ -101,6 +116,7 @@ function EspaceProf() {
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           onSearch={handleSearch}
+          availableYears={availableYears} // Pass available years
         />
         {/* Pass fetched projects data to DashBord component */}
         {loading && <p className="text-center">Loading projects...</p>}
@@ -112,7 +128,7 @@ function EspaceProf() {
             onInfoClick={handleInfoClick}
           />
         )}
-        <div className="flex justify-end mt-6 mb-6">
+        <div className="flex justify-end m-6">
           <button
             onClick={handleSignOut}
             className="flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 gap-2 border-2 cursor-pointer whitespace-nowrap bg-red-500 border-red-500 hover:bg-red-600 hover:text-white shadow-md transition-all duration-300 ease-in-out"

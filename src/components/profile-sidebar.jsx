@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Menu items.
 const items = [
@@ -29,31 +30,44 @@ const items = [
     title: "Home",
     url: "/feed",
     icon: Home,
+    roles: ["admin", "prof", "etudiant"],
   },
   {
     title: "Profile",
     url: "/profile",
     icon: User,
+    roles: ["admin", "prof", "etudiant"],
   },
-  // {
-  //   title: "Calendar",
-  //   url: "#",
-  //   icon: Calendar,
-  // },
-  // {
-  //   title: "Search",
-  //   url: "#",
-  //   icon: Search,
-  // },
-  // {
-  //   title: "Settings",
-  //   url: "#",
-  //   icon: Settings,
-  // },
+  {
+    title: "Admin Dashboard",
+    url: "/admin",
+    icon: Settings,
+    roles: ["admin"],
+  },
+  {
+    title: "Professor Dashboard",
+    url: "/prof",
+    icon: Settings,
+    roles: ["prof"],
+  },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar("collapsed");
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleSignOut = () => {
+    // Clear authentication state
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    // Redirect to login page
+    navigate("/login");
+  };
+
+  // Filter menu items based on user role
+  const filteredItems = items.filter((item) => item.roles.includes(user?.role));
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -61,7 +75,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {filteredItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
@@ -82,7 +96,7 @@ export function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <FaUser /> Username
+                  <FaUser /> {user?.name || "Username"}
                   <FaChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -92,10 +106,8 @@ export function AppSidebar() {
                     <span>Account</span>
                   </a>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <a href="/login" className="w-full">
-                    <span>Sign out</span>
-                  </a>
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <span>Sign out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

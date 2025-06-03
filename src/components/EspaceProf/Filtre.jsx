@@ -33,6 +33,7 @@ const Filter = ({
   searchQuery,
   setSearchQuery,
   onSearch,
+  availableYears,
 }) => {
   const [showFilters, setShowFilters] = useState(false);
 
@@ -112,7 +113,7 @@ const Filter = ({
         </button>
         {/* Explicit Search button for all screens */}
         <button
-          className="flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
+          className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
           onClick={() => triggerSearch()} // Trigger search on button click
           title="Search"
         >
@@ -136,7 +137,7 @@ const Filter = ({
               Année:
             </h3>
             <ul>
-              {filterDataYearsAndStatus.years
+              {availableYears
                 .filter((year) => year.value !== "") // Filter out the "Filter by" option
                 .map((year) => (
                   <li
@@ -241,21 +242,20 @@ const Filter = ({
           value={selectedYear}
           onChange={(value) => {
             setSelectedYear(value);
-            triggerSearch(searchQuery, selectedYear, selectedModule, value); // Trigger search
+            triggerSearch(searchQuery, value, selectedModule, selectedStatus); // Trigger search with updated year value
           }}
         >
           <div className="relative w-full sm:w-48 mx-2">
             <Listbox.Button
               className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left font-goudy font-bold border-2 border-blue-1 dark:border-blue-50 focus:outline-none focus:ring-1 transition-all duration-300 ease-in-out ${
                 selectedYear !== ""
-                  ? "bg-blue-1 text-blue-50 focus:ring-blue-50"
-                  : "bg-[var(--color-background)] text-blue-1 dark:text-blue-50 focus:ring-[var(--color-blue-3)]"
+                  ? "text-[var(--color-blue-3)] dark:text-blue-200 border-[var(--color-blue-3)] dark:border-blue-200"
+                  : "text-blue-2 dark:text-blue-50"
               }`}
             >
               <span className="block truncate">
-                {filterDataYearsAndStatus.years.find(
-                  (year) => year.value === selectedYear
-                )?.label || "Filter by Year"}
+                {availableYears.find((year) => year.value === selectedYear)
+                  ?.label || "Filter by Year"}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ChevronUpDownIcon
@@ -269,22 +269,46 @@ const Filter = ({
               </span>
             </Listbox.Button>
             <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-blue-1-dark py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none">
-              {filterDataYearsAndStatus.years.map((year) => (
+              {availableYears.map((year) => (
                 <Listbox.Option
-                  key={year.id}
-                  value={year.value}
-                  disabled={year.value === ""} // Disable the "Filter by" option
-                  className={({ active, disabled }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 rounded-lg ${
-                      disabled
-                        ? "text-gray-400 cursor-not-allowed"
-                        : active
-                        ? "bg-blue-1 text-white"
-                        : "text-blue-1 dark:text-blue-50"
+                  key={year.value}
+                  className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      active
+                        ? "bg-blue-100 text-blue-900 dark:bg-blue-800 dark:text-blue-50"
+                        : "text-gray-900 dark:text-blue-50"
                     }`
                   }
+                  value={year.value}
                 >
-                  <span className="block truncate">{year.label}</span>
+                  {({ selected }) => (
+                    <>
+                      <span
+                        className={`block truncate ${
+                          selected ? "font-medium" : "font-normal"
+                        }`}
+                      >
+                        {year.label}
+                      </span>
+                      {selected ? (
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600 dark:text-blue-200">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                            className="h-5 w-5"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.704 4.153a.75.75 0 01.174 1.097l-6 10.5a.75.75 0 01-1.342 0l-3-5.25a.75.75 0 011.342-.77l2.62 4.585 5.516-9.654a.75.75 0 011.096-.174z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      ) : null}
+                    </>
+                  )}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

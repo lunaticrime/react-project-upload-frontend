@@ -6,6 +6,8 @@ import "./App.css";
 // import Profile from "./pages/profile";
 // import CommandMenu from "./components/commandMenu";
 import { CommandMenuProvider } from "./components/CommandMenuContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "react-hot-toast";
 const EspaceAdmin = lazy(() => import("./pages/EspaceAdmin"));
 const EspaceProf = lazy(() => import("./pages/EspaceProf"));
 const Home = lazy(() => import("./pages/home"));
@@ -50,6 +52,7 @@ function App() {
   return (
     <BrowserRouter>
       <CommandMenuProvider>
+        <Toaster position="top-right" />
         <Suspense
           fallback={
             <div className="h-screen bg-blue-1 flex flex-col gap-4 justify-center items-center">
@@ -80,9 +83,25 @@ function App() {
                 />
               }
             />
-            <Route path="/admin" element={<EspaceAdmin isDarkMode={isDarkMode}
-                  setIsDarkMode={setIsDarkMode}/>} />
-            <Route path="/prof" element={<EspaceProf />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <EspaceAdmin
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/prof"
+              element={
+                <ProtectedRoute allowedRoles={["prof"]}>
+                  <EspaceProf />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/info-projet/:id" element={<InfoProjet />} />
             <Route
               path="/feed"

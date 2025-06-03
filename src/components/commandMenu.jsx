@@ -10,18 +10,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useCommandMenu } from "./CommandMenuContext";
 
-const CommandMenu = (
-  {
-    /* isDarkMode*/
-  }
-) => {
+const CommandMenu = () => {
   const { menuOpen, setMenuOpen } = useCommandMenu();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleSelect = (value) => {
-    // Navigate to the selected path
     navigate(value);
-    // Close the command dialog
     setMenuOpen(false);
   };
 
@@ -29,7 +24,7 @@ const CommandMenu = (
     <CommandDialog
       open={menuOpen}
       onOpenChange={setMenuOpen}
-      className={`{ bg-amber-500`} //${isDarkMode ? 'dark' : ''}
+      className={`{ bg-amber-500`}
     >
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
@@ -39,20 +34,26 @@ const CommandMenu = (
             Home
           </CommandItem>
           <CommandItem value="/profile" onSelect={handleSelect}>
-            profile
+            Profile
           </CommandItem>
           <CommandItem value="/feed" onSelect={handleSelect}>
             Feed
           </CommandItem>
-          <CommandItem value="/login" onSelect={handleSelect}>
-            login
-          </CommandItem>
-          <CommandItem value="/admin" onSelect={handleSelect}>
-            Admin
-          </CommandItem>
-          <CommandItem value="/prof" onSelect={handleSelect}>
-            Prof
-          </CommandItem>
+          {!user && (
+            <CommandItem value="/login" onSelect={handleSelect}>
+              Login
+            </CommandItem>
+          )}
+          {user?.role === "admin" && (
+            <CommandItem value="/admin" onSelect={handleSelect}>
+              Admin
+            </CommandItem>
+          )}
+          {user?.role === "prof" && (
+            <CommandItem value="/prof" onSelect={handleSelect}>
+              Prof
+            </CommandItem>
+          )}
         </CommandGroup>
       </CommandList>
     </CommandDialog>

@@ -800,14 +800,26 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                             {selectedProject.module?.nom || "N/A"}
                           </p>
                         </div>
-                        <div className="space-y-1">
-                          <h4 className="font-medium">Professeur:</h4>
-                          <p className="text-gray-700 dark:text-gray-300">
-                            {selectedProject.professeur?.name ||
-                              selectedProject.prof?.name ||
-                              "N/A"}
-                          </p>
-                        </div>
+                        {(userData.role === "prof" ||
+                          userData.role === "admin") && (
+                          <div className="space-y-1">
+                            <h4 className="font-medium">Student:</h4>
+                            <p className="text-gray-700 dark:text-gray-300">
+                              {selectedProject.user?.name || "N/A"}
+                            </p>
+                          </div>
+                        )}
+                        {(userData.role === "etudiant" ||
+                          userData.role === "admin") && (
+                          <div className="space-y-1">
+                            <h4 className="font-medium">Professeur:</h4>
+                            <p className="text-gray-700 dark:text-gray-300">
+                              {selectedProject.professeur?.name ||
+                                selectedProject.prof?.name ||
+                                "N/A"}
+                            </p>
+                          </div>
+                        )}
 
                         {selectedProject.approval_status === "approved" && (
                           <>
@@ -828,13 +840,33 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                             </div>
                             <div className="space-y-2">
                               <h4 className="font-medium">Certificate</h4>
-                              <a
-                                href={`/api/projets/${selectedProject.id}/certificat/download`}
-                                className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
-                                download
+                              <button
+                                onClick={async (e) => {
+                                  e.preventDefault(); // Prevent default link behavior
+                                  try {
+                                    const response = await apiClient.get(
+                                      `/projets/${selectedProject.id}/certificat/download`,
+                                      {
+                                        responseType: "blob",
+                                      }
+                                    );
+                                    const fileURL = URL.createObjectURL(
+                                      response.data
+                                    );
+                                    window.open(fileURL, "_blank");
+                                  } catch (error) {
+                                    console.error(
+                                      "Error opening certificate:",
+                                      error
+                                    );
+                                    // Handle error, maybe show a toast notification
+                                    // toast.error('Failed to open certificate.');
+                                  }
+                                }}
+                                className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
                               >
-                                Download Certificate
-                              </a>
+                                View Certificate
+                              </button>
                             </div>
                           </>
                         )}

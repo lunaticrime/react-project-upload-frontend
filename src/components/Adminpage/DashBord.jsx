@@ -188,7 +188,7 @@ const UserManagementDashBoard = ({
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                       {/* Laravel model has 'date_inscription', not 'lastLogin' in the provided PHP */}
-                      {formatDate(user.date_inscription)}
+                      {formatDate(user.created_at)}
                     </td>
                     <td className="p-3 text-sm text-blue-900 whitespace-nowrap flex gap-4">
                       <FaEdit
@@ -245,7 +245,7 @@ const UserManagementDashBoard = ({
               Role: {user.role}
             </div>
             <div className="text-sm text-blue-900 dark:text-blue-50">
-              Registered: {formatDate(user.date_inscription)}
+              Registered: {formatDate(user.created_at)}
             </div>
           </div>
         ))}

@@ -201,8 +201,13 @@ function InfoProjet() {
               ? projectData.module.name || projectData.module.nom
               : "Module inconnu"
           }
-          year={projectData.annee || "Année inconnue"}
+          year={
+            projectData.created_at
+              ? new Date(projectData.created_at).getFullYear()
+              : "Année inconnue"
+          }
           files={filesForInfo}
+          fichier={projectData.fichier}
           isDarkMode={isDarkMode}
           projectImageUrl={
             projectData.image_url ||

@@ -8,9 +8,9 @@ import apiClient from "../../services/apiClient";
 // Define filterData for status locally
 const filterDataStatus = {
   status: [
-    { value: "approved", label: "🟢 Approved" },
-    { value: "pending", label: "🟡 Pending" },
-    { value: "rejected", label: "🔴 Rejected" },
+    { value: "approved", label: "Approved" },
+    { value: "pending", label: "Pending" },
+    { value: "rejected", label: "Rejected" },
     // Add more statuses if needed
   ],
 };
@@ -103,14 +103,16 @@ const DashBord = ({ itemsPerPage, data }) => {
                       {row.user ? row.user.name : "N/A"}
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
-                      {row.annee || "N/A"}
+                      {row.created_at
+                        ? new Date(row.created_at).getFullYear()
+                        : "N/A"}
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                       {row.module ? row.module.name || row.module.nom : "N/A"}
                     </td>
-                    <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
+                    <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap text-center">
                       <span
-                        className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg inline-block text-left ${
+                        className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg inline-block text-center ${
                           row.approval_status === "approved"
                             ? "text-green-900 bg-green-100 dark:text-green-200 dark:bg-green-900"
                             : row.approval_status === "pending"
@@ -139,11 +141,13 @@ const DashBord = ({ itemsPerPage, data }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 text-sm">
                     <div className="text-blue-500 dark:text-blue-50 font-semibold">
-                      {row.annee || "N/A"}
+                      {row.created_at
+                        ? new Date(row.created_at).getFullYear()
+                        : "N/A"}
                     </div>
                     <div>
                       <span
-                        className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg ${
+                        className={`p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg text-center ${
                           row.approval_status === "approved"
                             ? "text-green-900 bg-green-100 dark:text-green-200 dark:bg-green-900"
                             : row.approval_status === "pending"

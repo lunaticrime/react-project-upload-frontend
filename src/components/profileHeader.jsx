@@ -492,7 +492,11 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                   if (userData.profile_photo_url) {
                     // Append a timestamp to the URL to bust browser cache
                     const timestamp = new Date().getTime();
-                    return `${storageBaseUrl}${userData.profile_photo_url}?t=${timestamp}`;
+                    // Ensure proper URL formatting by adding a slash if needed
+                    const photoPath = userData.profile_photo_url.startsWith("/")
+                      ? userData.profile_photo_url
+                      : `/${userData.profile_photo_url}`;
+                    return `${storageBaseUrl}${photoPath}?t=${timestamp}`;
                   } else {
                     return "./assets/login_registration.svg";
                   }

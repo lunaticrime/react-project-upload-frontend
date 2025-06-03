@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,7 +36,13 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
       setUsername(currentUserData.username || "");
       setEmail(currentUserData.email || "");
       setBio(currentUserData.bio || "");
-      setProfilePhotoPreview(currentUserData.profile_photo_url ? `http://localhost:8000/storage/${currentUserData.profile_photo_url}` : null);
+      setProfilePhotoPreview(
+        currentUserData.profile_photo_url
+          ? `${import.meta.env.VITE_STORAGE_URL}/${
+              currentUserData.profile_photo_url
+            }`
+          : null
+      );
     }
   }, [currentUserData]);
 
@@ -39,10 +50,22 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setProfilePhoto(file);
-      setProfilePhotoPreview(URL.createObjectURL(file));
+      setProfilePhotoPreview(
+        currentUserData.profile_photo_url
+          ? `${import.meta.env.VITE_STORAGE_URL}/${
+              currentUserData.profile_photo_url
+            }`
+          : null
+      );
     } else {
       setProfilePhoto(null);
-      setProfilePhotoPreview(currentUserData.profile_photo_url ? `http://localhost:8000/storage/${currentUserData.profile_photo_url}` : null);
+      setProfilePhotoPreview(
+        currentUserData.profile_photo_url
+          ? `${import.meta.env.VITE_STORAGE_URL}/${
+              currentUserData.profile_photo_url
+            }`
+          : null
+      );
     }
   };
 
@@ -64,11 +87,17 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
       // ✅ Utilisation de apiClient.post car la route Laravel est Route::post('/profile', ...)
       const response = await apiClient.post("/profile", formData);
       onProfileUpdate(response.data.user); // Les données utilisateur sont dans response.data.user
-      setFeedback({ message: response.data.message || "Profil mis à jour avec succès!", type: "success" });
+      setFeedback({
+        message: response.data.message || "Profil mis à jour avec succès!",
+        type: "success",
+      });
     } catch (error) {
       console.error("Error updating account:", error);
-      const errorMessage = error.response?.data?.message || 
-                           (error.response?.data?.errors ? Object.values(error.response.data.errors).flat().join(' ') : "Échec de la mise à jour du profil.");
+      const errorMessage =
+        error.response?.data?.message ||
+        (error.response?.data?.errors
+          ? Object.values(error.response.data.errors).flat().join(" ")
+          : "Échec de la mise à jour du profil.");
       setFeedback({ message: errorMessage, type: "error" });
     } finally {
       setIsLoading(false);
@@ -77,8 +106,11 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
 
   const handlePasswordSave = async () => {
     if (newPassword !== newPasswordConfirmation) {
-        setFeedback({ message: "Les nouveaux mots de passe ne correspondent pas.", type: "error" });
-        return;
+      setFeedback({
+        message: "Les nouveaux mots de passe ne correspondent pas.",
+        type: "error",
+      });
+      return;
     }
     setFeedback({ message: "", type: "" });
     setIsLoading(true);
@@ -90,14 +122,21 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
         new_password: newPassword,
         new_password_confirmation: newPasswordConfirmation,
       });
-      setFeedback({ message: response.data.message || "Mot de passe mis à jour avec succès.", type: "success" });
+      setFeedback({
+        message:
+          response.data.message || "Mot de passe mis à jour avec succès.",
+        type: "success",
+      });
       setCurrentPassword("");
       setNewPassword("");
       setNewPasswordConfirmation("");
     } catch (error) {
       console.error("Error updating password:", error);
-       const errorMessage = error.response?.data?.message || 
-                           (error.response?.data?.errors ? Object.values(error.response.data.errors).flat().join(' ') : "Échec de la mise à jour du mot de passe.");
+      const errorMessage =
+        error.response?.data?.message ||
+        (error.response?.data?.errors
+          ? Object.values(error.response.data.errors).flat().join(" ")
+          : "Échec de la mise à jour du mot de passe.");
       setFeedback({ message: errorMessage, type: "error" });
     } finally {
       setIsLoading(false);
@@ -112,7 +151,13 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
         <TabsTrigger value="password">Mot de passe</TabsTrigger>
       </TabsList>
       {feedback.message && (
-        <div className={`p-2 my-2 text-sm rounded ${feedback.type === 'success' ? 'bg-green-100 dark:bg-green-700/30 text-green-700 dark:text-green-300' : 'bg-red-100 dark:bg-red-700/30 text-red-700 dark:text-red-300'}`}>
+        <div
+          className={`p-2 my-2 text-sm rounded ${
+            feedback.type === "success"
+              ? "bg-green-100 dark:bg-green-700/30 text-green-700 dark:text-green-300"
+              : "bg-red-100 dark:bg-red-700/30 text-red-700 dark:text-red-300"
+          }`}
+        >
           {feedback.message}
         </div>
       )}
@@ -129,14 +174,29 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
             {/* ... inputs pour name, username, email, bio, profile_photo ... */}
             <div className="space-y-1">
               <Label htmlFor="name">Nom</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="dark:bg-blue-1-dark dark:border-blue-500" />
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="dark:bg-blue-1-dark dark:border-blue-500"
+              />
             </div>
             {/* ... autres champs ... */}
-             <div className="space-y-1">
+            <div className="space-y-1">
               <Label htmlFor="profile_photo">Photo de profil</Label>
-              <Input id="profile_photo" type="file" onChange={handlePhotoChange} accept="image/*" className="dark:bg-blue-1-dark dark:border-blue-500 file:text-blue-50" />
+              <Input
+                id="profile_photo"
+                type="file"
+                onChange={handlePhotoChange}
+                accept="image/*"
+                className="dark:bg-blue-1-dark dark:border-blue-500 file:text-blue-50"
+              />
               {profilePhotoPreview && (
-                <img src={profilePhotoPreview} alt="Aperçu" className="mt-2 w-24 h-24 rounded-full object-cover" />
+                <img
+                  src={profilePhotoPreview}
+                  alt="Aperçu"
+                  className="mt-2 w-24 h-24 rounded-full object-cover"
+                />
               )}
             </div>
           </CardContent>
@@ -149,8 +209,8 @@ export function TabsDemo({ currentUserData, onProfileUpdate }) {
       </TabsContent>
       <TabsContent value="password">
         <Card className="dark:bg-blue-2-dark">
-           {/* ... (CardHeader, CardContent pour 'password' comme avant) ... */}
-           <CardHeader>
+          {/* ... (CardHeader, CardContent pour 'password' comme avant) ... */}
+          <CardHeader>
             <CardTitle>Mot de passe</CardTitle>
             <CardDescription className="dark:text-blue-200">
               Changez votre mot de passe ici.

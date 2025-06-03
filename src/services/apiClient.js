@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000/api", // Votre URL API Laravel
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000/api",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

@@ -227,7 +227,9 @@ const Feed = () => {
                   <img
                     src={
                       post.user?.profile_photo_url
-                        ? `http://localhost:8000/storage/${post.user.profile_photo_url}`
+                        ? `${import.meta.env.VITE_STORAGE_URL}/${
+                            post.user.profile_photo_url
+                          }`
                         : loginRegistrationImg
                     }
                     alt={post.user?.name || "User"}
@@ -241,7 +243,7 @@ const Feed = () => {
                 <img
                   src={
                     post.image
-                      ? `http://localhost:8000/storage/${post.image}`
+                      ? `${import.meta.env.VITE_STORAGE_URL}/${post.image}`
                       : loginRegistrationImg
                   }
                   alt="Project thumbnail"

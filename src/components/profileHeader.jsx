@@ -172,6 +172,8 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+  const storageBaseUrl = import.meta.env.VITE_STORAGE_URL;
+
   // useEffect for fetchCurrentAuthUser
   useEffect(() => {
     const fetchCurrentAuthUser = async () => {
@@ -444,7 +446,6 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
     );
   };
 
-  const storageBaseUrl = "http://localhost:8000/storage/";
   const isCurrentUserProfile =
     authenticatedUser && userData && authenticatedUser.id === userData.id;
 

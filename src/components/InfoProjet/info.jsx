@@ -11,8 +11,7 @@ export default function Info({
   fichier,
 }) {
   const navigate = useNavigate();
-  const storageBaseUrl =
-    import.meta.env.VITE_STORAGE_URL || "http://localhost:8000/storage";
+  const storageUrl = import.meta.env.VITE_STORAGE_URL;
 
   return (
     <div className="px-4 sm:px-8 md:px-12 lg:px-20 py-8 sm:py-10 md:py-12 bg-blue-50 dark:bg-blue-2-dark">
@@ -61,7 +60,7 @@ export default function Info({
             {fichier ? (
               <div className="mt-2">
                 <a
-                  href={`${storageBaseUrl}/${fichier}`}
+                  href={`${storageUrl}/${fichier}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-1 dark:text-blue-50 underline hover:text-blue-3 dark:hover:text-blue-200"

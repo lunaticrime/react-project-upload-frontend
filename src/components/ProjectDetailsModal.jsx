@@ -41,7 +41,7 @@ const ProjectDetailsModal = ({
             <img
               src={
                 project.image
-                  ? `http://localhost:8000/storage/${project.image}`
+                  ? `${import.meta.env.VITE_STORAGE_URL}/${project.image}`
                   : loginRegistrationImg // Use imported placeholder
               }
               alt={project.titre}

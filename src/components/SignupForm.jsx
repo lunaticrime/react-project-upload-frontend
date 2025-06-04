@@ -17,7 +17,6 @@ const SignupForm = ({ isDarkMode }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrors({});
@@ -26,7 +25,9 @@ const SignupForm = ({ isDarkMode }) => {
 
     // Validation côté client pour la confirmation du mot de passe
     if (registerData.password !== registerData.password_confirmation) {
-      setErrors({ password_confirmation: ["Password confirmation does not match."] });
+      setErrors({
+        password_confirmation: ["Password confirmation does not match."],
+      });
       setIsLoading(false);
       return;
     }
@@ -43,27 +44,38 @@ const SignupForm = ({ isDarkMode }) => {
       const data = response.data;
 
       console.log("Registered:", data);
-      setSuccessMessage(data.message || "Registration successful! Please log in.");
-      setRegisterData({ name: "", email: "", password: "", password_confirmation: "" }); // Réinitialiser
-
+      setSuccessMessage(
+        data.message || "Registration successful! Please log in."
+      );
+      setRegisterData({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+      }); // Réinitialiser
     } catch (errorCaught) {
       console.error("Registration failed:", errorCaught);
-      if (errorCaught.response && errorCaught.response.status === 422 && errorCaught.response.data.errors) {
+      if (
+        errorCaught.response &&
+        errorCaught.response.status === 422 &&
+        errorCaught.response.data.errors
+      ) {
         setErrors(errorCaught.response.data.errors);
       } else if (errorCaught.response && errorCaught.response.data.message) {
         setErrors({ general: errorCaught.response.data.message });
       } else {
-        setErrors({ general: errorCaught.message || "An unexpected error occurred." });
+        setErrors({
+          general: errorCaught.message || "An unexpected error occurred.",
+        });
       }
     } finally {
       setIsLoading(false);
     }
   };
 
-
   return (
     <div
-      className={`form-container sign-up dark:bg-blue-1-dark dark:text-blue-50 ${
+      className={`form-container sign-up dark:bg-blue-1-dark dark:text-blue-50 overflow-y-auto ${
         isDarkMode ? "dark" : ""
       }`}
     >
@@ -78,7 +90,6 @@ const SignupForm = ({ isDarkMode }) => {
           {successMessage && (
             <div className="text-green-500 mt-2 text-sm">{successMessage}</div>
           )}
-
 
           <input
             type="text"
@@ -95,7 +106,6 @@ const SignupForm = ({ isDarkMode }) => {
             <div className="text-red-500 text-xs">{errors.name[0]}</div>
           )}
 
-
           <input
             type="email"
             placeholder="Email"
@@ -110,7 +120,6 @@ const SignupForm = ({ isDarkMode }) => {
           {errors.email && (
             <div className="text-red-500 text-xs">{errors.email[0]}</div>
           )}
-
 
           <input
             type="password"
@@ -128,22 +137,26 @@ const SignupForm = ({ isDarkMode }) => {
             <div className="text-red-500 text-xs">{errors.password[0]}</div>
           )}
 
-<input
+          <input
             type="password"
             placeholder="Confirm Password"
             className="inpt"
             value={registerData.password_confirmation}
             onChange={(e) =>
-              setRegisterData({ ...registerData, password_confirmation: e.target.value })
+              setRegisterData({
+                ...registerData,
+                password_confirmation: e.target.value,
+              })
             }
             required
             minLength="6"
             disabled={isLoading}
           />
           {errors.password_confirmation && (
-            <div className="text-red-500 text-xs">{errors.password_confirmation[0]}</div>
+            <div className="text-red-500 text-xs">
+              {errors.password_confirmation[0]}
+            </div>
           )}
-
 
           <button
             type="submit"
@@ -154,11 +167,7 @@ const SignupForm = ({ isDarkMode }) => {
           </button>
         </div>
         <img
-          src={
-            isDarkMode
-              ? lightLogo
-              : darkLogo
-          }
+          src={isDarkMode ? lightLogo : darkLogo}
           alt="ENSAK"
           className="mb-8 self-center w-1/2 h-aut hidden lg:block"
         />

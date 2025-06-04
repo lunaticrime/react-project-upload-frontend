@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Accueil({ isDarkMode }) {
   const navigate = useNavigate();
   return (
-    <div className="h-[calc(100vh-108px)] flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-16 py-12 bg-[var(--color-background)] gap-10">
+    <div className="h-[calc(100vh-108px)] flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-16 pt-12 lg:py-12 bg-blue-50 gap-10">
       {/* Left Section */}
       <div className="w-full lg:w-1/2 text-center lg:text-left my-auto flex-col items-center justify-center">
         <Reveal isDarkMode={isDarkMode}>

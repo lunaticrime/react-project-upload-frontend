@@ -60,6 +60,7 @@ const Filter = ({
           >
             <FaSearch className="h-5 w-5" />
           </button>
+          {/* Icon for reset visible on smaller screens */}
           <button
             className="sm:hidden flex items-center justify-center p-2 rounded-full bg-blue-1 text-blue-50 dark:bg-blue-2-dark dark:text-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:hover:bg-blue-50 dark:hover:text-blue-1 transition-all duration-300"
             onClick={handleReset}
@@ -166,7 +167,7 @@ const Filter = ({
         {/* Reset Button */}
         <button
           onClick={handleReset}
-          className="sm:flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 flex gap-2 border-2 cursor-pointer whitespace-nowrap bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark shadow-md transition-all duration-300 ease-in-out"
+          className="hidden sm:flex items-center text-blue-50 font-semibold rounded-md px-4 py-2 flex gap-2 border-2 cursor-pointer whitespace-nowrap bg-blue-1 border-blue-1 dark:border-blue-50 hover:bg-blue-50 hover:text-blue-1 dark:text-blue-50 dark:bg-blue-2-dark dark:hover:bg-blue-50 dark:hover:text-blue-1-dark shadow-md transition-all duration-300 ease-in-out"
         >
           <FaRedo className="h-4 w-4" />
           Reset

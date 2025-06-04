@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import loginRegistrationImg from "../assets/login_registration.svg";
 import apiClient from "../services/apiClient";
 import ProjectDetailsModal from "./ProjectDetailsModal";
+import { SidebarTrigger } from "./ui/sidebar";
 
 const whoToFollow = [
   { id: 200, name: "Oualid C.", avatar: loginRegistrationImg },
@@ -203,7 +204,10 @@ const Feed = () => {
 
   return (
     <>
-      <div className="w-full flex justify-center bg-blue-50 dark:bg-blue-2-dark py-8 min-h-screen">
+      <div className="md:hidden flex justify-start items-center">
+        <SidebarTrigger />
+      </div>
+      <div className="w-full flex justify-center bg-blue-50 dark:bg-blue-2-dark pb-8 min-h-screen">
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8">
           {/* Feed Center */}
           <div className="w-full md:w-2/3 flex flex-col gap-6 px-4 sm:px-6">

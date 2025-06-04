@@ -480,12 +480,16 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
 
   return userData ? (
     <div className={`relative z-10 ${isOpen ? "pointer-events-none" : ""}`}>
-      <div className="h-[55vh] lg:h-[50vh] bg-blue-50 dark:bg-blue-1-dark text-blue-50">
+      <div className="h-[75vh] lg:h-[50vh] bg-blue-50 dark:bg-blue-1-dark text-blue-50">
         <div className="bg-linear-90 from-blue-1 to-blue-200 h-1/4 lg:h-1/2 flex items-start justify-start">
+          <div className="block md:hidden text-xs flex justify-end items-center">
+            <SidebarTrigger />
+            open
+          </div>
           {/* <SidebarTrigger /> */}
         </div>
         <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-between lg:items-start mx-20 h-fit -translate-y-[20%] lg:-translate-y-0">
-          <div className="flex flex-col lg:flex-row ">
+          <div className="flex flex-col justify-center items-center text-center lg:flex-row ">
             <div
               style={{
                 backgroundImage: `url(${(() => {

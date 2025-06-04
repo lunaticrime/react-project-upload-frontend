@@ -106,18 +106,17 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
   return (
     <div
-      // onClick={onClose} // Prevent closing when clicking on the backdrop if form interaction is needed
       className={`
         fixed inset-0 flex justify-center items-center transition-colors z-50 backdrop-blur-sm
-        bg-black/30 
+        bg-black/30 overflow-y-auto py-4
       `}
     >
       {/* Modal */}
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          bg-blue-50 dark:bg-blue-1 rounded-2xl shadow-lg p-8 transition-all relative w-[500px] max-w-full
-          scale-100 opacity-100 translate-y-0
+          bg-blue-50 dark:bg-blue-1 rounded-2xl shadow-lg p-8 transition-all relative w-[500px] max-w-[90%] max-h-[90vh]
+          scale-100 opacity-100 translate-y-0 overflow-y-auto
         `}
         style={{
           transition: "transform 0.3s ease, opacity 0.3s ease",
@@ -143,10 +142,8 @@ const AddUser = ({ onClose, onUserAdded }) => {
             {success}
           </div>
         )}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            {" "}
-            {/* Adjusted margin */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Name
             </label>
@@ -159,7 +156,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               className="w-full border border-blue-3 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-4 dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Username
             </label>
@@ -172,9 +169,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
-          <div className="mb-4">
-            {" "}
-            {/* Adjusted margin */}
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Email
             </label>
@@ -187,7 +182,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Password
             </label>
@@ -206,9 +201,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               lowercase, numbers, and symbols.
             </p>
           </div>
-          <div className="mb-6">
-            {" "}
-            {/* Kept mb-6 for spacing before role */}
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Confirm Password
             </label>
@@ -223,15 +216,15 @@ const AddUser = ({ onClose, onUserAdded }) => {
               className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
-          <div className="mb-6">
+          <div>
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Role
             </label>
             <div className="relative">
               <select
-                value={internalToDisplayRole(role)} // Display value
-                onChange={(e) => setRole(displayToInternalRole(e.target.value))} // Set internal value
-                className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-blue-50 dark:bg-blue-1 text-blue-2 dark:text-blue-50 appearance-none "
+                value={internalToDisplayRole(role)}
+                onChange={(e) => setRole(displayToInternalRole(e.target.value))}
+                className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-blue-50 dark:bg-blue-1 text-blue-2 dark:text-blue-50 appearance-none"
               >
                 <option value="Student">Student</option>
                 <option value="Teacher">Teacher</option>
@@ -255,7 +248,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4 pt-4">
             <button
               type="button"
               onClick={onClose}

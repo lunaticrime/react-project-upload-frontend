@@ -536,14 +536,17 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                     Edit
                   </button>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px] dark:bg-blue-1-dark">
-                  <DialogHeader>
+                <DialogContent className="sm:max-w-[600px] dark:bg-blue-1-dark max-h-[85vh] sm:max-h-[90vh] flex flex-col">
+                  <DialogHeader className="flex-none">
                     <DialogTitle className="text-2xl">Edit Profile</DialogTitle>
                     <DialogDescription>
                       Update your profile information below
                     </DialogDescription>
                   </DialogHeader>
-                  <form onSubmit={handleProfileEdit} className="space-y-4">
+                  <form
+                    onSubmit={handleProfileEdit}
+                    className="space-y-4 flex-1 overflow-y-auto pr-2"
+                  >
                     {editError && (
                       <div className="text-red-500 text-sm">{editError}</div>
                     )}
@@ -580,7 +583,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                         GIF
                       </p>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">Name</Label>
                         <Input
@@ -628,7 +631,7 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                         disabled={isEditing}
                       />
                     </div>
-                    <div className="flex justify-end gap-2">
+                    <div className="flex justify-end gap-2 pt-4 border-t border-[var(--color-blue-3)]">
                       <Button
                         type="submit"
                         className="bg-blue-1 text-blue-50 hover:bg-blue-2"

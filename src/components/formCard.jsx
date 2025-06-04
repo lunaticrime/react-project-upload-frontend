@@ -244,12 +244,12 @@ const FormCard = ({ setIsOpen, onProjectCreated }) => {
   };
 
   return (
-    <Card className="w-full dark:bg-blue-1-dark-sec bg-blue-100 max-h-[80vh] flex flex-col">
-      <CardHeader>
+    <Card className="w-full dark:bg-blue-1-dark-sec bg-blue-100 max-h-[85vh] sm:max-h-[90vh] flex flex-col">
+      <CardHeader className="flex-none">
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
       </CardHeader>
-      <CardContent className="z-100 overflow-y-auto flex-1">
+      <CardContent className="flex-1 overflow-y-auto pr-2">
         <form onSubmit={handleSubmit} id="project-form">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
@@ -333,40 +333,28 @@ const FormCard = ({ setIsOpen, onProjectCreated }) => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="prof">Professor/Supervisor</Label>
                 <Select value={profId} onValueChange={setProfId}>
-                  {" "}
-                  {/* */}
                   <SelectTrigger
                     id="project-prof"
                     className="dark:bg-blue-1-dark dark:border-blue-700 dark:text-blue-50"
                   >
-                    {" "}
-                    {/* */}
-                    <SelectValue placeholder="Sélectionnez un professeur" />{" "}
-                    {/* */}
+                    <SelectValue placeholder="Sélectionnez un professeur" />
                   </SelectTrigger>
                   <SelectContent className="dark:bg-blue-1-dark-sec dark:border-blue-700">
-                    {" "}
-                    {/* */}
                     {professeurs.length > 0 ? (
-                      professeurs.map(
-                        (
-                          prof //
-                        ) => (
-                          <SelectItem
-                            key={prof.id}
-                            value={prof.id.toString()}
-                            className="dark:hover:bg-blue-700 dark:text-blue-100"
-                          >
-                            {prof.name}
-                          </SelectItem> //
-                        )
-                      )
+                      professeurs.map((prof) => (
+                        <SelectItem
+                          key={prof.id}
+                          value={prof.id.toString()}
+                          className="dark:hover:bg-blue-700 dark:text-blue-100"
+                        >
+                          {prof.name}
+                        </SelectItem>
+                      ))
                     ) : (
                       <SelectItem value="loading" disabled>
                         Chargement...
                       </SelectItem>
-                    )}{" "}
-                    {/* */}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -375,44 +363,33 @@ const FormCard = ({ setIsOpen, onProjectCreated }) => {
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="prof">Module</Label>
                 <Select value={moduleId} onValueChange={setModuleId}>
-                  {" "}
-                  {/* */}
                   <SelectTrigger
                     id="project-module"
                     className="dark:bg-blue-1-dark dark:border-blue-700 dark:text-blue-50"
                   >
-                    {" "}
-                    {/* */}
-                    <SelectValue placeholder="Sélectionnez un module" /> {/* */}
+                    <SelectValue placeholder="Sélectionnez un module" />
                   </SelectTrigger>
                   <SelectContent className="dark:bg-blue-1-dark-sec dark:border-blue-700">
-                    {" "}
-                    {/* */}
                     {modules.length > 0 ? (
-                      modules.map(
-                        (
-                          mod //
-                        ) => (
-                          <SelectItem
-                            key={mod.id}
-                            value={mod.id.toString()}
-                            className="dark:hover:bg-blue-700 dark:text-blue-100"
-                          >
-                            {mod.nom}
-                          </SelectItem> //
-                        )
-                      )
+                      modules.map((mod) => (
+                        <SelectItem
+                          key={mod.id}
+                          value={mod.id.toString()}
+                          className="dark:hover:bg-blue-700 dark:text-blue-100"
+                        >
+                          {mod.nom}
+                        </SelectItem>
+                      ))
                     ) : (
                       <SelectItem value="loading" disabled>
                         Chargement...
                       </SelectItem>
-                    )}{" "}
-                    {/* */}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
             )}
-            <div className="flex flex-col space-y-1.5 z-100">
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Type</Label>
               <Select onValueChange={(value) => setProjectType(value)}>
                 <SelectTrigger id="framework" className="border-blue-1">
@@ -428,7 +405,7 @@ const FormCard = ({ setIsOpen, onProjectCreated }) => {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between border-t border-[var(--color-blue-3)] flex-none">
         <Button
           variant="outline"
           type="button"

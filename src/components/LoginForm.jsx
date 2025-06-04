@@ -34,7 +34,7 @@ const LoginForm = ({ isDarkMode }) => {
             navigate("/admin");
             break;
           case "prof":
-            navigate("/prof");
+            navigate("/profile");
             break;
           case "etudiant":
             navigate("/profile"); // Assuming students go to their profile page

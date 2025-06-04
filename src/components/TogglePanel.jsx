@@ -1,8 +1,10 @@
+import loginRegistrationImg from "../assets/login_registration.svg";
+
 const TogglePanel = ({ isActive, setIsActive, isDarkMode }) => (
   <div className={`toggle-container ${isDarkMode ? "dark" : ""}`}>
     <div className="toggle">
       <div className="toggle-panel toggle-left">
-        <img src="/src/assets/login_registration.svg" alt="" />
+        <img src={loginRegistrationImg} alt="" />
         <h1></h1>
         <p></p>
         <div className="btn-container">
@@ -19,7 +21,7 @@ const TogglePanel = ({ isActive, setIsActive, isDarkMode }) => (
         </div>
       </div>
       <div className="toggle-panel toggle-right">
-        <img src="/src/assets/login_registration.svg" alt="" />
+        <img src={loginRegistrationImg} alt="" />
         <h1></h1>
         <p></p>
         <div className="btn-container">

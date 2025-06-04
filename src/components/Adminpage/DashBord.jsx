@@ -178,7 +178,7 @@ const UserManagementDashBoard = ({
                     }
                   >
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
-                      {user.nom} {/* Laravel model uses 'nom' */}
+                      {user.name} {/* Laravel model uses 'nom' */}
                     </td>
                     <td className="p-3 text-sm text-blue-900 dark:text-blue-50 whitespace-nowrap">
                       {user.email}
@@ -223,7 +223,7 @@ const UserManagementDashBoard = ({
           >
             <div className="flex items-center justify-between">
               <div className="text-sm text-blue-900 dark:text-blue-50 font-medium">
-                {user.nom}
+                {user.name}
               </div>
               <div className="flex gap-4">
                 <FaEdit

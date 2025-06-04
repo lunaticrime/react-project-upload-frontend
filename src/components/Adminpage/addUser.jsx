@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import apiClient from "../../services/apiClient";
 
-// Use Vite env variable or fallback to localhost
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
 const AddUser = ({ onClose, onUserAdded }) => {
   const [nom, setNom] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("etudiant"); // Default role matching backend
+  const [role, setRole] = useState("etudiant");
   const [mot_de_passe, setMotDePasse] = useState("");
   const [mot_de_passe_confirmation, setMotDePasseConfirmation] = useState("");
   const [error, setError] = useState(null);
@@ -54,15 +54,14 @@ const AddUser = ({ onClose, onUserAdded }) => {
       password_confirmation: mot_de_passe_confirmation,
     };
 
-    console.log("Sending user data:", userData); // Log the request data
+    console.log("Sending user data:", userData);
 
     try {
       const response = await apiClient.post(`/admin/users`, userData);
-      console.log("Response:", response); // Log the successful response
+      console.log("Response:", response);
 
       if (response.status === 201) {
         setSuccess(response.data.message || "User added successfully!");
-        // alert(response.data.message || "User added successfully!");
         setNom("");
         setUsername("");
         setEmail("");
@@ -73,7 +72,6 @@ const AddUser = ({ onClose, onUserAdded }) => {
           onUserAdded(response.data.user);
         }
         setTimeout(() => {
-          // Keep success message for a bit before closing
           onClose();
         }, 1500);
       } else {
@@ -81,11 +79,10 @@ const AddUser = ({ onClose, onUserAdded }) => {
           response.data.message ||
             "Failed to add user. Please check the details."
         );
-        // alert(response.data.message || "Failed to add user");
       }
     } catch (err) {
       console.error("Error adding user:", err);
-      console.log("Error response:", err.response?.data); // Log the error response data
+      console.log("Error response:", err.response?.data); 
       if (err.response && err.response.data) {
         const messages =
           Object.values(err.response.data.errors || {})
@@ -98,7 +95,6 @@ const AddUser = ({ onClose, onUserAdded }) => {
       } else {
         setError("An error occurred while adding the user. Please try again.");
       }
-      // alert("An error occurred while adding the user");
     } finally {
       setIsLoading(false);
     }
@@ -106,23 +102,30 @@ const AddUser = ({ onClose, onUserAdded }) => {
 
   return (
     <div
-      // onClick={onClose} // Prevent closing when clicking on the backdrop if form interaction is needed
       className={`
         fixed inset-0 flex justify-center items-center transition-colors z-50 backdrop-blur-sm
-        bg-black/30 
+        bg-black/30 overflow-auto md:pt-20 md:pb-20
       `}
     >
       {/* Modal */}
       <div
         onClick={(e) => e.stopPropagation()}
         className={`
-          bg-blue-50 dark:bg-blue-1 rounded-2xl shadow-lg p-8 transition-all relative w-[500px] max-w-full
+          bg-blue-50 dark:bg-blue-1 rounded-2xl shadow-lg p-8 transition-all relative w-[90%] max-w-[500px] h-auto max-h-[90%] overflow-y-auto
           scale-100 opacity-100 translate-y-0
-        `}
+        `} 
         style={{
           transition: "transform 0.3s ease, opacity 0.3s ease",
+          scrollbarWidth: "none", 
+          msOverflowStyle: "none", 
         }}
       >
+        <style>{`
+          /* Hide scrollbar for Webkit browsers */
+          .overflow-y-auto::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
         <button
           onClick={onClose}
           className="absolute top-4 right-2 px-6 py-4 rounded-full text-blue-1 dark:text-blue-50 hover:bg-[var(--color-blue-6)] hover:text-[var(--color-blue-1)] cursor-pointer"
@@ -145,8 +148,6 @@ const AddUser = ({ onClose, onUserAdded }) => {
         )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            {" "}
-            {/* Adjusted margin */}
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Name
             </label>
@@ -156,7 +157,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               value={nom}
               onChange={(e) => setNom(e.target.value)}
               required
-              className="w-full border border-blue-3 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-4 dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
+              className="w-full border border-blue-3 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-4 dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
           <div className="mb-4">
@@ -169,12 +170,10 @@ const AddUser = ({ onClose, onUserAdded }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
+              className="w-full border border-[var(--color-blue-3)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
           <div className="mb-4">
-            {" "}
-            {/* Adjusted margin */}
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Email
             </label>
@@ -184,7 +183,7 @@ const AddUser = ({ onClose, onUserAdded }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
+              className="w-full border border-[var(--color-blue-3)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
           </div>
           <div className="mb-4">
@@ -199,16 +198,10 @@ const AddUser = ({ onClose, onUserAdded }) => {
               required
               minLength="8"
               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-              className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
+              className="w-full border border-[var(--color-blue-3)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
-            <p className="mt-1 text-sm text-gray-500">
-              Password must be at least 8 characters and include uppercase,
-              lowercase, numbers, and symbols.
-            </p>
           </div>
-          <div className="mb-6">
-            {" "}
-            {/* Kept mb-6 for spacing before role */}
+          <div className="mb-4">
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Confirm Password
             </label>
@@ -220,40 +213,25 @@ const AddUser = ({ onClose, onUserAdded }) => {
               required
               minLength="8"
               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-              className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
+              className="w-full border border-[var(--color-blue-3)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] dark:placeholder:text-blue-50 placeholder:opacity-50 text-blue-1 dark:text-blue-50"
             />
+            <p className="mt-1 text-sm text-gray-500">
+              Please confirm your password.
+            </p>
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label className="block text-sm font-medium text-blue-2 dark:text-blue-100 mb-2">
               Role
             </label>
-            <div className="relative">
-              <select
-                value={internalToDisplayRole(role)} // Display value
-                onChange={(e) => setRole(displayToInternalRole(e.target.value))} // Set internal value
-                className="w-full border border-[var(--color-blue-3)] rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-blue-50 dark:bg-blue-1 text-blue-2 dark:text-blue-50 appearance-none "
-              >
-                <option value="Student">Student</option>
-                <option value="Teacher">Teacher</option>
-                <option value="Admin">Admin</option>
-              </select>
-              <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-[var(--color-blue-3)]"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
+            <select
+              value={internalToDisplayRole(role)}
+              onChange={(e) => setRole(displayToInternalRole(e.target.value))}
+              className="w-full border border-[var(--color-blue-3)] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-blue-4)] bg-blue-50 dark:bg-blue-1 text-blue-2 dark:text-blue-50 appearance-none"
+            >
+              <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Admin">Admin</option>
+            </select>
           </div>
           <div className="flex justify-end gap-4">
             <button

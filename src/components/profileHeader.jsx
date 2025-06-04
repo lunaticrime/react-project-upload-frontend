@@ -756,7 +756,9 @@ const ProfileHeader = ({ isDarkMode, setIsDarkMode, isOpen, setIsOpen }) => {
                         style={{
                           backgroundImage: `url(${
                             project.image
-                              ? storageBaseUrl + project.image
+                              ? `${storageBaseUrl}${
+                                  project.image.startsWith("/") ? "" : "/"
+                                }${project.image}`
                               : "./assets/login_registration.svg"
                           })`,
                         }}

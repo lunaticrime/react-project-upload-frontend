@@ -247,7 +247,9 @@ const Feed = () => {
                 <img
                   src={
                     post.image
-                      ? `${import.meta.env.VITE_STORAGE_URL}/${post.image}`
+                      ? `${import.meta.env.VITE_STORAGE_URL}${
+                          post.image.startsWith("/") ? "" : "/"
+                        }${post.image}`
                       : loginRegistrationImg
                   }
                   alt="Project thumbnail"
